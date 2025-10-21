@@ -1,0 +1,20 @@
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporaires
+*.tmp
+*.bak
+*.log
+
+# Notes personnelles
+notes-perso/
+brouillon/
