@@ -37,18 +37,6 @@ Par défaut, un conteneur est comme une maison avec toutes les portes et fenêtr
 └─────────────────────────────────────────────────────┘
 ```
 
-<pre>
-┌─────────────────────────────────────────────────────┐
-│             SYSTÈME HÔTE                            │
-│                                                     │
-│ ┌──────────────┐         ┌──────────────┐           │
-│ │ Conteneur A  │   ❌    │ Conteneur B  │           │
-│ │   (isolé)    │         │   (isolé)    │           │
-│ └──────────────┘         └──────────────┘           │
-│                                                     │
-│ Sans réseau : impossible de communiquer             │
-└─────────────────────────────────────────────────────┘
-</pre>
 
 ### Exemple concret du problème
 
