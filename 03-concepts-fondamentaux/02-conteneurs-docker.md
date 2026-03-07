@@ -282,8 +282,8 @@ Le conteneur voit un **système de fichiers complet et isolé** qui combine :
 
 Chaque conteneur reçoit un **identifiant unique** généré automatiquement :
 
-**Format complet :** `abc123def456789...` (64 caractères hexadécimaux)
-**Format court :** `abc123def456` (12 premiers caractères, suffisant dans la plupart des cas)
+**Format complet :** `abc123def456789...` (64 caractères hexadécimaux)  
+**Format court :** `abc123def456` (12 premiers caractères, suffisant dans la plupart des cas)  
 
 ### Container Name
 
@@ -374,7 +374,7 @@ Image Python + votre code
         ↓
 Conteneur de développement
         ↓
-Vous codez, testez, débogguez
+Vous codez, testez, déboguez
 ```
 
 ### Tests
