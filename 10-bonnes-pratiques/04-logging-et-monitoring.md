@@ -45,15 +45,15 @@ Par défaut, Docker capture tout ce que votre application écrit sur `stdout` (s
 
 ```javascript
 // Application Node.js
-console.log('Message normal');        // → stdout → logs Docker
-console.error('Message d\'erreur');   // → stderr → logs Docker
+console.log('Message normal');        // → stdout → logs Docker  
+console.error('Message d\'erreur');   // → stderr → logs Docker  
 ```
 
 ```python
 # Application Python
-print('Message normal')                # → stdout → logs Docker
-import sys
-print('Erreur', file=sys.stderr)      # → stderr → logs Docker
+print('Message normal')                # → stdout → logs Docker  
+import sys  
+print('Erreur', file=sys.stderr)      # → stderr → logs Docker  
 ```
 
 ## Consulter les logs : commandes de base
@@ -108,16 +108,16 @@ docker logs mon-app > logs.txt 2>&1
 
 ```bash
 # Voir les logs de tous les services
-docker-compose logs
+docker compose logs
 
 # Voir les logs d'un service spécifique
-docker-compose logs app
+docker compose logs app
 
 # Suivre les logs en temps réel
-docker-compose logs -f
+docker compose logs -f
 
 # Logs des 100 dernières lignes de tous les services
-docker-compose logs --tail 100
+docker compose logs --tail 100
 ```
 
 ## Configurer le logging
@@ -153,8 +153,9 @@ Le driver par défaut stocke les logs en JSON. Il est important de limiter la ta
 
 #### Configuration globale (daemon Docker)
 
+Fichier `/etc/docker/daemon.json` :
+
 ```json
-// /etc/docker/daemon.json
 {
   "log-driver": "json-file",
   "log-opts": {
@@ -187,8 +188,6 @@ docker run -d \
 #### Avec Docker Compose
 
 ```yaml
-version: '3.8'
-
 services:
   app:
     image: mon-app
@@ -228,8 +227,6 @@ docker run -d \
 Avec Docker Compose :
 
 ```yaml
-version: '3.8'
-
 services:
   app:
     image: mon-app
@@ -254,8 +251,6 @@ docker run -d \
 Avec Docker Compose :
 
 ```yaml
-version: '3.8'
-
 services:
   app:
     image: mon-app
@@ -278,8 +273,8 @@ Utilisez un format structuré (JSON) pour faciliter le parsing et l'analyse.
 
 ```javascript
 // Difficile à parser et analyser
-console.log('User john logged in from 192.168.1.1');
-console.log('Request took 150ms');
+console.log('User john logged in from 192.168.1.1');  
+console.log('Request took 150ms');  
 ```
 
 #### ✅ Logs structurés (JSON)
@@ -349,8 +344,8 @@ structlog.configure(
 logger = structlog.get_logger()
 
 # Utilisation
-logger.info('user_logged_in', user='john', ip='192.168.1.1')
-logger.error('db_connection_failed',
+logger.info('user_logged_in', user='john', ip='192.168.1.1')  
+logger.error('db_connection_failed',  
              error=str(err),
              database='postgresql')
 ```
@@ -369,11 +364,11 @@ Utilisez les bons niveaux de log selon la situation :
 
 ```javascript
 // Exemple avec différents niveaux
-logger.debug('Connexion database tentée', { attempt: 1 });
-logger.info('Utilisateur connecté', { user: 'john' });
-logger.warn('Taux limite API atteint, retry dans 60s');
-logger.error('Échec envoi email', { error: err.message });
-logger.critical('Base de données inaccessible!');
+logger.debug('Connexion database tentée', { attempt: 1 });  
+logger.info('Utilisateur connecté', { user: 'john' });  
+logger.warn('Taux limite API atteint, retry dans 60s');  
+logger.error('Échec envoi email', { error: err.message });  
+logger.critical('Base de données inaccessible!');  
 ```
 
 ## Monitoring des conteneurs
@@ -400,8 +395,8 @@ docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
 
 Sortie typique :
 ```
-CONTAINER ID   NAME        CPU %   MEM USAGE / LIMIT     MEM %   NET I/O       BLOCK I/O
-abc123         mon-app     2.5%    150MiB / 512MiB      29.3%   1.2MB / 800kB 5MB / 2MB
+CONTAINER ID   NAME        CPU %   MEM USAGE / LIMIT     MEM %   NET I/O       BLOCK I/O  
+abc123         mon-app     2.5%    150MiB / 512MiB      29.3%   1.2MB / 800kB 5MB / 2MB  
 ```
 
 #### docker inspect
@@ -426,10 +421,10 @@ docker inspect -f '{{.Config.Env}}' mon-conteneur
 
 ```bash
 # Voir le statut de tous les services
-docker-compose ps
+docker compose ps
 
 # Voir les ressources utilisées
-docker-compose top
+docker compose top
 ```
 
 ### Health checks
@@ -441,10 +436,10 @@ Ajoutez des health checks pour surveiller l'état de santé de vos conteneurs.
 ```dockerfile
 FROM node:18-alpine
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm ci --omit=dev  
+COPY . .  
 
 # Health check : vérifie que l'app répond sur le port 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
@@ -482,8 +477,6 @@ request.end();
 #### Avec Docker Compose
 
 ```yaml
-version: '3.8'
-
 services:
   app:
     image: mon-app
@@ -514,8 +507,6 @@ docker inspect --format='{{json .State.Health}}' mon-conteneur | jq
 #### docker-compose.yml
 
 ```yaml
-version: '3.8'
-
 services:
   # Votre application
   app:
@@ -606,8 +597,6 @@ Accès :
 Pour centraliser et analyser les logs.
 
 ```yaml
-version: '3.8'
-
 services:
   # Votre application
   app:
@@ -697,8 +686,6 @@ Avec plusieurs conteneurs et services, il devient difficile de consulter les log
 Fluentd est un collecteur de logs léger et flexible.
 
 ```yaml
-version: '3.8'
-
 services:
   # Votre application
   app:
@@ -780,11 +767,11 @@ module.exports = logger;
 
 ```javascript
 // server.js
-const express = require('express');
-const logger = require('./logger');
+const express = require('express');  
+const logger = require('./logger');  
 
-const app = express();
-const port = process.env.PORT || 3000;
+const app = express();  
+const port = process.env.PORT || 3000;  
 
 // Middleware pour logger toutes les requêtes
 app.use((req, res, next) => {
@@ -850,8 +837,6 @@ process.on('SIGTERM', () => {
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
-
 services:
   app:
     build: .
@@ -877,9 +862,9 @@ services:
 
 ```python
 # logger.py
-import logging
-import structlog
-import sys
+import logging  
+import structlog  
+import sys  
 
 def configure_logging(level='INFO'):
     """Configure le logging structuré"""
@@ -908,13 +893,13 @@ def configure_logging(level='INFO'):
 
 ```python
 # app.py
-from flask import Flask, jsonify, request
-from logger import configure_logging
-import os
-import time
+from flask import Flask, jsonify, request  
+from logger import configure_logging  
+import os  
+import time  
 
-app = Flask(__name__)
-logger = configure_logging(level=os.getenv('LOG_LEVEL', 'INFO'))
+app = Flask(__name__)  
+logger = configure_logging(level=os.getenv('LOG_LEVEL', 'INFO'))  
 
 @app.before_request
 def log_request():
@@ -962,7 +947,7 @@ if __name__ == '__main__':
     logger.info(
         'starting_server',
         port=int(os.getenv('PORT', 5000)),
-        environment=os.getenv('FLASK_ENV', 'production')
+        debug=os.getenv('FLASK_DEBUG', '0') == '1'
     )
     app.run(
         host='0.0.0.0',
@@ -1041,11 +1026,11 @@ logger.info('Database connection', {
 ### 6. Utiliser les bons niveaux de log
 
 ```javascript
-logger.debug('Variable x =', x);           // Développement uniquement
-logger.info('User logged in');             // Événements normaux
-logger.warn('Rate limit approaching');     // Avertissements
-logger.error('Failed to send email');      // Erreurs récupérables
-logger.critical('Database unreachable');   // Erreurs critiques
+logger.debug('Variable x =', x);           // Développement uniquement  
+logger.info('User logged in');             // Événements normaux  
+logger.warn('Rate limit approaching');     // Avertissements  
+logger.error('Failed to send email');      // Erreurs récupérables  
+logger.critical('Database unreachable');   // Erreurs critiques  
 ```
 
 ### 7. Ajouter des corrélation IDs
