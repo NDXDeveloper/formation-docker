@@ -119,8 +119,8 @@ En d'autres termes, quand on parle de "Docker Engine", on parle de l'ensemble du
 
 Le Docker Engine repose lui-même sur plusieurs technologies :
 
-- **containerd** : Un daemon qui gère le cycle de vie des conteneurs
-- **runc** : L'outil qui crée et exécute réellement les conteneurs
+- **containerd** : Un daemon de haut niveau qui gère le cycle de vie complet des conteneurs (téléchargement d'images, gestion du stockage, exécution, supervision)
+- **runc** : L'outil de bas niveau qui crée et exécute réellement les conteneurs en s'appuyant sur les fonctionnalités du noyau Linux
 - **Les namespaces Linux** : Pour l'isolation des conteneurs
 - **Les cgroups** : Pour la gestion des ressources
 
@@ -250,8 +250,8 @@ Quand vous tapez `docker ps`, voici ce qui se passe réellement :
 **Docker Desktop** est une application complète qui inclut :
 - Le Docker Engine (Client + Daemon)
 - Une interface graphique
-- Docker Compose
-- Kubernetes (optionnel)
+- Docker Compose (intégré en tant que plugin : `docker compose`)
+- Kubernetes (optionnel, pour l'orchestration locale)
 - Des outils de gestion simplifiés
 
 ### Pourquoi utiliser Docker Desktop ?
