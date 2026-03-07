@@ -86,11 +86,13 @@ Le nouveau développeur clone le dépôt Git, lance `docker-compose up`, et son 
 
 **Exemple concret :**
 ```bash
-git clone https://github.com/votre-projet.git
-cd votre-projet
-docker-compose up
+git clone https://github.com/votre-projet.git  
+cd votre-projet  
+docker compose up  
 # ✅ L'application tourne sur http://localhost:3000
 ```
+
+> **Note :** La commande `docker compose` (sans tiret) est la version moderne intégrée en tant que plugin Docker. L'ancienne commande `docker-compose` (avec tiret) fonctionne encore mais est progressivement remplacée.
 
 ## Cas d'usage détaillés
 
@@ -147,7 +149,7 @@ jobs:
   test:
     strategy:
       matrix:
-        node: [14, 16, 18, 20]
+        node: [18, 20, 22]
     steps:
       - run: docker run node:${{ matrix.node }} npm test
 ```
@@ -227,9 +229,9 @@ Maintenir PHP 5.6 sur un système moderne est compliqué. Cette version n'est pl
 
 **Avec Docker :**
 ```dockerfile
-FROM php:5.6-apache
-RUN docker-php-ext-install mysql
-COPY . /var/www/html/
+FROM php:5.6-apache  
+RUN docker-php-ext-install mysql  
+COPY . /var/www/html/  
 ```
 
 Votre application legacy tourne dans son conteneur avec ses anciennes dépendances, pendant que votre nouvelle application utilise des technologies modernes.
@@ -367,7 +369,7 @@ Soyons honnêtes : Docker n'est pas toujours la solution miracle. Voici quelques
 Les applications desktop avec interfaces graphiques complexes peuvent être compliquées à conteneuriser.
 
 ### Performances extrêmes
-Pour des applications nécessitant les performances absolues maximales (HPC, trading haute fréquence), le léger overhead de Docker peut être problématique.
+Pour des applications nécessitant les performances absolues maximales (HPC, trading haute fréquence), l'overhead de Docker — bien que quasi nul côté CPU — peut poser des problèmes au niveau des I/O disque ou du réseau dans certaines configurations.
 
 ### Très petites applications simples
 Pour un simple script Python qui tourne une fois par mois, Docker peut être excessif.
