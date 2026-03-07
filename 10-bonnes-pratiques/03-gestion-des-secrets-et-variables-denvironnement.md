@@ -33,8 +33,8 @@ Les secrets sont des informations sensibles qui doivent être protégées et ne 
 
 ### La différence fondamentale
 
-**Variables d'environnement :** Peuvent être publiques ou semi-publiques, utilisées pour la configuration
-**Secrets :** Doivent toujours rester confidentiels, utilisés pour l'authentification et la sécurité
+**Variables d'environnement :** Peuvent être publiques ou semi-publiques, utilisées pour la configuration  
+**Secrets :** Doivent toujours rester confidentiels, utilisés pour l'authentification et la sécurité  
 
 ## Les erreurs à NE JAMAIS commettre
 
@@ -43,13 +43,13 @@ Les secrets sont des informations sensibles qui doivent être protégées et ne 
 **Ne JAMAIS faire cela :**
 
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY . .
+FROM node:18-alpine  
+WORKDIR /app  
+COPY . .  
 
 # DANGEREUX ! Le mot de passe est visible dans l'image
-ENV DATABASE_PASSWORD=motdepasse123
-ENV API_KEY=sk-1234567890abcdef
+ENV DATABASE_PASSWORD=motdepasse123  
+ENV API_KEY=sk-1234567890abcdef  
 
 CMD ["node", "server.js"]
 ```
@@ -64,8 +64,8 @@ CMD ["node", "server.js"]
 
 ```bash
 # N'importe qui peut voir les secrets
-docker history mon-image:latest
-docker inspect mon-image:latest
+docker history mon-image:latest  
+docker inspect mon-image:latest  
 ```
 
 ### ❌ Erreur n°2 : Commiter les secrets dans Git
@@ -74,8 +74,7 @@ docker inspect mon-image:latest
 
 ```yaml
 # docker-compose.yml - NE PAS COMMITER AVEC DES SECRETS
-version: '3.8'
-services:
+services:  
   app:
     image: mon-app
     environment:
@@ -94,17 +93,17 @@ services:
 **Ne JAMAIS faire cela :**
 
 ```dockerfile
-FROM node:18-alpine
-ARG DATABASE_PASSWORD  # DANGEREUX ! Reste dans l'historique de l'image
-WORKDIR /app
-COPY . .
-CMD ["node", "server.js"]
+FROM node:18-alpine  
+ARG DATABASE_PASSWORD  # DANGEREUX ! Reste dans l'historique de l'image  
+WORKDIR /app  
+COPY . .  
+CMD ["node", "server.js"]  
 ```
 
 ```bash
 # Les arguments de build restent visibles
-docker build --build-arg DATABASE_PASSWORD=secret123 -t mon-app .
-docker history mon-app  # Le secret est visible !
+docker build --build-arg DATABASE_PASSWORD=secret123 -t mon-app .  
+docker history mon-app  # Le secret est visible !  
 ```
 
 ### ❌ Erreur n°4 : Logger les secrets
@@ -113,8 +112,8 @@ docker history mon-app  # Le secret est visible !
 
 ```javascript
 // Application Node.js - NE JAMAIS LOGGER LES SECRETS
-const password = process.env.DATABASE_PASSWORD;
-console.log('Connexion avec le mot de passe:', password);  // DANGEREUX !
+const password = process.env.DATABASE_PASSWORD;  
+console.log('Connexion avec le mot de passe:', password);  // DANGEREUX !  
 ```
 
 Les logs peuvent être stockés, sauvegardés, ou transmis à des services externes.
@@ -143,10 +142,10 @@ Créez un fichier `.env` pour stocker vos variables :
 
 ```bash
 # .env
-NODE_ENV=production
-PORT=8080
-LOG_LEVEL=info
-DATABASE_HOST=db.example.com
+NODE_ENV=production  
+PORT=8080  
+LOG_LEVEL=info  
+DATABASE_HOST=db.example.com  
 ```
 
 **Important :** Ajoutez `.env` à votre `.gitignore` !
@@ -170,7 +169,6 @@ Utilisation avec Docker Compose :
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
 services:
   app:
     image: mon-app
@@ -184,12 +182,12 @@ Créez un fichier `.env.example` avec des valeurs fictives à commiter dans Git 
 
 ```bash
 # .env.example - À commiter dans Git
-NODE_ENV=development
-PORT=8080
-LOG_LEVEL=info
-DATABASE_HOST=localhost
-DATABASE_PASSWORD=votre_mot_de_passe_ici
-API_KEY=votre_cle_api_ici
+NODE_ENV=development  
+PORT=8080  
+LOG_LEVEL=info  
+DATABASE_HOST=localhost  
+DATABASE_PASSWORD=votre_mot_de_passe_ici  
+API_KEY=votre_cle_api_ici  
 ```
 
 Les développeurs peuvent copier ce fichier et le remplir avec leurs vraies valeurs :
@@ -204,17 +202,17 @@ cp .env.example .env
 Dans votre Dockerfile, définissez des valeurs par défaut non sensibles :
 
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
+FROM node:18-alpine  
+WORKDIR /app  
 
 # Valeurs par défaut pour le développement (non sensibles)
-ENV NODE_ENV=development
-ENV PORT=3000
-ENV LOG_LEVEL=debug
+ENV NODE_ENV=development  
+ENV PORT=3000  
+ENV LOG_LEVEL=debug  
 
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
+COPY package*.json ./  
+RUN npm ci --omit=dev  
+COPY . .  
 
 CMD ["node", "server.js"]
 ```
@@ -264,9 +262,9 @@ docker swarm init
 echo "motdepasse123" | docker secret create db_password -
 
 # Créer un secret depuis un fichier
-echo "motdepasse123" > /tmp/db_password.txt
-docker secret create db_password /tmp/db_password.txt
-rm /tmp/db_password.txt  # Supprimer le fichier immédiatement
+echo "motdepasse123" > /tmp/db_password.txt  
+docker secret create db_password /tmp/db_password.txt  
+rm /tmp/db_password.txt  # Supprimer le fichier immédiatement  
 
 # Lister les secrets
 docker secret ls
@@ -317,8 +315,6 @@ db_password = read_secret('db_password')
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
-
 services:
   app:
     image: mon-app
@@ -340,8 +336,8 @@ Déployer avec Swarm :
 
 ```bash
 # Créer les secrets
-echo "motdepasse123" | docker secret create db_password -
-echo "sk-1234567890" | docker secret create api_key -
+echo "motdepasse123" | docker secret create db_password -  
+echo "sk-1234567890" | docker secret create api_key -  
 
 # Déployer le stack
 docker stack deploy -c docker-compose.yml mon-stack
@@ -363,8 +359,6 @@ Pour le développement local sans Swarm, Docker Compose peut lire les secrets de
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
-
 services:
   app:
     image: mon-app
@@ -418,8 +412,8 @@ const vault = require('node-vault')({
 });
 
 // Récupérer un secret depuis Vault
-const secrets = await vault.read('secret/data/myapp');
-const dbPassword = secrets.data.data.db_password;
+const secrets = await vault.read('secret/data/myapp');  
+const dbPassword = secrets.data.data.db_password;  
 ```
 
 #### AWS Secrets Manager
@@ -428,16 +422,16 @@ Pour les applications sur AWS :
 
 ```bash
 # Dockerfile
-FROM node:18-alpine
-RUN npm install aws-sdk
-COPY . .
-CMD ["node", "server.js"]
+FROM node:18-alpine  
+RUN npm install aws-sdk  
+COPY . .  
+CMD ["node", "server.js"]  
 ```
 
 ```javascript
 // Application
-const AWS = require('aws-sdk');
-const secretsManager = new AWS.SecretsManager({
+const AWS = require('aws-sdk');  
+const secretsManager = new AWS.SecretsManager({  
   region: process.env.AWS_REGION
 });
 
@@ -455,18 +449,18 @@ Pour les applications sur Azure :
 
 ```javascript
 // Application
-const { DefaultAzureCredential } = require('@azure/identity');
-const { SecretClient } = require('@azure/keyvault-secrets');
+const { DefaultAzureCredential } = require('@azure/identity');  
+const { SecretClient } = require('@azure/keyvault-secrets');  
 
-const credential = new DefaultAzureCredential();
-const client = new SecretClient(
+const credential = new DefaultAzureCredential();  
+const client = new SecretClient(  
   process.env.KEY_VAULT_URL,
   credential
 );
 
 // Récupérer le secret
-const secret = await client.getSecret('db-password');
-const dbPassword = secret.value;
+const secret = await client.getSecret('db-password');  
+const dbPassword = secret.value;  
 ```
 
 ## Exemples pratiques complets
@@ -489,20 +483,20 @@ mon-projet/
 
 ```bash
 # Configuration de l'application
-NODE_ENV=development
-PORT=3000
-LOG_LEVEL=debug
+NODE_ENV=development  
+PORT=3000  
+LOG_LEVEL=debug  
 
 # Base de données
-DATABASE_HOST=localhost
-DATABASE_PORT=5432
-DATABASE_NAME=myapp
-DATABASE_USER=myuser
-DATABASE_PASSWORD=changeme
+DATABASE_HOST=localhost  
+DATABASE_PORT=5432  
+DATABASE_NAME=myapp  
+DATABASE_USER=myuser  
+DATABASE_PASSWORD=changeme  
 
 # API externe
-API_KEY=your_api_key_here
-API_URL=https://api.example.com
+API_KEY=your_api_key_here  
+API_URL=https://api.example.com  
 ```
 
 #### .gitignore
@@ -512,8 +506,8 @@ node_modules/
 .env
 .env.local
 .env.production
-secrets/
-npm-debug.log
+secrets/  
+npm-debug.log  
 ```
 
 #### Dockerfile
@@ -526,14 +520,14 @@ WORKDIR /app
 # Pas de secrets dans le Dockerfile !
 ENV NODE_ENV=production
 
-COPY package*.json ./
-RUN npm ci --only=production
+COPY package*.json ./  
+RUN npm ci --omit=dev  
 
 COPY . .
 
 # Créer un utilisateur non-root
-RUN adduser -D appuser && chown -R appuser:appuser /app
-USER appuser
+RUN adduser -D appuser && chown -R appuser:appuser /app  
+USER appuser  
 
 CMD ["node", "server.js"]
 ```
@@ -541,9 +535,9 @@ CMD ["node", "server.js"]
 #### server.js
 
 ```javascript
-const express = require('express');
-const { Pool } = require('pg');
-const fs = require('fs');
+const express = require('express');  
+const { Pool } = require('pg');  
+const fs = require('fs');  
 
 const app = express();
 
@@ -569,12 +563,12 @@ const dbConfig = {
 };
 
 // NE JAMAIS logger les secrets !
-console.log('Configuration de la base de données:');
-console.log(`  Host: ${dbConfig.host}`);
-console.log(`  Port: ${dbConfig.port}`);
-console.log(`  Database: ${dbConfig.database}`);
-console.log(`  User: ${dbConfig.user}`);
-console.log('  Password: [REDACTED]'); // Ne jamais afficher !
+console.log('Configuration de la base de données:');  
+console.log(`  Host: ${dbConfig.host}`);  
+console.log(`  Port: ${dbConfig.port}`);  
+console.log(`  Database: ${dbConfig.database}`);  
+console.log(`  User: ${dbConfig.user}`);  
+console.log('  Password: [REDACTED]'); // Ne jamais afficher !  
 
 const pool = new Pool(dbConfig);
 
@@ -592,8 +586,8 @@ app.get('/health', async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
+const port = process.env.PORT || 3000;  
+app.listen(port, () => {  
   console.log(`Serveur démarré sur le port ${port}`);
   console.log(`Environnement: ${process.env.NODE_ENV}`);
 });
@@ -602,8 +596,6 @@ app.listen(port, () => {
 #### docker-compose.yml (développement)
 
 ```yaml
-version: '3.8'
-
 services:
   app:
     build: .
@@ -638,8 +630,6 @@ networks:
 #### docker-compose.prod.yml (production avec secrets)
 
 ```yaml
-version: '3.8'
-
 services:
   app:
     image: mon-app:latest
@@ -697,13 +687,13 @@ Déploiement :
 # Développement
 cp .env.example .env
 # Éditer .env avec les vraies valeurs
-docker-compose up
+docker compose up
 
 # Production avec Swarm
-docker swarm init
-echo "motdepasse_production" | docker secret create db_password -
-echo "cle_api_production" | docker secret create api_key -
-docker stack deploy -c docker-compose.prod.yml mon-app
+docker swarm init  
+echo "motdepasse_production" | docker secret create db_password -  
+echo "cle_api_production" | docker secret create api_key -  
+docker stack deploy -c docker-compose.prod.yml mon-app  
 ```
 
 ### Exemple 2 : Application Python avec Flask
@@ -724,8 +714,8 @@ mon-projet/
 #### config.py
 
 ```python
-import os
-from pathlib import Path
+import os  
+from pathlib import Path  
 
 class Config:
     """Configuration de l'application"""
@@ -744,8 +734,7 @@ class Config:
         return os.getenv(env_var, default)
 
     # Configuration générale
-    ENV = os.getenv('FLASK_ENV', 'development')
-    DEBUG = ENV == 'development'
+    DEBUG = os.getenv('FLASK_DEBUG', '0') == '1'
     PORT = int(os.getenv('PORT', 5000))
 
     # Base de données
@@ -763,7 +752,6 @@ class Config:
     def log_config(cls):
         """Affiche la configuration (sans les secrets)"""
         print('Configuration de l\'application:')
-        print(f'  Environnement: {cls.ENV}')
         print(f'  Debug: {cls.DEBUG}')
         print(f'  Port: {cls.PORT}')
         print(f'  Database Host: {cls.DATABASE_HOST}')
@@ -778,9 +766,9 @@ class Config:
 #### app.py
 
 ```python
-from flask import Flask, jsonify
-import psycopg2
-from config import Config
+from flask import Flask, jsonify  
+import psycopg2  
+from config import Config  
 
 app = Flask(__name__)
 
@@ -873,15 +861,15 @@ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
 
 ```bash
 # Installer git-secrets
-brew install git-secrets  # Sur macOS
-apt-get install git-secrets  # Sur Ubuntu
+brew install git-secrets  # Sur macOS  
+apt-get install git-secrets  # Sur Ubuntu  
 
 # Configurer dans un dépôt
-cd mon-projet
-git secrets --install
-git secrets --register-aws  # Patterns AWS
-git secrets --add 'password.*=.*'
-git secrets --add 'api[_-]?key.*=.*'
+cd mon-projet  
+git secrets --install  
+git secrets --register-aws  # Patterns AWS  
+git secrets --add 'password.*=.*'  
+git secrets --add 'api[_-]?key.*=.*'  
 ```
 
 **TruffleHog** : Recherche les secrets dans l'historique Git
