@@ -23,17 +23,17 @@ services:
     image: nginx
 
 # ❌ Incorrect (mauvaise indentation)
-services:
-web:
+services:  
+web:  
   image: nginx
 ```
 
 ### 2. Les deux-points pour les paires clé-valeur
 
 ```yaml
-clé: valeur
-nom: Docker
-port: 8080
+clé: valeur  
+nom: Docker  
+port: 8080  
 ```
 
 ### 3. Les tirets pour les listes
@@ -64,8 +64,6 @@ C'est tout ce que vous devez savoir sur YAML pour commencer ! 🎓
 Voici le squelette de base d'un fichier Docker Compose :
 
 ```yaml
-version: '3.8'
-
 services:
   # Vos conteneurs ici
 
@@ -77,29 +75,15 @@ networks:
 ```
 
 Les trois sections principales sont :
-- **version** : La version du format Docker Compose utilisée
 - **services** : La définition de vos conteneurs (obligatoire)
 - **volumes** : La définition des volumes nommés (optionnel)
 - **networks** : La définition des réseaux personnalisés (optionnel)
 
 Examinons chaque section en détail.
 
-## 1. La version
+> 💡 **Note historique** : Dans les anciennes versions de Docker Compose (V1), il était nécessaire d'ajouter une ligne `version: '3.8'` en haut du fichier. Avec Docker Compose V2 (intégré comme plugin `docker compose`), cette ligne n'est plus nécessaire et est ignorée. Vous pouvez simplement l'omettre. Si vous rencontrez d'anciens fichiers avec cette ligne, sachez qu'elle n'a plus d'effet.
 
-```yaml
-version: '3.8'
-```
-
-Cette ligne indique quelle version du format Docker Compose vous utilisez. Les versions les plus courantes sont :
-- `'3.8'` : Version moderne et recommandée
-- `'3.9'` : Dernière version de la série 3.x
-- `'3'` : Version générique qui utilise les fonctionnalités de base
-
-**Conseil pour les débutants** : Utilisez `'3.8'` ou `'3.9'`, ce sont les versions les plus stables et compatibles.
-
-⚠️ **Important** : Les guillemets autour du numéro de version ne sont pas obligatoires, mais recommandés pour éviter que YAML n'interprète `3.0` comme le nombre `3`.
-
-## 2. La section services
+## La section services
 
 C'est la section la plus importante ! C'est ici que vous définissez tous vos conteneurs.
 
@@ -119,8 +103,6 @@ Le nom du service (`nom-du-service`) est important car :
 ### Exemple avec plusieurs services
 
 ```yaml
-version: '3.8'
-
 services:
   frontend:
     image: nginx:alpine
@@ -355,13 +337,11 @@ services:
     command: npm start
 ```
 
-## 3. La section volumes
+## La section volumes
 
 Cette section permet de définir des volumes nommés qui peuvent être réutilisés par plusieurs services.
 
 ```yaml
-version: '3.8'
-
 services:
   app:
     image: mon-app
@@ -393,13 +373,11 @@ volumes:
 
 Pour les débutants, la déclaration simple suffit largement !
 
-## 4. La section networks
+## La section networks
 
 Cette section permet de définir des réseaux personnalisés.
 
 ```yaml
-version: '3.8'
-
 services:
   web:
     image: nginx
@@ -441,8 +419,6 @@ networks:
 Voici un exemple complet qui combine tous ces éléments :
 
 ```yaml
-version: '3.8'
-
 services:
   # Service web (frontend)
   web:
@@ -550,8 +526,6 @@ services:
 ### 3. Groupez les services par fonction
 
 ```yaml
-version: '3.8'
-
 services:
   # --- Frontend ---
   web:
@@ -580,8 +554,8 @@ services:
 Créez un fichier `.env` à côté de votre `docker-compose.yml` :
 
 ```env
-DB_PASSWORD=supersecret
-API_KEY=abc123xyz
+DB_PASSWORD=supersecret  
+API_KEY=abc123xyz  
 ```
 
 Puis utilisez-les dans votre fichier :
@@ -607,8 +581,8 @@ services:
 
 ```yaml
 # ❌ Erreur : mauvaise indentation
-services:
-web:
+services:  
+web:  
   image: nginx
 
 # ✅ Correct
