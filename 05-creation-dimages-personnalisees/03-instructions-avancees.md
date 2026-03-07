@@ -28,9 +28,9 @@ Bien que qualifiées d'"avancées", ces instructions sont en réalité assez sim
 
 ### Pourquoi utiliser ENV ?
 
-✅ **Configuration flexible** : Changer le comportement sans reconstruire l'image
-✅ **Éviter la duplication** : Définir une valeur une fois, l'utiliser partout
-✅ **Faciliter le déploiement** : Adapter l'application à différents environnements
+✅ **Configuration flexible** : Changer le comportement sans reconstruire l'image  
+✅ **Éviter la duplication** : Définir une valeur une fois, l'utiliser partout  
+✅ **Faciliter le déploiement** : Adapter l'application à différents environnements  
 ✅ **Best practice** : Séparer la configuration du code
 
 ### Syntaxe
@@ -91,17 +91,17 @@ RUN echo "Application directory: $APP_HOME"
 
 ```dockerfile
 # Mode de l'application
-ENV NODE_ENV=production
-ENV FLASK_ENV=production
-ENV RAILS_ENV=production
+ENV NODE_ENV=production  
+ENV FLASK_DEBUG=0  
+ENV RAILS_ENV=production  
 
 # Configuration réseau
-ENV HOST=0.0.0.0
-ENV PORT=8000
+ENV HOST=0.0.0.0  
+ENV PORT=8000  
 
 # Niveau de log
-ENV LOG_LEVEL=info
-ENV DEBUG=false
+ENV LOG_LEVEL=info  
+ENV DEBUG=false  
 ```
 
 #### Pour Python
@@ -143,10 +143,10 @@ Une bonne pratique est de définir des valeurs par défaut dans le Dockerfile, q
 
 **Dockerfile** :
 ```dockerfile
-FROM python:3.11-slim
-ENV PORT=8000
-ENV DEBUG=false
-CMD ["python", "app.py"]
+FROM python:3.11-slim  
+ENV PORT=8000  
+ENV DEBUG=false  
+CMD ["python", "app.py"]  
 ```
 
 **Utilisation** :
@@ -175,24 +175,24 @@ ENV APP_CONFIG=$APP_HOME/config \
     APP_LOGS=$APP_HOME/logs
 
 # Utilisation
-WORKDIR $APP_HOME
-RUN mkdir -p $APP_CONFIG $APP_DATA $APP_LOGS
+WORKDIR $APP_HOME  
+RUN mkdir -p $APP_CONFIG $APP_DATA $APP_LOGS  
 ```
 
 ### ENV vs ARG : quelle différence ?
 
-**ENV** : Disponible pendant le build ET dans le conteneur
-**ARG** : Disponible SEULEMENT pendant le build
+**ENV** : Disponible pendant le build ET dans le conteneur  
+**ARG** : Disponible SEULEMENT pendant le build  
 
 ```dockerfile
 # ARG : valeur de build uniquement
-ARG BUILD_VERSION=1.0.0
-RUN echo "Building version: $BUILD_VERSION"
+ARG BUILD_VERSION=1.0.0  
+RUN echo "Building version: $BUILD_VERSION"  
 # ❌ Non disponible dans le conteneur
 
 # ENV : valeur persistante
-ENV APP_VERSION=1.0.0
-RUN echo "App version: $APP_VERSION"
+ENV APP_VERSION=1.0.0  
+RUN echo "App version: $APP_VERSION"  
 # ✅ Disponible dans le conteneur
 ```
 
@@ -226,22 +226,22 @@ ENV DATABASE_HOST=localhost \
     DATABASE_USER=user
 
 # ❌ Moins lisible
-ENV DATABASE_HOST=localhost
-ENV DATABASE_PORT=5432
-ENV DATABASE_NAME=myapp
+ENV DATABASE_HOST=localhost  
+ENV DATABASE_PORT=5432  
+ENV DATABASE_NAME=myapp  
 ```
 
 #### 2. Utiliser des noms descriptifs en MAJUSCULES
 
 ```dockerfile
 # ✅ Bon - convention standard
-ENV DATABASE_URL=postgresql://localhost/myapp
-ENV API_KEY_SECRET=changeme
-ENV MAX_CONNECTIONS=100
+ENV DATABASE_URL=postgresql://localhost/myapp  
+ENV API_KEY_SECRET=changeme  
+ENV MAX_CONNECTIONS=100  
 
 # ❌ Éviter
-ENV db_url=postgresql://localhost/myapp
-ENV ApiKey=changeme
+ENV db_url=postgresql://localhost/myapp  
+ENV ApiKey=changeme  
 ```
 
 #### 3. Ne pas mettre de secrets dans ENV
@@ -297,32 +297,32 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Maintenant tous les chemins sont relatifs à /app
-COPY package.json .        # Copie dans /app/package.json
-RUN npm install            # Exécute dans /app
-COPY . .                   # Copie dans /app
-CMD ["node", "server.js"]  # Exécute depuis /app
+COPY package.json .        # Copie dans /app/package.json  
+RUN npm install            # Exécute dans /app  
+COPY . .                   # Copie dans /app  
+CMD ["node", "server.js"]  # Exécute depuis /app  
 ```
 
 ### Sans WORKDIR vs avec WORKDIR
 
 **Sans WORKDIR** (difficile à lire et à maintenir) :
 ```dockerfile
-FROM node:18-alpine
-RUN mkdir -p /app
-COPY package.json /app/package.json
-RUN cd /app && npm install
-COPY . /app/
-CMD cd /app && node server.js
+FROM node:18-alpine  
+RUN mkdir -p /app  
+COPY package.json /app/package.json  
+RUN cd /app && npm install  
+COPY . /app/  
+CMD cd /app && node server.js  
 ```
 
 **Avec WORKDIR** (clair et concis) :
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package.json .
-RUN npm install
-COPY . .
-CMD ["node", "server.js"]
+FROM node:18-alpine  
+WORKDIR /app  
+COPY package.json .  
+RUN npm install  
+COPY . .  
+CMD ["node", "server.js"]  
 ```
 
 ✅ Beaucoup plus lisible !
@@ -360,8 +360,8 @@ ENV APP_HOME=/app
 WORKDIR $APP_HOME
 
 # Tout se passe maintenant dans /app
-COPY . .
-RUN pip install -r requirements.txt
+COPY . .  
+RUN pip install -r requirements.txt  
 ```
 
 ### Structure d'application typique
@@ -373,19 +373,19 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Créer la structure (WORKDIR les crée automatiquement)
-WORKDIR /app/src
-WORKDIR /app/config
-WORKDIR /app/logs
-WORKDIR /app/data
+WORKDIR /app/src  
+WORKDIR /app/config  
+WORKDIR /app/logs  
+WORKDIR /app/data  
 
 # Retour au répertoire principal
 WORKDIR /app
 
 # Copier les fichiers
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY src/ ./src/
-COPY config/ ./config/
+COPY requirements.txt .  
+RUN pip install -r requirements.txt  
+COPY src/ ./src/  
+COPY config/ ./config/  
 
 # L'application démarre depuis /app
 CMD ["python", "src/main.py"]
@@ -397,15 +397,15 @@ CMD ["python", "src/main.py"]
 FROM node:18 AS builder
 
 # Environnement de build
-WORKDIR /build
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
+WORKDIR /build  
+COPY package*.json ./  
+RUN npm ci  
+COPY . .  
+RUN npm run build  
 
 # Image finale
-FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
+FROM nginx:alpine  
+WORKDIR /usr/share/nginx/html  
 
 # Copier depuis le builder
 COPY --from=builder /build/dist .
@@ -417,12 +417,12 @@ COPY --from=builder /build/dist .
 
 ```dockerfile
 # ❌ Mauvais - ne persiste pas entre les instructions
-RUN cd /app
-RUN npm install  # N'est PAS dans /app !
+RUN cd /app  
+RUN npm install  # N'est PAS dans /app !  
 
 # ✅ Bon - persiste
-WORKDIR /app
-RUN npm install  # Est bien dans /app
+WORKDIR /app  
+RUN npm install  # Est bien dans /app  
 ```
 
 #### 2. Utiliser des chemins absolus pour plus de clarté
@@ -444,9 +444,9 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Puis toutes les opérations
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
+COPY requirements.txt .  
+RUN pip install -r requirements.txt  
+COPY . .  
 ```
 
 #### 4. Documenter la structure des répertoires
@@ -477,8 +477,8 @@ WORKDIR /app
 ### Syntaxe
 
 ```dockerfile
-EXPOSE <port>
-EXPOSE <port>/<protocol>
+EXPOSE <port>  
+EXPOSE <port>/<protocol>  
 ```
 
 ### Exemples simples
@@ -491,8 +491,8 @@ EXPOSE 80
 EXPOSE 8080
 
 # Spécifier le protocole (par défaut: TCP)
-EXPOSE 3000/tcp
-EXPOSE 53/udp
+EXPOSE 3000/tcp  
+EXPOSE 53/udp  
 
 # Plusieurs ports
 EXPOSE 80 443
@@ -501,14 +501,14 @@ EXPOSE 80 443
 ### Ce que EXPOSE fait (et ne fait pas)
 
 **Ce que EXPOSE fait** :
-✅ Documente quels ports l'application utilise
-✅ Permet `docker run -P` de publier automatiquement ces ports
-✅ Aide les outils à comprendre quels ports sont utilisés
+✅ Documente quels ports l'application utilise  
+✅ Permet `docker run -P` de publier automatiquement ces ports  
+✅ Aide les outils à comprendre quels ports sont utilisés  
 ✅ Améliore la documentation de l'image
 
 **Ce que EXPOSE ne fait PAS** :
-❌ Ne publie pas automatiquement le port
-❌ Ne rend pas le port accessible depuis l'hôte
+❌ Ne publie pas automatiquement le port  
+❌ Ne rend pas le port accessible depuis l'hôte  
 ❌ N'a aucun effet de sécurité
 
 ### Publier les ports au runtime
@@ -517,8 +517,8 @@ Pour rendre le port accessible, utilisez `-p` avec `docker run` :
 
 **Dockerfile** :
 ```dockerfile
-FROM nginx:alpine
-EXPOSE 80
+FROM nginx:alpine  
+EXPOSE 80  
 ```
 
 **Utilisation** :
@@ -539,23 +539,23 @@ docker run -P mon-image
 
 **Application web Node.js** :
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY . .
-RUN npm install
-EXPOSE 3000
-CMD ["npm", "start"]
+FROM node:18-alpine  
+WORKDIR /app  
+COPY . .  
+RUN npm install  
+EXPOSE 3000  
+CMD ["npm", "start"]  
 ```
 
 **API Python Flask** :
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-EXPOSE 5000
-CMD ["python", "app.py"]
+FROM python:3.11-slim  
+WORKDIR /app  
+COPY requirements.txt .  
+RUN pip install -r requirements.txt  
+COPY . .  
+EXPOSE 5000  
+CMD ["python", "app.py"]  
 ```
 
 **Application avec plusieurs ports** :
@@ -566,8 +566,8 @@ EXPOSE 80
 # Port API
 EXPOSE 8080
 # Port metrics
-EXPOSE 9090
-CMD ["./start.sh"]
+EXPOSE 9090  
+CMD ["./start.sh"]  
 ```
 
 ### Protocoles TCP et UDP
@@ -576,12 +576,12 @@ Par défaut, EXPOSE utilise TCP. Spécifiez UDP si nécessaire :
 
 ```dockerfile
 # DNS server
-EXPOSE 53/tcp
-EXPOSE 53/udp
+EXPOSE 53/tcp  
+EXPOSE 53/udp  
 
 # Web + monitoring UDP
-EXPOSE 80/tcp
-EXPOSE 8125/udp
+EXPOSE 80/tcp  
+EXPOSE 8125/udp  
 ```
 
 ### EXPOSE avec des variables
@@ -590,12 +590,12 @@ Vous pouvez utiliser des variables, mais c'est déconseillé car peu pratique :
 
 ```dockerfile
 # ⚠️ Fonctionne mais peu recommandé
-ARG PORT=8000
-EXPOSE $PORT
+ARG PORT=8000  
+EXPOSE $PORT  
 
 # ✅ Préférable : valeur fixe + ENV pour la config
-EXPOSE 8000
-ENV PORT=8000
+EXPOSE 8000  
+ENV PORT=8000  
 ```
 
 ### Bonnes pratiques avec EXPOSE
@@ -635,11 +635,11 @@ EXPOSE 9090
 
 ```dockerfile
 # ✅ Ports standards reconnus
-EXPOSE 80    # HTTP
-EXPOSE 443   # HTTPS
-EXPOSE 3306  # MySQL
-EXPOSE 5432  # PostgreSQL
-EXPOSE 6379  # Redis
+EXPOSE 80    # HTTP  
+EXPOSE 443   # HTTPS  
+EXPOSE 3306  # MySQL  
+EXPOSE 5432  # PostgreSQL  
+EXPOSE 6379  # Redis  
 
 # ⚠️ Ports non standards (documenter pourquoi)
 EXPOSE 8765  # Port personnalisé pour l'API legacy
@@ -648,14 +648,14 @@ EXPOSE 8765  # Port personnalisé pour l'API legacy
 #### 4. Cohérence avec la configuration de l'application
 
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
+FROM node:18-alpine  
+WORKDIR /app  
 
 # L'application écoute sur le port 3000
 ENV PORT=3000
 
-COPY . .
-RUN npm install
+COPY . .  
+RUN npm install  
 
 # Documenter le port utilisé
 EXPOSE 3000
@@ -674,18 +674,18 @@ CMD ["npm", "start"]
 ### Syntaxe
 
 ```dockerfile
-USER <user>
-USER <user>:<group>
-USER <uid>:<gid>
+USER <user>  
+USER <user>:<group>  
+USER <uid>:<gid>  
 ```
 
 ### Le problème de root
 
 **Par défaut** (sans USER) :
 ```dockerfile
-FROM ubuntu:22.04
-RUN whoami  # Affiche: root
-CMD ["whoami"]
+FROM ubuntu:22.04  
+RUN whoami  # Affiche: root  
+CMD ["whoami"]  
 ```
 
 ```bash
@@ -710,8 +710,8 @@ RUN groupadd -r appgroup && \
 USER appuser
 
 # Maintenant tout s'exécute en tant que appuser
-RUN whoami  # Affiche: appuser
-CMD ["whoami"]
+RUN whoami  # Affiche: appuser  
+CMD ["whoami"]  
 ```
 
 ### Exemple complet avec application
@@ -723,15 +723,15 @@ FROM python:3.11-slim
 RUN useradd -m -u 1000 appuser
 
 # Créer le répertoire et définir les permissions
-WORKDIR /app
-RUN chown appuser:appuser /app
+WORKDIR /app  
+RUN chown appuser:appuser /app  
 
 # Basculer vers l'utilisateur non-privilégié
 USER appuser
 
 # Installation locale (dans le home de l'utilisateur)
-COPY --chown=appuser:appuser requirements.txt .
-RUN pip install --user -r requirements.txt
+COPY --chown=appuser:appuser requirements.txt .  
+RUN pip install --user -r requirements.txt  
 
 # Copier le code avec les bonnes permissions
 COPY --chown=appuser:appuser . .
@@ -768,9 +768,9 @@ RUN chown -R appuser:appgroup /app
 USER appuser
 
 # 5. Opérations utilisateur
-COPY --chown=appuser:appgroup package*.json ./
-RUN npm ci
-COPY --chown=appuser:appgroup . .
+COPY --chown=appuser:appgroup package*.json ./  
+RUN npm ci  
+COPY --chown=appuser:appgroup . .  
 
 CMD ["node", "server.js"]
 ```
@@ -798,13 +798,13 @@ Certaines images ont déjà un utilisateur non-root :
 
 ```dockerfile
 # Node.js a un utilisateur "node"
-FROM node:18-alpine
-USER node
-WORKDIR /home/node/app
+FROM node:18-alpine  
+USER node  
+WORKDIR /home/node/app  
 
 # PostgreSQL a un utilisateur "postgres"
-FROM postgres:15
-USER postgres
+FROM postgres:15  
+USER postgres  
 ```
 
 ### Retour temporaire à root
@@ -815,15 +815,15 @@ Si vous devez redevenir root temporairement :
 FROM node:18-alpine
 
 # Utiliser l'utilisateur node
-USER node
-WORKDIR /app
+USER node  
+WORKDIR /app  
 
-COPY --chown=node:node . .
-RUN npm install
+COPY --chown=node:node . .  
+RUN npm install  
 
 # Retour temporaire à root pour une installation
-USER root
-RUN apk add --no-cache curl
+USER root  
+RUN apk add --no-cache curl  
 
 # Retour à l'utilisateur non-privilégié
 USER node
@@ -837,51 +837,52 @@ CMD ["npm", "start"]
 
 ```dockerfile
 # ❌ Dangereux - root par défaut
-FROM ubuntu:22.04
-COPY app.py /app/
-CMD ["python", "/app/app.py"]
+FROM ubuntu:22.04  
+COPY app.py /app/  
+CMD ["python", "/app/app.py"]  
 
 # ✅ Sécurisé
-FROM ubuntu:22.04
-RUN useradd -m appuser
-USER appuser
-COPY --chown=appuser:appuser app.py /home/appuser/
-CMD ["python", "/home/appuser/app.py"]
+FROM ubuntu:22.04  
+RUN useradd -m appuser  
+USER appuser  
+COPY --chown=appuser:appuser app.py /home/appuser/  
+CMD ["python", "/home/appuser/app.py"]  
 ```
 
 #### 2. Créer l'utilisateur avec des UID/GID cohérents
 
 ```dockerfile
 # ✅ UID/GID standard (1000) pour éviter les conflits
-RUN useradd -m -u 1000 -g 1000 appuser
-USER 1000:1000
+RUN groupadd -g 1000 appgroup && \
+    useradd -m -u 1000 -g 1000 appuser
+USER 1000:1000  
 ```
 
 #### 3. Définir les permissions correctement
 
 ```dockerfile
 # ✅ Bon - permissions explicites
-WORKDIR /app
-RUN chown -R appuser:appuser /app
-USER appuser
+WORKDIR /app  
+RUN chown -R appuser:appuser /app  
+USER appuser  
 
 # ❌ Problème - l'utilisateur ne peut pas écrire
-USER appuser
-WORKDIR /app
-COPY . .  # Appartient à root !
+USER appuser  
+WORKDIR /app  
+COPY . .  # Appartient à root !  
 ```
 
 #### 4. Utiliser --chown avec COPY
 
 ```dockerfile
 # ✅ Bon - définit le propriétaire directement
-USER appuser
-COPY --chown=appuser:appuser . /app
+USER appuser  
+COPY --chown=appuser:appuser . /app  
 
 # ❌ Nécessite étape supplémentaire
-COPY . /app
-RUN chown -R appuser:appuser /app
-USER appuser
+COPY . /app  
+RUN chown -R appuser:appuser /app  
+USER appuser  
 ```
 
 ## L'instruction VOLUME : points de montage
@@ -896,16 +897,16 @@ USER appuser
 
 Par défaut, toutes les données dans un conteneur sont **éphémères** : elles disparaissent quand le conteneur est supprimé. Les volumes permettent de :
 
-✅ **Persister les données** au-delà de la vie du conteneur
-✅ **Partager des données** entre conteneurs
-✅ **Sauvegarder** facilement les données importantes
+✅ **Persister les données** au-delà de la vie du conteneur  
+✅ **Partager des données** entre conteneurs  
+✅ **Sauvegarder** facilement les données importantes  
 ✅ **Améliorer les performances** pour les I/O intensifs
 
 ### Syntaxe
 
 ```dockerfile
-VOLUME /chemin/dans/conteneur
-VOLUME ["/chemin1", "/chemin2"]
+VOLUME /chemin/dans/conteneur  
+VOLUME ["/chemin1", "/chemin2"]  
 ```
 
 ### Exemples simples
@@ -950,8 +951,8 @@ docker run --name ma-db postgres:15
 docker run --name ma-db -v pg-data:/var/lib/postgresql/data postgres:15
 
 # Les données persistent même si le conteneur est supprimé
-docker rm ma-db
-docker run --name ma-db-2 -v pg-data:/var/lib/postgresql/data postgres:15
+docker rm ma-db  
+docker run --name ma-db-2 -v pg-data:/var/lib/postgresql/data postgres:15  
 # Les données sont toujours là !
 ```
 
@@ -973,28 +974,28 @@ docker run --name ma-db-2 -v pg-data:/var/lib/postgresql/data postgres:15
 
 **Application avec uploads** :
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
+FROM node:18-alpine  
+WORKDIR /app  
 
-COPY package*.json ./
-RUN npm install
+COPY package*.json ./  
+RUN npm install  
 
 COPY . .
 
 # Les uploads des utilisateurs persistent
 VOLUME /app/uploads
 
-EXPOSE 3000
-CMD ["npm", "start"]
+EXPOSE 3000  
+CMD ["npm", "start"]  
 ```
 
 **Application avec cache** :
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
+FROM python:3.11-slim  
+WORKDIR /app  
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY requirements.txt .  
+RUN pip install -r requirements.txt  
 
 COPY . .
 
@@ -1062,26 +1063,26 @@ FROM parent-image
 
 **Bases de données** :
 ```dockerfile
-FROM mysql:8.0
-VOLUME /var/lib/mysql
+FROM mysql:8.0  
+VOLUME /var/lib/mysql  
 ```
 
 **Applications web avec uploads** :
 ```dockerfile
-FROM nginx:alpine
-VOLUME /usr/share/nginx/html/uploads
+FROM nginx:alpine  
+VOLUME /usr/share/nginx/html/uploads  
 ```
 
 **Logs d'application** :
 ```dockerfile
-FROM app-image
-VOLUME /var/log/app
+FROM app-image  
+VOLUME /var/log/app  
 ```
 
 **Configuration dynamique** :
 ```dockerfile
-FROM app-image
-VOLUME /etc/app/config
+FROM app-image  
+VOLUME /etc/app/config  
 ```
 
 ### Bonnes pratiques avec VOLUME
@@ -1094,9 +1095,9 @@ VOLUME /etc/app/config
 # /app/uploads - Fichiers uploadés par les utilisateurs
 # /app/logs    - Logs de l'application
 
-VOLUME /app/data
-VOLUME /app/uploads
-VOLUME /app/logs
+VOLUME /app/data  
+VOLUME /app/uploads  
+VOLUME /app/logs  
 ```
 
 #### 2. Ne pas utiliser VOLUME pour le code
@@ -1126,8 +1127,8 @@ FROM node:18-alpine
 
 RUN adduser -D appuser
 
-WORKDIR /app
-RUN chown appuser:appuser /app
+WORKDIR /app  
+RUN chown appuser:appuser /app  
 
 # Créer le répertoire avec les bonnes permissions
 RUN mkdir -p /app/data && chown appuser:appuser /app/data
@@ -1178,16 +1179,16 @@ RUN mkdir -p logs data uploads && \
 USER $APP_USER
 
 # Copier et installer les dépendances Python
-COPY --chown=$APP_USER:$APP_USER requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+COPY --chown=$APP_USER:$APP_USER requirements.txt .  
+RUN pip install --user --no-cache-dir -r requirements.txt  
 
 # Copier le code de l'application
 COPY --chown=$APP_USER:$APP_USER . .
 
 # Déclarer les volumes pour les données persistantes
-VOLUME $APP_HOME/data
-VOLUME $APP_HOME/logs
-VOLUME $APP_HOME/uploads
+VOLUME $APP_HOME/data  
+VOLUME $APP_HOME/logs  
+VOLUME $APP_HOME/uploads  
 
 # Exposer le port de l'application
 EXPOSE $APP_PORT
@@ -1256,8 +1257,8 @@ RUN chown ...
 USER ...
 
 # 9. Copier et installer dépendances
-COPY requirements.txt .
-RUN pip install ...
+COPY requirements.txt .  
+RUN pip install ...  
 
 # 10. Copier le code
 COPY . .
@@ -1287,10 +1288,10 @@ Dans cette section, vous avez maîtrisé les **cinq instructions avancées** :
 
 **Points clés à retenir** :
 
-🔑 **ENV** : Configuration flexible sans rebuild
-🔑 **WORKDIR** : Toujours préférer à `RUN cd`
-🔑 **EXPOSE** : Documentation, ne publie pas automatiquement
-🔑 **USER** : Essentiel pour la sécurité en production
+🔑 **ENV** : Configuration flexible sans rebuild  
+🔑 **WORKDIR** : Toujours préférer à `RUN cd`  
+🔑 **EXPOSE** : Documentation, ne publie pas automatiquement  
+🔑 **USER** : Essentiel pour la sécurité en production  
 🔑 **VOLUME** : Indique les données qui doivent persister
 
 Avec ces instructions, vous êtes maintenant capable de créer des images Docker **professionnelles, sécurisées et production-ready** !
