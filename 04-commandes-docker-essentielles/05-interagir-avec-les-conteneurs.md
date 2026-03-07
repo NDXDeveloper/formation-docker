@@ -212,7 +212,7 @@ Sortie exemple :
 /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
 ...
-2025/10/22 10:30:46 [notice] 1#1: nginx/1.25.3
+2025/10/22 10:30:46 [notice] 1#1: nginx/1.27.3
 2025/10/22 10:30:46 [notice] 1#1: start worker processes
 ```
 
@@ -239,7 +239,7 @@ docker logs -t mon-nginx
 Sortie :
 ```
 2025-10-22T10:30:45.123456789Z /docker-entrypoint.sh: Configuration starting
-2025-10-22T10:30:46.234567890Z [notice] 1#1: nginx/1.25.3
+2025-10-22T10:30:46.234567890Z [notice] 1#1: nginx/1.27.3
 ```
 
 ### Limiter le nombre de lignes avec `--tail`
@@ -322,9 +322,9 @@ docker logs mon-conteneur > conteneur-logs-$(date +%Y%m%d).log
 
 **6. Surveiller plusieurs conteneurs** :
 ```bash
-docker logs -f conteneur1 &
-docker logs -f conteneur2 &
-wait
+docker logs -f conteneur1 &  
+docker logs -f conteneur2 &  
+wait  
 ```
 
 ### Comprendre la rotation des logs
@@ -578,7 +578,7 @@ docker exec mon-conteneur php artisan migrate
 
 Créez un fichier `DEBUG.md` dans votre projet avec les commandes utiles :
 
-```markdown
+````markdown
 ## Commandes de debug
 
 ### Voir les logs de l'application
@@ -595,7 +595,7 @@ docker exec -it mon-app bash
 ```bash
 docker exec mon-app cat /app/config/app.php
 ```
-```
+````
 
 ### 8. Automatisez les tâches courantes
 
@@ -603,15 +603,15 @@ Créez des alias pour gagner du temps :
 
 ```bash
 # Dans votre ~/.bashrc ou ~/.zshrc
-alias dlogs='docker logs -f --tail 100'
-alias dexec='docker exec -it'
-alias dsh='docker exec -it'
+alias dlogs='docker logs -f --tail 100'  
+alias dexec='docker exec -it'  
+alias dsh='docker exec -it'  
 ```
 
 Utilisation :
 ```bash
-dlogs mon-conteneur
-dexec mon-conteneur bash
+dlogs mon-conteneur  
+dexec mon-conteneur bash  
 ```
 
 ## Dépannage courant
@@ -636,8 +636,8 @@ docker exec -it mon-conteneur bash
 **Solution** :
 ```bash
 # Vérifier quelle commande est disponible
-docker exec mon-conteneur which bash
-docker exec mon-conteneur which sh
+docker exec mon-conteneur which bash  
+docker exec mon-conteneur which sh  
 
 # Utiliser la commande disponible
 docker exec -it mon-conteneur sh
@@ -692,7 +692,7 @@ Docker Desktop offre une interface graphique pour :
 
 ### Extensions VS Code
 
-**Remote - Containers** permet de :
+**Dev Containers** permet de :
 - Développer directement dans un conteneur
 - Déboguer avec des breakpoints
 - Accéder aux fichiers du conteneur
