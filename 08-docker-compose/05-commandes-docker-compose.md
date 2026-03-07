@@ -306,10 +306,10 @@ docker compose ps
 
 **Exemple de sortie** :
 ```
-NAME                    IMAGE           COMMAND                  SERVICE     STATUS        PORTS
-mon-projet-database-1   postgres:15     "docker-entrypoint.s…"   database    Up 2 hours    5432/tcp
-mon-projet-cache-1      redis:7         "docker-entrypoint.s…"   cache       Up 2 hours    6379/tcp
-mon-projet-app-1        mon-app:latest  "node server.js"         app         Up 2 hours    0.0.0.0:3000->3000/tcp
+NAME                    IMAGE           COMMAND                  SERVICE     STATUS        PORTS  
+mon-projet-database-1   postgres:15     "docker-entrypoint.s…"   database    Up 2 hours    5432/tcp  
+mon-projet-cache-1      redis:7         "docker-entrypoint.s…"   cache       Up 2 hours    6379/tcp  
+mon-projet-app-1        mon-app:latest  "node server.js"         app         Up 2 hours    0.0.0.0:3000->3000/tcp  
 ```
 
 **Informations affichées** :
@@ -418,8 +418,8 @@ docker compose pause
 docker compose unpause
 
 # Pour un service spécifique
-docker compose pause database
-docker compose unpause database
+docker compose pause database  
+docker compose unpause database  
 ```
 
 **Différence avec stop** :
@@ -430,8 +430,8 @@ docker compose unpause database
 
 ```bash
 # Ouvrir un shell dans un conteneur
-docker compose exec api sh
-docker compose exec api bash
+docker compose exec api sh  
+docker compose exec api bash  
 
 # Exécuter une commande spécifique
 docker compose exec database psql -U postgres
@@ -447,9 +447,9 @@ docker compose exec -u root api sh
 
 ```bash
 # Exemples pratiques
-docker compose exec api npm install
-docker compose exec database pg_dump -U postgres mydb > backup.sql
-docker compose exec -e DEBUG=true api node debug.js
+docker compose exec api npm install  
+docker compose exec database pg_dump -U postgres mydb > backup.sql  
+docker compose exec -e DEBUG=true api node debug.js  
 ```
 
 ### docker compose run - Créer et exécuter un conteneur temporaire
@@ -588,8 +588,8 @@ docker compose down
 docker compose up -d
 
 # 4. Vérifier que tout fonctionne
-docker compose ps
-docker compose logs -f
+docker compose ps  
+docker compose logs -f  
 ```
 
 ### Reconstruction complète
@@ -705,22 +705,22 @@ Ajoutez ces aliases à votre `.bashrc` ou `.zshrc` :
 
 ```bash
 # Aliases pour Docker Compose
-alias dc='docker compose'
-alias dcu='docker compose up'
-alias dcud='docker compose up -d'
-alias dcd='docker compose down'
-alias dcl='docker compose logs'
-alias dclf='docker compose logs -f'
-alias dcp='docker compose ps'
-alias dcr='docker compose restart'
-alias dce='docker compose exec'
+alias dc='docker compose'  
+alias dcu='docker compose up'  
+alias dcud='docker compose up -d'  
+alias dcd='docker compose down'  
+alias dcl='docker compose logs'  
+alias dclf='docker compose logs -f'  
+alias dcp='docker compose ps'  
+alias dcr='docker compose restart'  
+alias dce='docker compose exec'  
 ```
 
 Utilisation :
 ```bash
-dcu          # au lieu de docker compose up
-dclf api     # au lieu de docker compose logs -f api
-dce api sh   # au lieu de docker compose exec api sh
+dcu          # au lieu de docker compose up  
+dclf api     # au lieu de docker compose logs -f api  
+dce api sh   # au lieu de docker compose exec api sh  
 ```
 
 ### Commandes combinées
@@ -753,8 +753,8 @@ sudo usermod -aG docker $USER
 
 ```bash
 # Vérifier que vous êtes dans le bon répertoire
-pwd
-ls -la docker-compose.yml
+pwd  
+ls -la docker-compose.yml  
 
 # Vérifier les noms des services
 docker compose config --services
