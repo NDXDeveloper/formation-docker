@@ -53,12 +53,12 @@ FROM nginx:alpine
 
 ```dockerfile
 # ✅ Correct
-FROM python:3.11
-RUN pip install flask
+FROM python:3.11  
+RUN pip install flask  
 
 # ❌ Incorrect - FROM doit être en premier
-RUN apt-get update
-FROM python:3.11
+RUN apt-get update  
+FROM python:3.11  
 ```
 
 2. **Spécifiez toujours un tag** pour garantir la reproductibilité
@@ -82,9 +82,9 @@ Docker Hub propose des milliers d'images. Voici comment choisir :
 
 **Images officielles** (recommandées) :
 ```dockerfile
-FROM python:3.11      # Officielle
-FROM node:18          # Officielle
-FROM mysql:8.0        # Officielle
+FROM python:3.11      # Officielle  
+FROM node:18          # Officielle  
+FROM mysql:8.0        # Officielle  
 ```
 
 **Images communautaires** :
@@ -216,9 +216,9 @@ Vous pouvez chaîner plusieurs commandes avec `&&` :
 
 ```dockerfile
 # ❌ Crée 3 couches distinctes
-RUN apt-get update
-RUN apt-get install -y curl
-RUN apt-get install -y git
+RUN apt-get update  
+RUN apt-get install -y curl  
+RUN apt-get install -y git  
 
 # ✅ Crée 1 seule couche
 RUN apt-get update && \
@@ -261,8 +261,8 @@ RUN apt-get update && apt-get install -y \
     package2
 
 # ❌ Mauvais - peut utiliser un cache obsolète
-RUN apt-get update
-RUN apt-get install -y package1
+RUN apt-get update  
+RUN apt-get install -y package1  
 ```
 
 #### 2. Nettoyer après installation
@@ -297,8 +297,8 @@ Plus facile à lire et à maintenir !
 
 **Installer des dépendances système** :
 ```dockerfile
-FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y \
+FROM ubuntu:22.04  
+RUN apt-get update && apt-get install -y \  
     build-essential \
     python3-dev \
     libpq-dev
@@ -306,16 +306,16 @@ RUN apt-get update && apt-get install -y \
 
 **Installer des dépendances Python** :
 ```dockerfile
-FROM python:3.11-slim
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+FROM python:3.11-slim  
+COPY requirements.txt .  
+RUN pip install --no-cache-dir -r requirements.txt  
 ```
 
 **Installer des dépendances Node.js** :
 ```dockerfile
-FROM node:18-alpine
-COPY package*.json ./
-RUN npm ci --only=production
+FROM node:18-alpine  
+COPY package*.json ./  
+RUN npm ci --omit=dev  
 ```
 
 **Créer un utilisateur non-root** :
@@ -328,8 +328,8 @@ RUN useradd -m -u 1000 appuser
 **Oublier le nettoyage** :
 ```dockerfile
 # ❌ Laisse des fichiers temporaires
-RUN apt-get update
-RUN apt-get install -y curl
+RUN apt-get update  
+RUN apt-get install -y curl  
 
 # ✅ Nettoie dans la même couche
 RUN apt-get update && \
@@ -340,9 +340,9 @@ RUN apt-get update && \
 **Trop de RUN** :
 ```dockerfile
 # ❌ Crée beaucoup de couches
-RUN pip install flask
-RUN pip install requests
-RUN pip install numpy
+RUN pip install flask  
+RUN pip install requests  
+RUN pip install numpy  
 
 # ✅ Une seule couche
 RUN pip install flask requests numpy
@@ -388,16 +388,16 @@ COPY app.py /app/main.py
 
 **Chemins source** (toujours relatifs au contexte de build) :
 ```dockerfile
-COPY ./app.py /app/          # Relatif explicite
-COPY app.py /app/            # Relatif implicite
-COPY ../config.json /app/    # ❌ ERREUR - ne peut pas sortir du contexte
+COPY ./app.py /app/          # Relatif explicite  
+COPY app.py /app/            # Relatif implicite  
+COPY ../config.json /app/    # ❌ ERREUR - ne peut pas sortir du contexte  
 ```
 
 **Chemins destination** :
 ```dockerfile
-COPY app.py /app/            # Absolu
-COPY app.py ./app/           # Relatif au WORKDIR
-COPY app.py app/             # Relatif au WORKDIR
+COPY app.py /app/            # Absolu  
+COPY app.py ./app/           # Relatif au WORKDIR  
+COPY app.py app/             # Relatif au WORKDIR  
 ```
 
 ### Wildcards (jokers)
@@ -420,12 +420,12 @@ COPY test* /app/tests/
 Si vous avez défini un `WORKDIR`, les chemins de destination deviennent relatifs :
 
 ```dockerfile
-FROM python:3.11
-WORKDIR /app
+FROM python:3.11  
+WORKDIR /app  
 
 # Ces deux lignes sont équivalentes
-COPY app.py /app/app.py
-COPY app.py app.py
+COPY app.py /app/app.py  
+COPY app.py app.py  
 
 # Copier dans le WORKDIR actuel
 COPY . .
@@ -451,17 +451,17 @@ COPY . /app
 
 ```dockerfile
 # ✅ Bon - copie les dépendances d'abord
-FROM node:18
-WORKDIR /app
-COPY package*.json ./        # Change rarement
-RUN npm install              # Utilise le cache si package.json n'a pas changé
-COPY . .                     # Change souvent
+FROM node:18  
+WORKDIR /app  
+COPY package*.json ./        # Change rarement  
+RUN npm install              # Utilise le cache si package.json n'a pas changé  
+COPY . .                     # Change souvent  
 
 # ❌ Moins efficace
-FROM node:18
-WORKDIR /app
-COPY . .                     # Change souvent, invalide tout le cache
-RUN npm install              # Réinstalle à chaque fois
+FROM node:18  
+WORKDIR /app  
+COPY . .                     # Change souvent, invalide tout le cache  
+RUN npm install              # Réinstalle à chaque fois  
 ```
 
 #### 3. Copier avec la bonne structure
@@ -475,12 +475,12 @@ RUN npm install              # Réinstalle à chaque fois
 # └── config/
 #     └── settings.json
 
-FROM python:3.11
-WORKDIR /app
+FROM python:3.11  
+WORKDIR /app  
 
 # Préserver la structure
-COPY src/ ./src/
-COPY config/ ./config/
+COPY src/ ./src/  
+COPY config/ ./config/  
 
 # Résultat dans l'image :
 # /app/
@@ -514,28 +514,28 @@ COPY --chmod=755 script.sh /usr/local/bin/
 
 **Application Python** :
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY src/ ./src/
-COPY config.yaml .
+FROM python:3.11-slim  
+WORKDIR /app  
+COPY requirements.txt .  
+RUN pip install -r requirements.txt  
+COPY src/ ./src/  
+COPY config.yaml .  
 ```
 
 **Application Node.js** :
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
+FROM node:18-alpine  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm ci  
+COPY . .  
 ```
 
 **Site web statique** :
 ```dockerfile
-FROM nginx:alpine
-COPY html/ /usr/share/nginx/html/
-COPY nginx.conf /etc/nginx/nginx.conf
+FROM nginx:alpine  
+COPY html/ /usr/share/nginx/html/  
+COPY nginx.conf /etc/nginx/nginx.conf  
 ```
 
 ## L'instruction ADD : alternative à COPY
@@ -606,9 +606,9 @@ ADD https://example.com/file.txt /app/
 
 ✅ Tous les autres cas (99% du temps) :
 ```dockerfile
-COPY . /app/
-COPY config.json /app/
-COPY src/ /app/src/
+COPY . /app/  
+COPY config.json /app/  
+COPY src/ /app/src/  
 ```
 
 ### Pourquoi préférer COPY ?
@@ -644,8 +644,8 @@ ADD backup.tar.gz /backups/
 ADD app.tar.gz /app/
 
 # Alternative avec COPY (plus verbeux mais plus clair)
-COPY app.tar.gz /tmp/
-RUN tar -xzf /tmp/app.tar.gz -C /app/ && \
+COPY app.tar.gz /tmp/  
+RUN tar -xzf /tmp/app.tar.gz -C /app/ && \  
     rm /tmp/app.tar.gz
 ```
 
@@ -715,8 +715,8 @@ La commande `CMD` peut être **remplacée** lors du `docker run` :
 
 **Dockerfile** :
 ```dockerfile
-FROM ubuntu:22.04
-CMD ["echo", "Hello from CMD"]
+FROM ubuntu:22.04  
+CMD ["echo", "Hello from CMD"]  
 ```
 
 **Utilisation** :
@@ -739,10 +739,10 @@ docker run mon-image ls -la
 **Un seul CMD par Dockerfile** : Si vous définissez plusieurs `CMD`, seul le dernier est pris en compte.
 
 ```dockerfile
-FROM ubuntu:22.04
-CMD ["echo", "Premier"]
-CMD ["echo", "Deuxième"]  # ← Seul celui-ci sera exécuté
-CMD ["echo", "Troisième"] # ← Celui-ci remplace les précédents
+FROM ubuntu:22.04  
+CMD ["echo", "Premier"]  
+CMD ["echo", "Deuxième"]  # ← Seul celui-ci sera exécuté  
+CMD ["echo", "Troisième"] # ← Celui-ci remplace les précédents  
 ```
 
 ## L'instruction ENTRYPOINT
@@ -782,8 +782,8 @@ Avec `ENTRYPOINT`, les arguments passés à `docker run` sont ajoutés à la com
 
 **Dockerfile** :
 ```dockerfile
-FROM alpine:latest
-ENTRYPOINT ["echo", "Message:"]
+FROM alpine:latest  
+ENTRYPOINT ["echo", "Message:"]  
 ```
 
 **Utilisation** :
@@ -827,33 +827,33 @@ C'est rare et généralement réservé au débogage.
 
 **Avec CMD uniquement** :
 ```dockerfile
-FROM alpine
-CMD ["echo", "Hello"]
+FROM alpine  
+CMD ["echo", "Hello"]  
 ```
 ```bash
-docker run image              → echo Hello
-docker run image ls           → ls (remplace echo Hello)
+docker run image              → echo Hello  
+docker run image ls           → ls (remplace echo Hello)  
 ```
 
 **Avec ENTRYPOINT uniquement** :
 ```dockerfile
-FROM alpine
-ENTRYPOINT ["echo"]
+FROM alpine  
+ENTRYPOINT ["echo"]  
 ```
 ```bash
-docker run image              → echo
-docker run image Hello        → echo Hello (ajoute l'argument)
+docker run image              → echo  
+docker run image Hello        → echo Hello (ajoute l'argument)  
 ```
 
 **Avec les DEUX (combinaison)** :
 ```dockerfile
-FROM alpine
-ENTRYPOINT ["echo"]
-CMD ["World"]
+FROM alpine  
+ENTRYPOINT ["echo"]  
+CMD ["World"]  
 ```
 ```bash
-docker run image              → echo World
-docker run image Hello        → echo Hello (remplace CMD)
+docker run image              → echo World  
+docker run image Hello        → echo Hello (remplace CMD)  
 ```
 
 ### Exemples concrets
@@ -861,10 +861,10 @@ docker run image Hello        → echo Hello (remplace CMD)
 #### Exemple 1 : Application web flexible (CMD seul)
 
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY . .
-CMD ["npm", "start"]
+FROM node:18-alpine  
+WORKDIR /app  
+COPY . .  
+CMD ["npm", "start"]  
 ```
 
 **Utilisation** :
@@ -887,9 +887,9 @@ docker run mon-app npm test
 #### Exemple 2 : Outil CLI (ENTRYPOINT seul)
 
 ```dockerfile
-FROM alpine:latest
-RUN apk add --no-cache curl
-ENTRYPOINT ["curl"]
+FROM alpine:latest  
+RUN apk add --no-cache curl  
+ENTRYPOINT ["curl"]  
 ```
 
 **Utilisation** :
@@ -907,11 +907,11 @@ docker run mon-curl -I https://google.com
 #### Exemple 3 : Combinaison CMD + ENTRYPOINT
 
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY mon-script.py .
-ENTRYPOINT ["python", "mon-script.py"]
-CMD ["--help"]
+FROM python:3.11-slim  
+WORKDIR /app  
+COPY mon-script.py .  
+ENTRYPOINT ["python", "mon-script.py"]  
+CMD ["--help"]  
 ```
 
 **Utilisation** :
@@ -931,8 +931,8 @@ docker run mon-script --verbose process data.csv
 
 ### Utilisez CMD quand :
 
-✅ Votre conteneur est une **application flexible** avec plusieurs modes
-✅ Vous voulez que les utilisateurs puissent facilement changer le comportement
+✅ Votre conteneur est une **application flexible** avec plusieurs modes  
+✅ Vous voulez que les utilisateurs puissent facilement changer le comportement  
 ✅ Vous conteneurisez une application classique (web app, API, etc.)
 
 **Exemples** :
@@ -949,8 +949,8 @@ CMD ["mysqld"]
 
 ### Utilisez ENTRYPOINT quand :
 
-✅ Votre conteneur est un **outil exécutable** ou une commande
-✅ Vous voulez que le conteneur se comporte comme une commande système
+✅ Votre conteneur est un **outil exécutable** ou une commande  
+✅ Vous voulez que le conteneur se comporte comme une commande système  
 ✅ Vous voulez forcer l'exécutable principal
 
 **Exemples** :
@@ -967,18 +967,18 @@ ENTRYPOINT ["/usr/local/bin/mon-outil"]
 
 ### Utilisez les DEUX quand :
 
-✅ Vous voulez un **exécutable fixe** avec des **paramètres par défaut**
+✅ Vous voulez un **exécutable fixe** avec des **paramètres par défaut**  
 ✅ Vous créez un outil avec options configurables
 
 **Exemples** :
 ```dockerfile
 # Script avec options par défaut
-ENTRYPOINT ["python", "app.py"]
-CMD ["--port", "8000"]
+ENTRYPOINT ["python", "app.py"]  
+CMD ["--port", "8000"]  
 
 # Commande avec mode par défaut
-ENTRYPOINT ["./mon-app"]
-CMD ["start"]
+ENTRYPOINT ["./mon-app"]  
+CMD ["start"]  
 ```
 
 ## Forme exec vs forme shell
@@ -987,8 +987,8 @@ CMD ["start"]
 
 **Forme exec** (avec crochets) :
 ```dockerfile
-CMD ["python", "app.py"]
-ENTRYPOINT ["python", "app.py"]
+CMD ["python", "app.py"]  
+ENTRYPOINT ["python", "app.py"]  
 ```
 - N'utilise pas de shell
 - Les variables d'environnement ne sont pas interprétées
@@ -997,8 +997,8 @@ ENTRYPOINT ["python", "app.py"]
 
 **Forme shell** (sans crochets) :
 ```dockerfile
-CMD python app.py
-ENTRYPOINT python app.py
+CMD python app.py  
+ENTRYPOINT python app.py  
 ```
 - Utilise `/bin/sh -c`
 - Les variables d'environnement sont interprétées
@@ -1010,8 +1010,8 @@ ENTRYPOINT python app.py
 **Avec variables d'environnement** :
 
 ```dockerfile
-FROM alpine
-ENV NAME=World
+FROM alpine  
+ENV NAME=World  
 
 # Forme shell - interprète $NAME
 CMD echo "Hello $NAME"
@@ -1043,12 +1043,12 @@ CMD python app.py --config=$CONFIG_FILE
 ### Application web Node.js
 
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
+FROM node:18-alpine  
+WORKDIR /app  
 
 # Copier les dépendances
-COPY package*.json ./
-RUN npm ci --only=production
+COPY package*.json ./  
+RUN npm ci --omit=dev  
 
 # Copier le code
 COPY . .
@@ -1075,11 +1075,11 @@ docker run mon-app npm test
 ### Outil CLI personnalisé
 
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
+FROM python:3.11-slim  
+WORKDIR /app  
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY requirements.txt .  
+RUN pip install -r requirements.txt  
 
 COPY mon-outil.py .
 
@@ -1102,17 +1102,17 @@ docker run mon-outil process --input data.csv --output result.json
 ### Application avec script d'initialisation
 
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
+FROM python:3.11-slim  
+WORKDIR /app  
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY requirements.txt .  
+RUN pip install -r requirements.txt  
 
 COPY . .
 
 # Script d'entrée qui fait de l'initialisation
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh  
+RUN chmod +x /entrypoint.sh  
 
 # ENTRYPOINT pour le script d'init
 ENTRYPOINT ["/entrypoint.sh"]
@@ -1125,8 +1125,8 @@ CMD ["python", "app.py"]
 ```bash
 #!/bin/bash
 # Initialisation
-echo "Démarrage de l'application..."
-python manage.py migrate
+echo "Démarrage de l'application..."  
+python manage.py migrate  
 
 # Exécuter la commande passée (CMD ou arguments)
 exec "$@"
@@ -1176,8 +1176,8 @@ Voici un template de Dockerfile bien structuré :
 FROM python:3.11-slim
 
 # Métadonnées (optionnel)
-LABEL maintainer="vous@example.com"
-LABEL version="1.0"
+LABEL maintainer="vous@example.com"  
+LABEL version="1.0"  
 
 # Variables d'environnement
 ENV APP_HOME=/app \
@@ -1192,8 +1192,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Dépendances de l'application
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt .  
+RUN pip install --no-cache-dir -r requirements.txt  
 
 # Code de l'application
 COPY . .
@@ -1202,8 +1202,8 @@ COPY . .
 EXPOSE 8000
 
 # Utilisateur non-root (sécurité)
-RUN useradd -m appuser
-USER appuser
+RUN useradd -m appuser  
+USER appuser  
 
 # Commande par défaut
 CMD ["python", "app.py"]
