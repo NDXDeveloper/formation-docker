@@ -24,11 +24,11 @@ Vous savez maintenant créer des images Docker fonctionnelles. Mais une image fo
 Rappel : chaque instruction Docker crée une **nouvelle couche** dans l'image finale.
 
 ```dockerfile
-FROM ubuntu:22.04          # Couche 1
-RUN apt-get update         # Couche 2
-RUN apt-get install -y curl # Couche 3
-COPY app.py /app/          # Couche 4
-CMD ["python", "/app/app.py"] # Couche 5
+FROM ubuntu:22.04          # Couche 1  
+RUN apt-get update         # Couche 2  
+RUN apt-get install -y curl # Couche 3  
+COPY app.py /app/          # Couche 4  
+CMD ["python", "/app/app.py"] # Couche 5  
 ```
 
 **Visualisation** :
@@ -55,34 +55,34 @@ Docker met en **cache chaque couche**. Si une instruction n'a pas changé, Docke
 
 **Exemple** :
 ```dockerfile
-FROM python:3.11-slim
-COPY requirements.txt .     # Couche A (change rarement)
-RUN pip install -r requirements.txt  # Couche B (change rarement)
-COPY . .                    # Couche C (change souvent)
-CMD ["python", "app.py"]    # Couche D
+FROM python:3.11-slim  
+COPY requirements.txt .     # Couche A (change rarement)  
+RUN pip install -r requirements.txt  # Couche B (change rarement)  
+COPY . .                    # Couche C (change souvent)  
+CMD ["python", "app.py"]    # Couche D  
 ```
 
 **Scénario 1** : Modification du code (pas de requirements.txt)
 ```
-Couche A : ✅ Cache utilisé
-Couche B : ✅ Cache utilisé (pip install n'est pas refait !)
-Couche C : ⚠️ Reconstruite (fichiers changés)
-Couche D : ⚠️ Reconstruite (couche précédente changée)
+Couche A : ✅ Cache utilisé  
+Couche B : ✅ Cache utilisé (pip install n'est pas refait !)  
+Couche C : ⚠️ Reconstruite (fichiers changés)  
+Couche D : ⚠️ Reconstruite (couche précédente changée)  
 ```
 
 **Scénario 2** : Mauvais ordre des instructions
 ```dockerfile
-FROM python:3.11-slim
-COPY . .                    # ❌ Copie tout en premier
-RUN pip install -r requirements.txt
-CMD ["python", "app.py"]
+FROM python:3.11-slim  
+COPY . .                    # ❌ Copie tout en premier  
+RUN pip install -r requirements.txt  
+CMD ["python", "app.py"]  
 ```
 
 À chaque modification du code :
 ```
-Couche 1 : ⚠️ Reconstruite (code changé)
-Couche 2 : ⚠️ Reconstruite (pip install refait à chaque fois !)
-Couche 3 : ⚠️ Reconstruite
+Couche 1 : ⚠️ Reconstruite (code changé)  
+Couche 2 : ⚠️ Reconstruite (pip install refait à chaque fois !)  
+Couche 3 : ⚠️ Reconstruite  
 ```
 
 💰 **Temps perdu** : Si `pip install` prend 2 minutes, vous perdez 2 minutes à chaque build !
@@ -117,8 +117,8 @@ CMD ["python", "app.py"]
 
 **❌ AVANT (non optimisé)** :
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
+FROM node:18-alpine  
+WORKDIR /app  
 
 # Copie TOUT le code dès le début
 COPY . .
@@ -126,28 +126,28 @@ COPY . .
 # Installation (refaite à chaque changement de code)
 RUN npm install
 
-EXPOSE 3000
-CMD ["npm", "start"]
+EXPOSE 3000  
+CMD ["npm", "start"]  
 ```
 
 **Problème** : Chaque modification du code (même un commentaire !) invalide le cache et force `npm install` à se réexécuter.
 
 **✅ APRÈS (optimisé)** :
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
+FROM node:18-alpine  
+WORKDIR /app  
 
 # 1. Copier uniquement les fichiers de dépendances
 COPY package*.json ./
 
 # 2. Installer (mis en cache tant que package.json ne change pas)
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # 3. Copier le code (en dernier)
 COPY . .
 
-EXPOSE 3000
-CMD ["npm", "start"]
+EXPOSE 3000  
+CMD ["npm", "start"]  
 ```
 
 **Gain** : `npm ci` n'est réexécuté que quand `package.json` change (rare).
@@ -156,25 +156,25 @@ CMD ["npm", "start"]
 
 **❌ AVANT** :
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY . .
-RUN pip install -r requirements.txt
-CMD ["python", "app.py"]
+FROM python:3.11-slim  
+WORKDIR /app  
+COPY . .  
+RUN pip install -r requirements.txt  
+CMD ["python", "app.py"]  
 ```
 
 **✅ APRÈS** :
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
+FROM python:3.11-slim  
+WORKDIR /app  
 
 # Dépendances d'abord
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt .  
+RUN pip install --no-cache-dir -r requirements.txt  
 
 # Code ensuite
-COPY . .
-CMD ["python", "app.py"]
+COPY . .  
+CMD ["python", "app.py"]  
 ```
 
 ### Séparer les dépendances par fréquence de changement
@@ -182,16 +182,16 @@ CMD ["python", "app.py"]
 Si vous avez des dépendances qui changent à des rythmes différents :
 
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
+FROM python:3.11-slim  
+WORKDIR /app  
 
 # Dépendances de base (changent rarement)
-COPY requirements-base.txt .
-RUN pip install -r requirements-base.txt
+COPY requirements-base.txt .  
+RUN pip install -r requirements-base.txt  
 
 # Dépendances de développement (changent plus souvent)
-COPY requirements-dev.txt .
-RUN pip install -r requirements-dev.txt
+COPY requirements-dev.txt .  
+RUN pip install -r requirements-dev.txt  
 
 # Code (change tout le temps)
 COPY . .
@@ -205,20 +205,20 @@ Chaque instruction `RUN`, `COPY`, ou `ADD` crée une couche. Moins de couches = 
 
 **❌ AVANT (beaucoup de couches)** :
 ```dockerfile
-FROM ubuntu:22.04
-RUN apt-get update
-RUN apt-get install -y curl
-RUN apt-get install -y git
-RUN apt-get install -y vim
-RUN apt-get clean
+FROM ubuntu:22.04  
+RUN apt-get update  
+RUN apt-get install -y curl  
+RUN apt-get install -y git  
+RUN apt-get install -y vim  
+RUN apt-get clean  
 ```
 
 5 couches RUN = image plus grosse !
 
 **✅ APRÈS (une seule couche)** :
 ```dockerfile
-FROM ubuntu:22.04
-RUN apt-get update && \
+FROM ubuntu:22.04  
+RUN apt-get update && \  
     apt-get install -y \
         curl \
         git \
@@ -235,8 +235,8 @@ Chaque couche contient les **changements** par rapport à la couche précédente
 
 **❌ Non optimisé** :
 ```dockerfile
-RUN dd if=/dev/zero of=/tmp/big-file bs=1M count=100  # Crée 100 MB
-RUN rm /tmp/big-file                                   # Supprime le fichier
+RUN dd if=/dev/zero of=/tmp/big-file bs=1M count=100  # Crée 100 MB  
+RUN rm /tmp/big-file                                   # Supprime le fichier  
 ```
 
 Résultat : L'image contient encore 100 MB (dans la première couche) !
@@ -253,18 +253,18 @@ Résultat : 0 MB ajouté (création et suppression dans la même couche).
 
 **❌ AVANT** :
 ```dockerfile
-FROM ubuntu:22.04
-RUN apt-get update
-RUN apt-get install -y build-essential
-RUN apt-get clean
+FROM ubuntu:22.04  
+RUN apt-get update  
+RUN apt-get install -y build-essential  
+RUN apt-get clean  
 ```
 
 Les caches apt sont dans la couche 2, pas supprimés vraiment !
 
 **✅ APRÈS** :
 ```dockerfile
-FROM ubuntu:22.04
-RUN apt-get update && \
+FROM ubuntu:22.04  
+RUN apt-get update && \  
     apt-get install -y build-essential && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -278,9 +278,9 @@ Parfois, séparer aide à la compréhension :
 
 ```dockerfile
 # Acceptable pour la clarté
-RUN apt-get update && apt-get install -y curl
-RUN useradd -m appuser
-RUN mkdir -p /app/data && chown appuser:appuser /app/data
+RUN apt-get update && apt-get install -y curl  
+RUN useradd -m appuser  
+RUN mkdir -p /app/data && chown appuser:appuser /app/data  
 ```
 
 vs
@@ -345,14 +345,14 @@ FROM python:3.11-alpine
 
 **Binaire Go** : Scratch
 ```dockerfile
-FROM golang:1.21 AS builder
-WORKDIR /app
-COPY . .
-RUN go build -o app
+FROM golang:1.23 AS builder  
+WORKDIR /app  
+COPY . .  
+RUN go build -o app  
 
-FROM scratch
-COPY --from=builder /app/app /app
-CMD ["/app"]
+FROM scratch  
+COPY --from=builder /app/app /app  
+CMD ["/app"]  
 ```
 
 ### Adapter le Dockerfile pour Alpine
@@ -361,16 +361,16 @@ Alpine utilise `apk` au lieu de `apt-get` :
 
 **Debian/Ubuntu** :
 ```dockerfile
-FROM python:3.11-slim
-RUN apt-get update && apt-get install -y \
+FROM python:3.11-slim  
+RUN apt-get update && apt-get install -y \  
     gcc \
     && rm -rf /var/lib/apt/lists/*
 ```
 
 **Alpine** :
 ```dockerfile
-FROM python:3.11-alpine
-RUN apk add --no-cache gcc musl-dev
+FROM python:3.11-alpine  
+RUN apk add --no-cache gcc musl-dev  
 ```
 
 **Note** : `--no-cache` évite de stocker le cache des packages.
@@ -420,7 +420,7 @@ RUN pip install -r requirements.txt && \
 **Node.js** :
 ```dockerfile
 # Utiliser npm ci au lieu de npm install
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Supprimer les caches npm
 RUN npm cache clean --force
@@ -470,16 +470,16 @@ Séparer la **construction** de l'**exécution** en utilisant plusieurs images :
 
 ```dockerfile
 # Étape 1 : Build (image grosse avec tous les outils)
-FROM node:18 AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+FROM node:18 AS builder  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
+COPY . .  
+RUN npm run build  
 
 # Étape 2 : Production (image légère)
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
+FROM nginx:alpine  
+COPY --from=builder /app/dist /usr/share/nginx/html  
 ```
 
 **Résultat** : L'image finale ne contient que les fichiers nécessaires, pas les outils de build !
@@ -488,32 +488,32 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 **❌ Sans multi-stage (image de 1.2 GB)** :
 ```dockerfile
-FROM node:18
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+FROM node:18  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
+COPY . .  
+RUN npm run build  
 # L'image contient Node.js + node_modules + sources + build
-EXPOSE 80
-CMD ["npx", "serve", "-s", "build"]
+EXPOSE 80  
+CMD ["npx", "serve", "-s", "build"]  
 ```
 
 **✅ Avec multi-stage (image de 25 MB)** :
 ```dockerfile
 # Stage 1: Build
-FROM node:18 AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
+FROM node:18 AS builder  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm ci  
+COPY . .  
+RUN npm run build  
 
 # Stage 2: Production
-FROM nginx:alpine
-COPY --from=builder /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM nginx:alpine  
+COPY --from=builder /app/build /usr/share/nginx/html  
+EXPOSE 80  
+CMD ["nginx", "-g", "daemon off;"]  
 ```
 
 **Gain** : ~1175 MB (98% de réduction) !
@@ -523,66 +523,66 @@ CMD ["nginx", "-g", "daemon off;"]
 **Multi-stage avec scratch** :
 ```dockerfile
 # Build
-FROM golang:1.21 AS builder
-WORKDIR /app
-COPY go.mod go.sum ./
-RUN go mod download
-COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+FROM golang:1.23 AS builder  
+WORKDIR /app  
+COPY go.mod go.sum ./  
+RUN go mod download  
+COPY . .  
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .  
 
 # Production (image de ~10 MB)
-FROM scratch
-COPY --from=builder /app/app /app
-EXPOSE 8080
-CMD ["/app"]
+FROM scratch  
+COPY --from=builder /app/app /app  
+EXPOSE 8080  
+CMD ["/app"]  
 ```
 
 ### Exemple : Application Python
 
 ```dockerfile
 # Build avec dépendances de compilation
-FROM python:3.11 AS builder
-WORKDIR /app
-RUN apt-get update && apt-get install -y gcc
-COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+FROM python:3.11 AS builder  
+WORKDIR /app  
+RUN apt-get update && apt-get install -y gcc  
+COPY requirements.txt .  
+RUN pip install --user --no-cache-dir -r requirements.txt  
 
 # Production légère
-FROM python:3.11-slim
-WORKDIR /app
+FROM python:3.11-slim  
+WORKDIR /app  
 # Copier seulement les packages installés
-COPY --from=builder /root/.local /root/.local
-COPY . .
-ENV PATH=/root/.local/bin:$PATH
-CMD ["python", "app.py"]
+COPY --from=builder /root/.local /root/.local  
+COPY . .  
+ENV PATH=/root/.local/bin:$PATH  
+CMD ["python", "app.py"]  
 ```
 
 ### Builds multi-stages avec plusieurs artefacts
 
 ```dockerfile
 # Stage 1: Build frontend
-FROM node:18 AS frontend-builder
-WORKDIR /frontend
-COPY frontend/package*.json ./
-RUN npm ci
-COPY frontend/ .
-RUN npm run build
+FROM node:18 AS frontend-builder  
+WORKDIR /frontend  
+COPY frontend/package*.json ./  
+RUN npm ci  
+COPY frontend/ .  
+RUN npm run build  
 
 # Stage 2: Build backend
-FROM golang:1.21 AS backend-builder
-WORKDIR /backend
-COPY backend/go.* ./
-RUN go mod download
-COPY backend/ .
-RUN go build -o server
+FROM golang:1.23 AS backend-builder  
+WORKDIR /backend  
+COPY backend/go.* ./  
+RUN go mod download  
+COPY backend/ .  
+RUN go build -o server  
 
 # Stage 3: Production finale
-FROM alpine:latest
-RUN apk add --no-cache ca-certificates
-COPY --from=backend-builder /backend/server /server
-COPY --from=frontend-builder /frontend/dist /static
-EXPOSE 8080
-CMD ["/server"]
+FROM alpine:latest  
+RUN apk add --no-cache ca-certificates  
+COPY --from=backend-builder /backend/server /server  
+COPY --from=frontend-builder /frontend/dist /static  
+EXPOSE 8080  
+CMD ["/server"]  
 ```
 
 ### Construire jusqu'à une étape spécifique
@@ -611,9 +611,9 @@ docker history mon-app:latest
 
 Sortie :
 ```
-IMAGE          CREATED        CREATED BY                                      SIZE
-a1b2c3d4e5f6   2 hours ago    CMD ["python" "app.py"]                        0B
-f6e5d4c3b2a1   2 hours ago    COPY . . # buildkit                            15.2MB
+IMAGE          CREATED        CREATED BY                                      SIZE  
+a1b2c3d4e5f6   2 hours ago    CMD ["python" "app.py"]                        0B  
+f6e5d4c3b2a1   2 hours ago    COPY . . # buildkit                            15.2MB  
 ...
 ```
 
@@ -630,8 +630,8 @@ docker history mon-app:latest --human --no-trunc
 brew install dive
 
 # Linux
-wget https://github.com/wagoodman/dive/releases/download/v0.11.0/dive_0.11.0_linux_amd64.deb
-sudo dpkg -i dive_0.11.0_linux_amd64.deb
+wget https://github.com/wagoodman/dive/releases/download/v0.11.0/dive_0.11.0_linux_amd64.deb  
+sudo dpkg -i dive_0.11.0_linux_amd64.deb  
 ```
 
 **Utilisation** :
@@ -654,17 +654,17 @@ Dive affiche :
 
 IMAGE=$1
 
-echo "=== Taille totale ==="
-docker images $IMAGE --format "{{.Size}}"
+echo "=== Taille totale ==="  
+docker images $IMAGE --format "{{.Size}}"  
 
-echo ""
-echo "=== Top 5 couches les plus grosses ==="
-docker history $IMAGE --human --format "{{.Size}}\t{{.CreatedBy}}" | \
+echo ""  
+echo "=== Top 5 couches les plus grosses ==="  
+docker history $IMAGE --human --format "{{.Size}}\t{{.CreatedBy}}" | \  
   sort -hr | head -5
 
-echo ""
-echo "=== Analyse détaillée avec dive ==="
-dive $IMAGE
+echo ""  
+echo "=== Analyse détaillée avec dive ==="  
+dive $IMAGE  
 ```
 
 ### Identifier les fichiers inutiles
@@ -674,8 +674,8 @@ dive $IMAGE
 docker run -it mon-app:latest sh
 
 # Explorer
-du -sh /* | sort -hr
-find / -type f -size +10M
+du -sh /* | sort -hr  
+find / -type f -size +10M  
 ```
 
 ## Optimisation 7 : Astuces avancées
@@ -699,9 +699,9 @@ ADD app.py .
 COPY . .
 
 # ✅ Copie seulement le nécessaire
-COPY src/ ./src/
-COPY package.json package-lock.json ./
-COPY config/ ./config/
+COPY src/ ./src/  
+COPY package.json package-lock.json ./  
+COPY config/ ./config/  
 ```
 
 ### Utiliser .dockerignore efficacement
@@ -712,8 +712,8 @@ node_modules/
 .git/
 *.log
 .env
-tests/
-docs/
+tests/  
+docs/  
 *.md
 .vscode/
 .idea/
@@ -730,8 +730,8 @@ docs/
 RUN apt-get install -y package
 
 # ✅ Forcer non-interactif
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y --no-install-recommends package
+ENV DEBIAN_FRONTEND=noninteractive  
+RUN apt-get update && apt-get install -y --no-install-recommends package  
 ```
 
 ### Utiliser des variables pour éviter la duplication
@@ -751,13 +751,13 @@ RUN pip install --no-cache-dir $PYTHON_DEPS
 
 **Dockerfile non optimisé** :
 ```dockerfile
-FROM python:3.11
-WORKDIR /app
-COPY . .
-RUN pip install -r requirements.txt
-RUN apt-get update
-RUN apt-get install -y curl
-CMD ["python", "app.py"]
+FROM python:3.11  
+WORKDIR /app  
+COPY . .  
+RUN pip install -r requirements.txt  
+RUN apt-get update  
+RUN apt-get install -y curl  
+CMD ["python", "app.py"]  
 ```
 
 **Résultat** :
@@ -789,8 +789,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Installation Python (ordre optimisé)
-COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+COPY requirements.txt .  
+RUN pip install --user --no-cache-dir -r requirements.txt  
 
 # Image finale
 FROM python:3.11-slim
@@ -801,8 +801,8 @@ RUN useradd -m -u 1000 appuser
 WORKDIR /app
 
 # Copier seulement les packages installés
-COPY --from=builder /root/.local /home/appuser/.local
-COPY --chown=appuser:appuser . .
+COPY --from=builder /root/.local /home/appuser/.local  
+COPY --chown=appuser:appuser . .  
 
 # Variables d'environnement
 ENV PATH=/home/appuser/.local/bin:$PATH \
@@ -810,8 +810,8 @@ ENV PATH=/home/appuser/.local/bin:$PATH \
 
 USER appuser
 
-EXPOSE 8000
-CMD ["python", "app.py"]
+EXPOSE 8000  
+CMD ["python", "app.py"]  
 ```
 
 **Résultat** :
@@ -891,20 +891,20 @@ CMD ["python", "app.py"]
 #!/bin/bash
 # compare-images.sh
 
-echo "Image 1: $1"
-docker images $1 --format "Size: {{.Size}}"
-echo ""
+echo "Image 1: $1"  
+docker images $1 --format "Size: {{.Size}}"  
+echo ""  
 
-echo "Image 2: $2"
-docker images $2 --format "Size: {{.Size}}"
-echo ""
+echo "Image 2: $2"  
+docker images $2 --format "Size: {{.Size}}"  
+echo ""  
 
-echo "Top 5 couches Image 1:"
-docker history $1 --human | head -6
-echo ""
+echo "Top 5 couches Image 1:"  
+docker history $1 --human | head -6  
+echo ""  
 
-echo "Top 5 couches Image 2:"
-docker history $2 --human | head -6
+echo "Top 5 couches Image 2:"  
+docker history $2 --human | head -6  
 ```
 
 ## Résumé
@@ -921,17 +921,17 @@ Dans cette section, vous avez appris à **optimiser vos images Docker** :
 
 **Points clés à retenir** :
 
-🔑 **L'ordre compte** : Fichiers de dépendances avant le code
-🔑 **Nettoyer dans la même couche** : Suppression dans le même RUN
-🔑 **Alpine = léger** : Mais peut nécessiter des adaptations
-🔑 **Multi-stage = puissant** : Image finale ultra-légère
+🔑 **L'ordre compte** : Fichiers de dépendances avant le code  
+🔑 **Nettoyer dans la même couche** : Suppression dans le même RUN  
+🔑 **Alpine = léger** : Mais peut nécessiter des adaptations  
+🔑 **Multi-stage = puissant** : Image finale ultra-légère  
 🔑 **Mesurer** : docker history et dive pour analyser
 
 ### Exemple de transformation
 
-**Avant** : 1200 MB, 5 min de build
-**Après** : 150 MB, 30s de rebuild
-**Gain** : 92% d'espace, 10x plus rapide
+**Avant** : 1200 MB, 5 min de build  
+**Après** : 150 MB, 30s de rebuild  
+**Gain** : 92% d'espace, 10x plus rapide  
 
 Vous savez maintenant créer des images Docker **professionnelles, optimisées et efficaces** ! Cette compétence est essentielle pour des déploiements rapides et des coûts d'infrastructure réduits.
 
