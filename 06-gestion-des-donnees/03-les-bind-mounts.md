@@ -97,8 +97,8 @@ Créons un exemple simple avec un serveur web Nginx qui affiche une page HTML.
 
 ```bash
 # Créer un dossier pour notre site web
-mkdir ~/mon-site-web
-cd ~/mon-site-web
+mkdir ~/mon-site-web  
+cd ~/mon-site-web  
 
 # Créer une page HTML simple
 echo '<h1>Bonjour depuis mon bind mount !</h1>' > index.html
@@ -149,8 +149,8 @@ mon-app-nodejs/
 ### Fichier app.js
 
 ```javascript
-const express = require('express');
-const app = express();
+const express = require('express');  
+const app = express();  
 
 app.get('/', (req, res) => {
   res.send('Bonjour depuis Node.js !');
@@ -241,8 +241,8 @@ Vous n'êtes pas limité aux dossiers. Vous pouvez monter un fichier spécifique
 
 ```bash
 # Créer une configuration personnalisée
-cat > ~/nginx.conf << EOF
-server {
+cat > ~/nginx.conf << EOF  
+server {  
     listen 80;
     location / {
         return 200 "Configuration personnalisée!";
@@ -357,8 +357,8 @@ Si le chemin source n'existe pas, Docker **créera un dossier vide** automatique
 ✅ **Bonne pratique :** Créez toujours le dossier avant de faire le bind mount.
 
 ```bash
-mkdir -p ~/mon-dossier
-docker run -v ~/mon-dossier:/app nginx
+mkdir -p ~/mon-dossier  
+docker run -v ~/mon-dossier:/app nginx  
 ```
 
 ### 4. Conflits avec des fichiers existants
@@ -391,8 +391,6 @@ Les bind mounts sont très utilisés dans les fichiers `docker-compose.yml` pour
 ### Exemple : Application web complète
 
 ```yaml
-version: '3.8'
-
 services:
   web:
     image: nginx
