@@ -66,22 +66,22 @@ docker ps
 
 ```bash
 # Application e-commerce
-ecommerce-web-prod
-ecommerce-api-prod
-ecommerce-db-prod
-ecommerce-cache-prod
-ecommerce-worker-prod-1
-ecommerce-worker-prod-2
+ecommerce-web-prod  
+ecommerce-api-prod  
+ecommerce-db-prod  
+ecommerce-cache-prod  
+ecommerce-worker-prod-1  
+ecommerce-worker-prod-2  
 
 # Blog personnel
-blog-frontend-dev
-blog-backend-dev
-blog-database-dev
+blog-frontend-dev  
+blog-backend-dev  
+blog-database-dev  
 
 # Projet d'analyse de données
-analytics-jupyter-dev
-analytics-postgres-dev
-analytics-redis-dev
+analytics-jupyter-dev  
+analytics-postgres-dev  
+analytics-redis-dev  
 ```
 
 ### Règles de nommage
@@ -112,9 +112,9 @@ docker run -d --name ecommerce-web-prod nginx
 
 **Exemples :**
 ```
-docker.io/library/nginx:1.25-alpine
-ghcr.io/mycompany/myapp:1.2.3
-registry.example.com/frontend/web-app:latest
+docker.io/library/nginx:1.27-alpine  
+ghcr.io/mycompany/myapp:1.2.3  
+registry.example.com/frontend/web-app:latest  
 ```
 
 ### Stratégies de tagging
@@ -123,15 +123,15 @@ registry.example.com/frontend/web-app:latest
 
 ```bash
 # Format: major.minor.patch
-myapp:1.0.0
-myapp:1.0.1
-myapp:1.2.0
-myapp:2.0.0
+myapp:1.0.0  
+myapp:1.0.1  
+myapp:1.2.0  
+myapp:2.0.0  
 
 # Avec tags multiples
-docker tag myapp:1.2.3 myapp:1.2
-docker tag myapp:1.2.3 myapp:1
-docker tag myapp:1.2.3 myapp:latest
+docker tag myapp:1.2.3 myapp:1.2  
+docker tag myapp:1.2.3 myapp:1  
+docker tag myapp:1.2.3 myapp:latest  
 ```
 
 **Avantages :**
@@ -142,9 +142,9 @@ docker tag myapp:1.2.3 myapp:latest
 #### 2. Tags par environnement
 
 ```bash
-myapp:dev
-myapp:staging
-myapp:prod
+myapp:dev  
+myapp:staging  
+myapp:prod  
 ```
 
 **Utilisation :**
@@ -155,9 +155,9 @@ myapp:prod
 #### 3. Tags avec commit SHA (CI/CD)
 
 ```bash
-myapp:abc123f
-myapp:1.2.3-abc123f
-myapp:main-abc123f
+myapp:abc123f  
+myapp:1.2.3-abc123f  
+myapp:main-abc123f  
 ```
 
 **Avantages :**
@@ -168,8 +168,8 @@ myapp:main-abc123f
 #### 4. Tags avec date
 
 ```bash
-myapp:2024-01-15
-myapp:20240115-142030
+myapp:2024-01-15  
+myapp:20240115-142030  
 ```
 
 **Utilisation :**
@@ -186,9 +186,9 @@ docker pull myapp:1.2.3
 docker pull myapp:latest
 
 # ✅ BON : Multiples tags pour la même image
-docker tag myapp:1.2.3 myapp:1.2
-docker tag myapp:1.2.3 myapp:1
-docker tag myapp:1.2.3 myapp:latest
+docker tag myapp:1.2.3 myapp:1.2  
+docker tag myapp:1.2.3 myapp:1  
+docker tag myapp:1.2.3 myapp:latest  
 
 # ✅ BON : Nom d'image descriptif
 company/payment-service:1.2.3
@@ -201,19 +201,19 @@ company/app1:v1
 
 ```bash
 # Image de développement
-myapp:dev-20240115
-myapp:dev-latest
+myapp:dev-20240115  
+myapp:dev-latest  
 
 # Image de staging
-myapp:staging-1.2.3-rc1
-myapp:staging-latest
+myapp:staging-1.2.3-rc1  
+myapp:staging-latest  
 
 # Image de production
-myapp:1.2.3
-myapp:1.2
-myapp:1
-myapp:latest
-myapp:stable
+myapp:1.2.3  
+myapp:1.2  
+myapp:1  
+myapp:latest  
+myapp:stable  
 ```
 
 ## Conventions de nommage pour les volumes
@@ -235,15 +235,15 @@ myapp:stable
 
 ```bash
 # Volumes pour une application e-commerce
-ecommerce-db-data-prod
-ecommerce-web-uploads-prod
-ecommerce-api-logs-prod
-ecommerce-redis-data-prod
+ecommerce-db-data-prod  
+ecommerce-web-uploads-prod  
+ecommerce-api-logs-prod  
+ecommerce-redis-data-prod  
 
 # Volumes pour un blog
-blog-postgres-data-dev
-blog-media-uploads-dev
-blog-nginx-config-dev
+blog-postgres-data-dev  
+blog-media-uploads-dev  
+blog-nginx-config-dev  
 ```
 
 ### Application avec Docker
@@ -262,8 +262,6 @@ docker volume inspect ecommerce-db-data-prod
 ### Avec Docker Compose
 
 ```yaml
-version: '3.8'
-
 services:
   db:
     image: postgres:15
@@ -301,14 +299,14 @@ volumes:
 
 ```bash
 # Réseaux pour une application
-myapp-frontend-prod
-myapp-backend-prod
-myapp-database-prod
+myapp-frontend-prod  
+myapp-backend-prod  
+myapp-database-prod  
 
 # Architecture microservices
-services-api-gateway-prod
-services-internal-prod
-services-monitoring-prod
+services-api-gateway-prod  
+services-internal-prod  
+services-monitoring-prod  
 ```
 
 ### Application avec Docker
@@ -327,8 +325,6 @@ docker network connect myapp-backend-prod myapp-api-prod
 ### Avec Docker Compose
 
 ```yaml
-version: '3.8'
-
 services:
   web:
     image: myapp-frontend:latest
@@ -419,7 +415,7 @@ mon-projet-simple/
 
 #### README.md
 
-```markdown
+````markdown
 # Mon Projet
 
 ## Description
@@ -433,13 +429,13 @@ Application web avec architecture microservices
 
 ### Développement
 ```bash
-cp .env.example .env
-docker-compose -f docker-compose.dev.yml up
+cp .env.example .env  
+docker compose -f docker-compose.dev.yml up  
 ```
 
 ### Production
 ```bash
-docker-compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d
 ```
 
 ## Services
@@ -451,18 +447,18 @@ docker-compose -f docker-compose.prod.yml up -d
 ## Commandes utiles
 ```bash
 # Voir les logs
-docker-compose logs -f
+docker compose logs -f
 
 # Arrêter tous les services
-docker-compose down
+docker compose down
 
 # Reconstruire les images
-docker-compose build --no-cache
+docker compose build --no-cache
 ```
 
 ## Variables d'environnement
 Voir `.env.example` pour la liste complète
-```
+````
 
 #### .dockerignore
 
@@ -473,9 +469,9 @@ Voir `.env.example` pour la liste complète
 .gitattributes
 
 # Documentation
-README.md
-CHANGELOG.md
-docs/
+README.md  
+CHANGELOG.md  
+docs/  
 
 # CI/CD
 .github/
@@ -483,8 +479,8 @@ docs/
 .circleci/
 
 # Dépendances
-node_modules/
-venv/
+node_modules/  
+venv/  
 __pycache__/
 *.pyc
 
@@ -500,9 +496,9 @@ __pycache__/
 *.swo
 
 # Build
-dist/
-build/
-target/
+dist/  
+build/  
+target/  
 *.log
 
 # Tests
@@ -532,13 +528,13 @@ secrets/
 .docker/
 
 # Dépendances
-node_modules/
-venv/
+node_modules/  
+venv/  
 __pycache__/
 
 # Build
-dist/
-build/
+dist/  
+build/  
 
 # Logs
 logs/
@@ -557,8 +553,6 @@ logs/
 ### Fichier docker-compose.yml de base
 
 ```yaml
-version: '3.8'
-
 # Définir les services dans un ordre logique
 services:
   # 1. Base de données
@@ -654,8 +648,6 @@ networks:
 #### docker-compose.dev.yml
 
 ```yaml
-version: '3.8'
-
 services:
   database:
     ports:
@@ -695,8 +687,6 @@ services:
 #### docker-compose.prod.yml
 
 ```yaml
-version: '3.8'
-
 services:
   api:
     image: registry.example.com/myapp-api:${VERSION}
@@ -723,10 +713,10 @@ services:
 
 ```bash
 # Développement
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 
 # Production
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 
 ## Utilisation des labels
@@ -738,21 +728,21 @@ Les labels permettent d'ajouter des métadonnées à vos ressources Docker.
 ```dockerfile
 FROM node:18-alpine
 
-LABEL maintainer="dev@example.com"
-LABEL version="1.2.3"
-LABEL description="API Backend pour Mon Application"
-LABEL project="myapp"
-LABEL environment="production"
-LABEL com.example.vendor="My Company"
-LABEL com.example.release-date="2024-01-15"
-LABEL com.example.version.major="1"
-LABEL com.example.version.minor="2"
-LABEL com.example.version.patch="3"
+LABEL maintainer="dev@example.com"  
+LABEL version="1.2.3"  
+LABEL description="API Backend pour Mon Application"  
+LABEL project="myapp"  
+LABEL environment="production"  
+LABEL com.example.vendor="My Company"  
+LABEL com.example.release-date="2024-01-15"  
+LABEL com.example.version.major="1"  
+LABEL com.example.version.minor="2"  
+LABEL com.example.version.patch="3"  
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm ci --omit=dev  
+COPY . .  
 
 CMD ["node", "server.js"]
 ```
@@ -760,8 +750,6 @@ CMD ["node", "server.js"]
 ### Labels avec Docker Compose
 
 ```yaml
-version: '3.8'
-
 services:
   api:
     image: myapp-api:latest
@@ -812,15 +800,15 @@ docker rmi $(docker images -q --filter "label=com.example.environment=dev")
 
 set -e
 
-VERSION=${1:-latest}
-REGISTRY="registry.example.com"
-PROJECT="myapp"
+VERSION=${1:-latest}  
+REGISTRY="registry.example.com"  
+PROJECT="myapp"  
 
 echo "Building images version: $VERSION"
 
 # Build backend
-echo "Building backend..."
-docker build \
+echo "Building backend..."  
+docker build \  
   -t ${REGISTRY}/${PROJECT}-api:${VERSION} \
   -t ${REGISTRY}/${PROJECT}-api:latest \
   --label "version=${VERSION}" \
@@ -828,8 +816,8 @@ docker build \
   ./backend
 
 # Build frontend
-echo "Building frontend..."
-docker build \
+echo "Building frontend..."  
+docker build \  
   -t ${REGISTRY}/${PROJECT}-web:${VERSION} \
   -t ${REGISTRY}/${PROJECT}-web:latest \
   --label "version=${VERSION}" \
@@ -848,8 +836,8 @@ echo "Build completed successfully!"
 
 set -e
 
-ENVIRONMENT=${1:-staging}
-VERSION=${2:-latest}
+ENVIRONMENT=${1:-staging}  
+VERSION=${2:-latest}  
 
 echo "Deploying to ${ENVIRONMENT} with version ${VERSION}"
 
@@ -859,13 +847,13 @@ export VERSION=${VERSION}
 # Déployer selon l'environnement
 case ${ENVIRONMENT} in
   dev)
-    docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+    docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
     ;;
   staging)
-    docker-compose -f docker-compose.yml -f docker-compose.staging.yml up -d
+    docker compose -f docker-compose.yml -f docker-compose.staging.yml up -d
     ;;
   prod)
-    docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+    docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
     ;;
   *)
     echo "Environment inconnu: ${ENVIRONMENT}"
@@ -888,24 +876,24 @@ set -e
 echo "Nettoyage des ressources Docker..."
 
 # Arrêter tous les conteneurs du projet
-echo "Arrêt des conteneurs..."
-docker-compose down
+echo "Arrêt des conteneurs..."  
+docker compose down  
 
 # Supprimer les images non utilisées
-echo "Suppression des images non utilisées..."
-docker image prune -f --filter "label=com.example.project=myapp"
+echo "Suppression des images non utilisées..."  
+docker image prune -f --filter "label=com.example.project=myapp"  
 
 # Supprimer les volumes orphelins
-echo "Suppression des volumes orphelins..."
-docker volume prune -f
+echo "Suppression des volumes orphelins..."  
+docker volume prune -f  
 
 # Supprimer les réseaux non utilisés
-echo "Suppression des réseaux non utilisés..."
-docker network prune -f
+echo "Suppression des réseaux non utilisés..."  
+docker network prune -f  
 
 # Afficher l'espace libéré
-echo "Espace disque libéré!"
-docker system df
+echo "Espace disque libéré!"  
+docker system df  
 
 echo "Nettoyage terminé!"
 ```
@@ -925,9 +913,9 @@ chmod +x scripts/*.sh
 FROM node:18-alpine
 
 # Métadonnées de l'image
-LABEL maintainer="dev@example.com"
-LABEL version="1.2.3"
-LABEL description="Backend API pour l'application MyApp"
+LABEL maintainer="dev@example.com"  
+LABEL version="1.2.3"  
+LABEL description="Backend API pour l'application MyApp"  
 
 # Installer les dépendances système nécessaires
 # - python3 : requis pour certains packages npm
@@ -943,7 +931,7 @@ COPY package*.json ./
 
 # Installer les dépendances de production uniquement
 # --no-cache-dir : évite de stocker le cache npm
-RUN npm ci --only=production && \
+RUN npm ci --omit=dev && \
     npm cache clean --force
 
 # Copier le code source de l'application
@@ -970,8 +958,6 @@ CMD ["node", "server.js"]
 ### Commenter Docker Compose
 
 ```yaml
-version: '3.8'
-
 # Configuration de l'application MyApp
 # Architecture: Frontend React + Backend Node.js + PostgreSQL + Redis
 
@@ -1158,7 +1144,6 @@ Permet de surcharger des configurations sans dupliquer :
 
 ```yaml
 # docker-compose.yml (base)
-version: '3.8'
 services:
   app:
     image: myapp:latest
@@ -1168,7 +1153,6 @@ services:
 
 ```yaml
 # docker-compose.override.yml (automatiquement chargé en dev)
-version: '3.8'
 services:
   app:
     build: .
@@ -1192,27 +1176,27 @@ help:
 	@echo "  make logs     - Voir les logs"
 
 build:
-	docker-compose build
+	docker compose build
 
 up:
-	docker-compose up -d
+	docker compose up -d
 
 down:
-	docker-compose down
+	docker compose down
 
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 clean:
-	docker-compose down -v
+	docker compose down -v
 	docker system prune -f
 ```
 
 Utilisation :
 ```bash
-make build
-make up
-make logs
+make build  
+make up  
+make logs  
 ```
 
 ## Conclusion
