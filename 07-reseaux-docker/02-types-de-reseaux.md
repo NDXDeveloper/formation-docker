@@ -83,8 +83,8 @@ docker run -d --name conteneur1 nginx
 docker network create mon-bridge
 
 # Lancer des conteneurs sur ce bridge
-docker run -d --name web --network mon-bridge nginx
-docker run -d --name api --network mon-bridge node:18
+docker run -d --name web --network mon-bridge nginx  
+docker run -d --name api --network mon-bridge node:18  
 ```
 
 **Avantages :**
@@ -214,15 +214,15 @@ docker run -d --network host nginx
 ### Caractéristiques du mode Host
 
 #### Avantages
-✅ **Performances réseau maximales** - Pas de traduction d'adresse (NAT)
-✅ **Configuration simple** pour certains services
-✅ **Accès direct aux interfaces réseau de l'hôte**
+✅ **Performances réseau maximales** - Pas de traduction d'adresse (NAT)  
+✅ **Configuration simple** pour certains services  
+✅ **Accès direct aux interfaces réseau de l'hôte**  
 ✅ **Idéal pour les outils de monitoring réseau**
 
 #### Inconvénients
-❌ **Aucune isolation réseau** - Moins sécurisé
-❌ **Conflits de ports** possibles avec des services de l'hôte
-❌ **Moins portable** - Dépend de la configuration réseau de l'hôte
+❌ **Aucune isolation réseau** - Moins sécurisé  
+❌ **Conflits de ports** possibles avec des services de l'hôte  
+❌ **Moins portable** - Dépend de la configuration réseau de l'hôte  
 ❌ **Fonctionne uniquement sur Linux** (limitation Docker Desktop sur Windows/macOS)
 
 ### Cas d'usage du réseau Host
@@ -318,14 +318,14 @@ ip addr
 ### Caractéristiques du mode None
 
 #### Avantages
-✅ **Sécurité maximale** - Aucune fuite réseau possible
-✅ **Isolation totale** - Parfait pour le traitement de données sensibles
-✅ **Pas de risque d'attaque réseau**
+✅ **Sécurité maximale** - Aucune fuite réseau possible  
+✅ **Isolation totale** - Parfait pour le traitement de données sensibles  
+✅ **Pas de risque d'attaque réseau**  
 ✅ **Performance** - Pas de surcharge réseau
 
 #### Inconvénients
-❌ **Aucune communication** - Très limitatif
-❌ **Pas d'accès Internet** - Impossible de télécharger quoi que ce soit
+❌ **Aucune communication** - Très limitatif  
+❌ **Pas d'accès Internet** - Impossible de télécharger quoi que ce soit  
 ❌ **Échange de données complexe** - Doit se faire via volumes ou stdin/stdout
 
 ### Quand utiliser le réseau None ?
@@ -468,16 +468,16 @@ Magiquement, `api` peut se connecter à `postgres-db` même s'ils sont sur des m
 ### Caractéristiques du réseau Overlay
 
 #### Avantages
-✅ **Communication multi-machines** - Cluster de conteneurs
-✅ **Scalabilité horizontale** - Ajoutez des machines facilement
-✅ **Haute disponibilité** - Redondance et failover
-✅ **Résolution DNS** entre tous les nœuds
+✅ **Communication multi-machines** - Cluster de conteneurs  
+✅ **Scalabilité horizontale** - Ajoutez des machines facilement  
+✅ **Haute disponibilité** - Redondance et failover  
+✅ **Résolution DNS** entre tous les nœuds  
 ✅ **Chiffrement** optionnel du trafic entre machines
 
 #### Inconvénients
-❌ **Complexité élevée** - Configuration et gestion
-❌ **Nécessite Docker Swarm ou Kubernetes**
-❌ **Performances** légèrement inférieures (encapsulation réseau)
+❌ **Complexité élevée** - Configuration et gestion  
+❌ **Nécessite Docker Swarm ou Kubernetes**  
+❌ **Performances** légèrement inférieures (encapsulation réseau)  
 ❌ **Debugging plus difficile**
 
 ### Configuration avancée : Chiffrement
@@ -576,10 +576,10 @@ Quel type de réseau choisir ?
 **Recommandation :** Bridge personnalisé
 
 ```bash
-docker network create dev-network
-docker run -d --network dev-network --name db postgres
-docker run -d --network dev-network --name api mon-api
-docker run -d --network dev-network -p 80:80 --name web mon-web
+docker network create dev-network  
+docker run -d --network dev-network --name db postgres  
+docker run -d --network dev-network --name api mon-api  
+docker run -d --network dev-network -p 80:80 --name web mon-web  
 ```
 
 #### Scénario 2 : Proxy inverse haute performance (Linux)
@@ -600,8 +600,8 @@ docker run --network none -v data:/data traitement-batch
 **Recommandation :** Overlay
 
 ```bash
-docker network create --driver overlay prod-network
-docker service create --network prod-network mon-service
+docker network create --driver overlay prod-network  
+docker service create --network prod-network mon-service  
 ```
 
 ## Commandes utiles par type de réseau
@@ -667,28 +667,28 @@ docker inspect conteneur | grep NetworkMode
 ## Bonnes pratiques par type
 
 ### Bridge
-✅ Créez des bridges personnalisés (pas le bridge par défaut)
-✅ Un bridge par projet ou application
-✅ Nommez clairement vos réseaux (`app-prod`, `app-dev`, etc.)
+✅ Créez des bridges personnalisés (pas le bridge par défaut)  
+✅ Un bridge par projet ou application  
+✅ Nommez clairement vos réseaux (`app-prod`, `app-dev`, etc.)  
 ✅ Documentez quels conteneurs sont sur quels réseaux
 
 ### Host
-⚠️ Utilisez uniquement quand nécessaire (performance critique)
-⚠️ Vérifiez les conflits de ports avant déploiement
-⚠️ Considérez les implications de sécurité
+⚠️ Utilisez uniquement quand nécessaire (performance critique)  
+⚠️ Vérifiez les conflits de ports avant déploiement  
+⚠️ Considérez les implications de sécurité  
 ⚠️ Testez sur l'OS cible (Linux uniquement)
 
 ### None
-✅ Parfait pour les traitements batch sensibles
-✅ Utilisez des volumes pour l'échange de données
-✅ Vérifiez que l'application n'a vraiment pas besoin de réseau
+✅ Parfait pour les traitements batch sensibles  
+✅ Utilisez des volumes pour l'échange de données  
+✅ Vérifiez que l'application n'a vraiment pas besoin de réseau  
 ✅ Documentez pourquoi le réseau est désactivé
 
 ### Overlay
-✅ Planifiez votre architecture de cluster en amont
-✅ Configurez correctement les pare-feu
-✅ Surveillez les performances réseau
-✅ Utilisez le chiffrement pour les données sensibles
+✅ Planifiez votre architecture de cluster en amont  
+✅ Configurez correctement les pare-feu  
+✅ Surveillez les performances réseau  
+✅ Utilisez le chiffrement pour les données sensibles  
 ✅ Commencez petit, scalez progressivement
 
 ## Limitations et considérations
@@ -727,9 +727,9 @@ docker inspect conteneur | grep NetworkMode
 docker network inspect mon-bridge
 
 # Si sur le bridge par défaut, créer un bridge personnalisé
-docker network create mon-bridge
-docker network connect mon-bridge conteneur1
-docker network connect mon-bridge conteneur2
+docker network create mon-bridge  
+docker network connect mon-bridge conteneur1  
+docker network connect mon-bridge conteneur2  
 ```
 
 ### Host : Conflit de port
