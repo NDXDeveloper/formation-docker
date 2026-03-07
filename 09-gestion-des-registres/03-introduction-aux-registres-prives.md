@@ -56,8 +56,8 @@ Votre code et vos configurations restent privés. Personne ne peut voir ce qu'il
 docker pull johndoe/mon-app-secrete:latest
 
 # ✅ Privé : authentification requise
-docker login private-registry.com
-docker pull private-registry.com/johndoe/mon-app-secrete:latest
+docker login private-registry.com  
+docker pull private-registry.com/johndoe/mon-app-secrete:latest  
 ```
 
 ### 2. Propriété intellectuelle
@@ -130,8 +130,8 @@ Il existe plusieurs options pour héberger un registre privé. Voyons les princi
 
 **Format des images** :
 ```
-ghcr.io/username/image:tag
-ghcr.io/organization/image:tag
+ghcr.io/username/image:tag  
+ghcr.io/organization/image:tag  
 ```
 
 **Idéal pour** : Projets open source, projets déjà sur GitHub.
@@ -180,9 +180,9 @@ registry.gitlab.com/username/project:tag
 
 **Idéal pour** : Applications déployées sur AWS, grandes entreprises.
 
-### 5. Google Container Registry (GCR) / Artifact Registry
+### 5. Google Artifact Registry
 
-**Description** : Service de registre Docker de Google Cloud.
+**Description** : Service de registre Docker de Google Cloud (successeur de Google Container Registry).
 
 **Avantages** :
 - ✅ Haute performance sur GCP
@@ -196,8 +196,8 @@ registry.gitlab.com/username/project:tag
 
 **Format des images** :
 ```
-gcr.io/project-id/image:tag
-europe-west1-docker.pkg.dev/project-id/repo/image:tag
+gcr.io/project-id/image:tag  
+europe-west1-docker.pkg.dev/project-id/repo/image:tag  
 ```
 
 **Idéal pour** : Applications sur Google Cloud Platform.
@@ -401,9 +401,9 @@ docker push ghcr.io/johndoe/mon-app:latest
 
 ```bash
 # Sur une autre machine
-docker login ghcr.io
-docker pull ghcr.io/johndoe/mon-app:latest
-docker run ghcr.io/johndoe/mon-app:latest
+docker login ghcr.io  
+docker pull ghcr.io/johndoe/mon-app:latest  
+docker run ghcr.io/johndoe/mon-app:latest  
 ```
 
 ## Sécurité des registres privés
@@ -474,8 +474,6 @@ Activez les logs pour tracer :
 Vous pouvez utiliser des images de registres privés dans vos fichiers `docker-compose.yml` :
 
 ```yaml
-version: '3.8'
-
 services:
   app:
     image: ghcr.io/johndoe/mon-app:latest
@@ -491,9 +489,9 @@ services:
 **Important** : Vous devez être connecté au registre avant de faire `docker compose up` :
 
 ```bash
-docker login ghcr.io
-docker login registry.mon-entreprise.com
-docker compose up -d
+docker login ghcr.io  
+docker login registry.mon-entreprise.com  
+docker compose up -d  
 ```
 
 ## Registre privé en CI/CD
@@ -513,17 +511,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build et Push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
@@ -647,8 +645,8 @@ docker pull johndoe/mon-app:latest
 docker tag johndoe/mon-app:latest ghcr.io/johndoe/mon-app:latest
 
 # 3. Push vers le nouveau registre
-docker login ghcr.io
-docker push ghcr.io/johndoe/mon-app:latest
+docker login ghcr.io  
+docker push ghcr.io/johndoe/mon-app:latest  
 
 # 4. Mettre à jour vos déploiements
 # Ancienne référence : johndoe/mon-app:latest
@@ -661,8 +659,6 @@ Vous pouvez utiliser plusieurs registres simultanément :
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
-
 services:
   frontend:
     image: ghcr.io/myorg/frontend:latest
