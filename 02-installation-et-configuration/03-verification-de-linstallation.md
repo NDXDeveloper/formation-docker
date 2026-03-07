@@ -56,10 +56,10 @@ docker --version
 
 Vous devriez voir quelque chose comme :
 ```
-Docker version 24.0.6, build ed223bc
+Docker version 27.x.x, build xxxxxxx
 ```
 
-Le numéro de version peut varier (24.x, 25.x, etc.), c'est normal. L'important est que la commande s'exécute sans erreur.
+Le numéro de version peut varier, c'est normal. L'important est que la commande s'exécute sans erreur.
 
 ### Interprétation
 
@@ -87,15 +87,15 @@ Cette commande affiche :
 Exemple de sortie :
 ```
 Client:
- Version:           24.0.6
- API version:       1.43
- Go version:        go1.20.7
+ Version:           27.x.x
+ API version:       1.47
+ Go version:        go1.22.x
  OS/Arch:           linux/amd64
 
 Server: Docker Engine
- Version:          24.0.6
- API version:      1.43 (minimum version 1.12)
- Go version:       go1.20.7
+ Version:          27.x.x
+ API version:      1.47 (minimum version 1.24)
+ Go version:       go1.22.x
  OS/Arch:          linux/amd64
 ```
 
@@ -123,7 +123,7 @@ Server:
   Paused: 0
   Stopped: 0
  Images: 0
- Server Version: 24.0.6
+ Server Version: 27.x.x
  Storage Driver: overlay2
  Kernel Version: 5.15.0
  Operating System: Ubuntu 22.04.3 LTS
@@ -182,14 +182,14 @@ Lorsque vous exécutez cette commande, Docker effectue plusieurs opérations :
 ### Résultat attendu
 
 ```
-Unable to find image 'hello-world:latest' locally
-latest: Pulling from library/hello-world
-c1ec31eb5944: Pull complete
-Digest: sha256:d211f485f2dd1dee407a80973c8f129f00d54604d2c90732e8e320e5038a0348
-Status: Downloaded newer image for hello-world:latest
+Unable to find image 'hello-world:latest' locally  
+latest: Pulling from library/hello-world  
+c1ec31eb5944: Pull complete  
+Digest: sha256:d211f485f2dd1dee407a80973c8f129f00d54604d2c90732e8e320e5038a0348  
+Status: Downloaded newer image for hello-world:latest  
 
-Hello from Docker!
-This message shows that your installation appears to be working correctly.
+Hello from Docker!  
+This message shows that your installation appears to be working correctly.  
 
 To generate this message, Docker took the following steps:
  1. The Docker client contacted the Docker daemon.
@@ -260,8 +260,8 @@ Une liste vide (juste l'en-tête) est normal : le conteneur `hello-world` s'est 
 
 **Pour `docker ps -a` :**
 ```
-CONTAINER ID   IMAGE         COMMAND    CREATED         STATUS                     PORTS     NAMES
-a1b2c3d4e5f6   hello-world   "/hello"   2 minutes ago   Exited (0) 2 minutes ago             zealous_tesla
+CONTAINER ID   IMAGE         COMMAND    CREATED         STATUS                     PORTS     NAMES  
+a1b2c3d4e5f6   hello-world   "/hello"   2 minutes ago   Exited (0) 2 minutes ago             zealous_tesla  
 ```
 
 ### Interprétation
@@ -303,8 +303,8 @@ docker image ls
 ### Résultat attendu
 
 ```
-REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
-hello-world   latest    d2c94e258dcb   7 months ago   13.3kB
+REPOSITORY    TAG       IMAGE ID       CREATED        SIZE  
+hello-world   latest    d2c94e258dcb   7 months ago   13.3kB  
 ```
 
 ### Interprétation
@@ -346,12 +346,12 @@ docker run -it ubuntu bash
 Docker va d'abord télécharger l'image Ubuntu (environ 70 Mo), puis vous verrez un prompt de shell :
 
 ```
-Unable to find image 'ubuntu:latest' locally
-latest: Pulling from library/ubuntu
+Unable to find image 'ubuntu:latest' locally  
+latest: Pulling from library/ubuntu  
 3153aa388d02: Pull complete
-Digest: sha256:0bced47fffa3361afa981854fcabcd4577cd43cebbb808cea2b1f33a3dd7f508
-Status: Downloaded newer image for ubuntu:latest
-root@a1b2c3d4e5f6:/#
+Digest: sha256:0bced47fffa3361afa981854fcabcd4577cd43cebbb808cea2b1f33a3dd7f508  
+Status: Downloaded newer image for ubuntu:latest  
+root@a1b2c3d4e5f6:/#  
 ```
 
 ### Interprétation
@@ -373,8 +373,8 @@ ls /
 ps aux
 
 # Créer un fichier
-echo "Hello from inside the container" > test.txt
-cat test.txt
+echo "Hello from inside the container" > test.txt  
+cat test.txt  
 ```
 
 **Pour sortir du conteneur :**
@@ -405,10 +405,10 @@ docker network ls
 ### Résultat attendu
 
 ```
-NETWORK ID     NAME      DRIVER    SCOPE
-a1b2c3d4e5f6   bridge    bridge    local
-g7h8i9j0k1l2   host      host      local
-m3n4o5p6q7r8   none      null      local
+NETWORK ID     NAME      DRIVER    SCOPE  
+a1b2c3d4e5f6   bridge    bridge    local  
+g7h8i9j0k1l2   host      host      local  
+m3n4o5p6q7r8   none      null      local  
 ```
 
 ### Interprétation
@@ -460,8 +460,8 @@ docker volume ls
 
 Résultat :
 ```
-DRIVER    VOLUME NAME
-local     test-volume
+DRIVER    VOLUME NAME  
+local     test-volume  
 ```
 
 **Inspectons le volume :**
@@ -473,7 +473,7 @@ Résultat :
 ```json
 [
     {
-        "CreatedAt": "2024-10-21T10:30:00Z",
+        "CreatedAt": "2025-xx-xxT10:30:00Z",
         "Driver": "local",
         "Labels": {},
         "Mountpoint": "/var/lib/docker/volumes/test-volume/_data",
@@ -509,7 +509,7 @@ docker compose version
 ### Résultat attendu
 
 ```
-Docker Compose version v2.23.0
+Docker Compose version v2.x.x
 ```
 
 Le numéro de version peut varier. L'important est que la commande fonctionne.
@@ -534,9 +534,9 @@ Vérifier que Docker peut gérer plusieurs conteneurs simultanément.
 
 **Lancer plusieurs conteneurs :**
 ```bash
-docker run -d nginx
-docker run -d nginx
-docker run -d nginx
+docker run -d nginx  
+docker run -d nginx  
+docker run -d nginx  
 ```
 
 L'option `-d` (detached) lance les conteneurs en arrière-plan.
