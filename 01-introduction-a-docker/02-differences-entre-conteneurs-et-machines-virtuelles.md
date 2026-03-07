@@ -37,7 +37,7 @@ Chaque appartement est totalement indépendant et possède tout ce dont il a bes
 ### Avantages des machines virtuelles
 
 - **Isolation complète** : Chaque VM est totalement isolée des autres
-- **Systèmes différents** : Vous pouvez faire tourner Windows, Linux et macOS simultanément
+- **Systèmes différents** : Vous pouvez faire tourner Windows et Linux simultanément sur un même hôte
 - **Sécurité robuste** : Une faille dans une VM n'affecte pas les autres
 - **Compatibilité** : Technologie mature et bien établie
 
@@ -85,7 +85,7 @@ C'est plus efficace car vous ne dupliquez pas la cuisine dans chaque chambre, ma
 
 ### Inconvénients des conteneurs
 
-- **Limites du noyau partagé** : Tous les conteneurs doivent être compatibles avec le système hôte (généralement Linux)
+- **Limites du noyau partagé** : Tous les conteneurs doivent être compatibles avec le noyau du système hôte (Linux ou Windows). On ne peut pas exécuter un conteneur Windows sur un hôte Linux, ni l'inverse, sans VM intermédiaire
 - **Isolation moins stricte** : Moins hermétique qu'une VM (bien que suffisant pour la plupart des cas)
 - **Sécurité à surveiller** : Une faille au niveau du noyau peut affecter tous les conteneurs
 
@@ -134,7 +134,7 @@ Vous voyez la différence ? Les conteneurs éliminent la couche des systèmes d'
 
 ### Quand utiliser des machines virtuelles ?
 
-- Vous devez exécuter différents systèmes d'exploitation (Windows ET Linux sur un hôte macOS)
+- Vous devez exécuter différents systèmes d'exploitation (Windows ET Linux sur un même hôte)
 - Vous avez besoin d'une isolation de sécurité maximale
 - Vous devez virtualiser un ordinateur complet avec son BIOS/UEFI
 - Vous travaillez avec des applications legacy qui nécessitent un OS spécifique
@@ -168,12 +168,12 @@ Imaginons que vous développez une application web avec ces composants :
 ### Avec des machines virtuelles
 
 Vous créeriez probablement :
-- 1 VM pour Nginx (4 Go de disque, 512 Mo de RAM)
-- 1 VM pour Python (4 Go de disque, 1 Go de RAM)
-- 1 VM pour PostgreSQL (4 Go de disque, 2 Go de RAM)
-- 1 VM pour Redis (4 Go de disque, 512 Mo de RAM)
+- 1 VM pour Nginx (10 Go de disque, 512 Mo de RAM)
+- 1 VM pour Python (10 Go de disque, 1 Go de RAM)
+- 1 VM pour PostgreSQL (10 Go de disque, 2 Go de RAM)
+- 1 VM pour Redis (10 Go de disque, 512 Mo de RAM)
 
-**Total** : 16 Go de disque, 4 Go de RAM minimum, plusieurs minutes de démarrage
+**Total** : ~40 Go de disque (chaque VM embarque un OS complet), 4 Go de RAM minimum, plusieurs minutes de démarrage
 
 ### Avec des conteneurs Docker
 
