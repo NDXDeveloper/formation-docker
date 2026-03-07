@@ -96,8 +96,8 @@ USER appuser
 WORKDIR /app
 
 # Copier et exécuter l'application
-COPY --chown=appuser:appuser app.py .
-CMD ["python3", "app.py"]
+COPY --chown=appuser:appuser app.py .  
+CMD ["python3", "app.py"]  
 ```
 
 **Vérification :** Vous pouvez vérifier sous quel utilisateur s'exécute votre conteneur :
@@ -197,8 +197,8 @@ docker run -e DATABASE_PASSWORD=monmotdepasse mon-image
 **b) Utiliser des fichiers de secrets (Docker Swarm) :**
 
 ```bash
-echo "monmotdepasse" | docker secret create db_password -
-docker service create --secret db_password mon-image
+echo "monmotdepasse" | docker secret create db_password -  
+docker service create --secret db_password mon-image  
 ```
 
 **c) Utiliser un fichier .env avec Docker Compose :**
@@ -249,15 +249,15 @@ FROM gcr.io/distroless/base
 
 ```dockerfile
 # Pour le développement
-FROM node:18
-RUN apt-get update && apt-get install -y vim curl
+FROM node:18  
+RUN apt-get update && apt-get install -y vim curl  
 
 # Pour la production - image minimale
-FROM node:18-alpine
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-CMD ["node", "app.js"]
+FROM node:18-alpine  
+COPY package*.json ./  
+RUN npm ci --omit=dev  
+COPY . .  
+CMD ["node", "app.js"]  
 ```
 
 ### 10. Isoler les réseaux
@@ -266,13 +266,13 @@ Par défaut, les conteneurs peuvent communiquer entre eux. Il est préférable d
 
 ```bash
 # Créer des réseaux séparés
-docker network create frontend-network
-docker network create backend-network
+docker network create frontend-network  
+docker network create backend-network  
 
 # Connecter les conteneurs aux réseaux appropriés
-docker run --network=frontend-network web-app
-docker run --network=backend-network --network=frontend-network api
-docker run --network=backend-network database
+docker run --network=frontend-network web-app  
+docker run --network=backend-network --network=frontend-network api  
+docker run --network=backend-network database  
 ```
 
 Dans cet exemple :
@@ -360,7 +360,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installer les dépendances en tant que root
-RUN npm ci --only=production && \
+RUN npm ci --omit=dev && \
     npm cache clean --force
 
 # Copier le code de l'application
