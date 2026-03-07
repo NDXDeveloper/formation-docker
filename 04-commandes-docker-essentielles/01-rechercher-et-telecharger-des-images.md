@@ -40,10 +40,10 @@ docker search nginx
 Cette commande retournera une liste d'images correspondantes avec plusieurs colonnes d'information :
 
 ```
-NAME                      DESCRIPTION                                     STARS     OFFICIAL
-nginx                     Official build of Nginx.                        19000     [OK]
-bitnami/nginx             Bitnami nginx Docker Image                      180
-nginx/nginx-ingress       NGINX and NGINX Plus Ingress Controllers...     89
+NAME                      DESCRIPTION                                     STARS     OFFICIAL  
+nginx                     Official build of Nginx.                        19000     [OK]  
+bitnami/nginx             Bitnami nginx Docker Image                      180  
+nginx/nginx-ingress       NGINX and NGINX Plus Ingress Controllers...     89  
 ...
 ```
 
@@ -102,15 +102,15 @@ Docker va alors :
 Vous verrez une sortie similaire à :
 
 ```
-Using default tag: latest
-latest: Pulling from library/nginx
-a2abf6c4d29d: Pull complete
-a9edb18cadd1: Pull complete
+Using default tag: latest  
+latest: Pulling from library/nginx  
+a2abf6c4d29d: Pull complete  
+a9edb18cadd1: Pull complete  
 589b7251471a: Pull complete
 ...
-Digest: sha256:0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31
-Status: Downloaded newer image for nginx:latest
-docker.io/library/nginx:latest
+Digest: sha256:0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31  
+Status: Downloaded newer image for nginx:latest  
+docker.io/library/nginx:latest  
 ```
 
 ## Comprendre les tags et les versions
@@ -134,13 +134,13 @@ docker pull nginx:latest
 Pour télécharger une version particulière, ajoutez le tag après le nom de l'image, séparé par deux points :
 
 ```bash
-docker pull nginx:1.25
+docker pull nginx:1.27
 ```
 
 Ou une version encore plus précise :
 
 ```bash
-docker pull nginx:1.25.3
+docker pull nginx:1.27.3
 ```
 
 ### Variantes d'images
@@ -152,7 +152,7 @@ Certaines images proposent différentes variantes avec des tags descriptifs :
 docker pull nginx:alpine
 
 # Version basée sur une version spécifique d'Alpine
-docker pull nginx:1.25-alpine
+docker pull nginx:1.27-alpine
 
 # Version basée sur Debian
 docker pull python:3.11-slim
@@ -181,10 +181,10 @@ docker image ls
 Cette commande affiche :
 
 ```
-REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
-nginx         latest    605c77e624dd   2 weeks ago    141MB
-nginx         alpine    8e75cbc5b25c   2 weeks ago    41MB
-python        3.11      a7a6f5d0f4e6   3 weeks ago    917MB
+REPOSITORY    TAG       IMAGE ID       CREATED        SIZE  
+nginx         latest    605c77e624dd   2 weeks ago    141MB  
+nginx         alpine    8e75cbc5b25c   2 weeks ago    41MB  
+python        3.11      a7a6f5d0f4e6   3 weeks ago    917MB  
 ```
 
 ## Télécharger depuis un registre privé
