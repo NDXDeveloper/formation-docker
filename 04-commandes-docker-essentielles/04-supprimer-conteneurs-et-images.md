@@ -23,11 +23,11 @@ docker system df
 
 Sortie exemple :
 ```
-TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
-Images          10        5         2.5GB     1.2GB (48%)
-Containers      15        3         150MB     145MB (96%)
-Local Volumes   5         2         500MB     300MB (60%)
-Build Cache     0         0         0B        0B
+TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE  
+Images          10        5         2.5GB     1.2GB (48%)  
+Containers      15        3         150MB     145MB (96%)  
+Local Volumes   5         2         500MB     300MB (60%)  
+Build Cache     0         0         0B        0B  
 ```
 
 Cette commande vous montre :
@@ -150,10 +150,10 @@ docker rmi nginx:alpine
 
 Si l'image n'est utilisée par aucun conteneur, Docker la supprime et affiche :
 ```
-Untagged: nginx:alpine
-Untagged: nginx:alpine@sha256:...
-Deleted: sha256:8e75cbc5b25c...
-Deleted: sha256:a2c3f4e5b6d7...
+Untagged: nginx:alpine  
+Untagged: nginx:alpine@sha256:...  
+Deleted: sha256:8e75cbc5b25c...  
+Deleted: sha256:a2c3f4e5b6d7...  
 ```
 
 ### Erreur courante : image en cours d'utilisation
@@ -241,7 +241,7 @@ Pour supprimer toutes les versions d'une image :
 docker rmi $(docker images nginx -q)
 ```
 
-Cela supprime toutes les images nginx (latest, alpine, 1.25, etc.).
+Cela supprime toutes les images nginx (latest, alpine, 1.27, etc.).
 
 ## La commande `docker prune` : nettoyage automatisé
 
@@ -261,8 +261,8 @@ docker container prune
 
 Docker vous demandera confirmation :
 ```
-WARNING! This will remove all stopped containers.
-Are you sure you want to continue? [y/N]
+WARNING! This will remove all stopped containers.  
+Are you sure you want to continue? [y/N]  
 ```
 
 Tapez `y` pour confirmer.
@@ -279,9 +279,9 @@ docker container prune --force
 
 **Exemple de sortie** :
 ```
-Deleted Containers:
-f4d5e8a9b2c1d3e4f5a6b7c8d9e0f1a2
-a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6
+Deleted Containers:  
+f4d5e8a9b2c1d3e4f5a6b7c8d9e0f1a2  
+a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6  
 9e8d7c6b5a4f3e2d1c0b9a8e7d6c5b4
 
 Total reclaimed space: 145MB
@@ -317,13 +317,13 @@ docker image prune --all
 
 **Exemple de sortie** :
 ```
-WARNING! This will remove all images without at least one container associated to them.
-Are you sure you want to continue? [y/N] y
+WARNING! This will remove all images without at least one container associated to them.  
+Are you sure you want to continue? [y/N] y  
 
-Deleted Images:
-untagged: nginx:alpine
-deleted: sha256:8e75cbc5b25c...
-deleted: sha256:a2c3f4e5b6d7...
+Deleted Images:  
+untagged: nginx:alpine  
+deleted: sha256:8e75cbc5b25c...  
+deleted: sha256:a2c3f4e5b6d7...  
 
 Total reclaimed space: 1.2GB
 ```
@@ -475,8 +475,8 @@ Pour repartir de zéro (⚠️ **destructif !**) :
 
 ```bash
 # Arrêter et supprimer tous les conteneurs
-docker stop $(docker ps -aq)
-docker rm $(docker ps -aq)
+docker stop $(docker ps -aq)  
+docker rm $(docker ps -aq)  
 
 # Supprimer toutes les images
 docker rmi $(docker images -q)
@@ -496,31 +496,31 @@ Créez un fichier `docker-cleanup.sh` :
 
 ```bash
 #!/bin/bash
-echo "🧹 Nettoyage Docker hebdomadaire"
-echo "================================"
+echo "🧹 Nettoyage Docker hebdomadaire"  
+echo "================================"  
 
-echo "📊 Espace avant nettoyage :"
-docker system df
+echo "📊 Espace avant nettoyage :"  
+docker system df  
 
-echo ""
-echo "🗑️  Suppression des conteneurs arrêtés..."
-docker container prune -f
+echo ""  
+echo "🗑️  Suppression des conteneurs arrêtés..."  
+docker container prune -f  
 
-echo "🗑️  Suppression des images dangling..."
-docker image prune -f
+echo "🗑️  Suppression des images dangling..."  
+docker image prune -f  
 
-echo "🗑️  Suppression des volumes non utilisés..."
-docker volume prune -f
+echo "🗑️  Suppression des volumes non utilisés..."  
+docker volume prune -f  
 
-echo "🗑️  Suppression des réseaux non utilisés..."
-docker network prune -f
+echo "🗑️  Suppression des réseaux non utilisés..."  
+docker network prune -f  
 
-echo ""
-echo "📊 Espace après nettoyage :"
-docker system df
+echo ""  
+echo "📊 Espace après nettoyage :"  
+docker system df  
 
-echo ""
-echo "✅ Nettoyage terminé !"
+echo ""  
+echo "✅ Nettoyage terminé !"  
 ```
 
 Rendez-le exécutable :
@@ -597,8 +597,8 @@ En production, documentez toujours vos actions :
 
 ```bash
 # Créer un log
-echo "$(date): docker system prune exécuté" >> /var/log/docker-maintenance.log
-docker system prune -f >> /var/log/docker-maintenance.log 2>&1
+echo "$(date): docker system prune exécuté" >> /var/log/docker-maintenance.log  
+docker system prune -f >> /var/log/docker-maintenance.log 2>&1  
 ```
 
 ### 6. Attention en production
