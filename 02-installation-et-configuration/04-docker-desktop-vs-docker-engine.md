@@ -83,7 +83,7 @@ Docker Desktop est idéal pour :
 | **Taille** | ~100 Mo | ~500-600 Mo |
 | **Ressources** | Minimales | Modérées (VM incluse) |
 | **Kubernetes** | Installation séparée | Intégré (optionnel) |
-| **Compose** | Installation séparée | Intégré |
+| **Compose** | Plugin inclus à l'installation | Intégré |
 | **Mises à jour** | Manuelles | Automatiques |
 | **Courbe d'apprentissage** | Moyenne | Facile |
 | **Performance** | Maximale (sur Linux) | Légèrement réduite |
@@ -188,10 +188,10 @@ Docker Desktop est idéal pour :
 **Avec Docker Engine :**
 ```bash
 # Vous devez tout faire en ligne de commande
-docker run -d -p 8080:80 nginx
-docker ps
-docker logs <container_id>
-docker stop <container_id>
+docker run -d -p 8080:80 nginx  
+docker ps  
+docker logs <container_id>  
+docker stop <container_id>  
 ```
 
 **Avec Docker Desktop :**
@@ -313,7 +313,6 @@ docker stop <container_id>
 - Dépannage moins intuitif
 
 **Outils :**
-- Compose à installer séparément
 - Pas de dashboard intégré
 - Monitoring externe nécessaire
 
@@ -527,10 +526,10 @@ Si vous utilisez Docker Engine et voulez passer à Docker Desktop :
 
 ### Docker Desktop est-il vraiment gratuit ?
 
-**Pour usage personnel :** Oui, totalement gratuit
-**Pour petites entreprises :** Oui (< 250 employés ET < 10M$ de revenu)
-**Pour grandes entreprises :** License payante requise
-**Pour l'éducation :** Gratuit
+**Pour usage personnel :** Oui, totalement gratuit  
+**Pour petites entreprises :** Oui (< 250 employés ET < 10M$ de revenu)  
+**Pour grandes entreprises :** Licence payante requise  
+**Pour l'éducation :** Gratuit  
 
 ### Docker Engine est-il moins puissant ?
 
