@@ -17,8 +17,8 @@ Imaginez une image Docker comme un **instantané figé** d'un système qui conti
 
 Pensez à une image Docker comme à un **disque d'installation** ou une **image ISO** d'un système d'exploitation. Tout comme vous pouvez installer Windows à partir d'un DVD sur plusieurs ordinateurs, vous pouvez créer plusieurs conteneurs à partir d'une seule image Docker.
 
-**Image = Le moule**
-**Conteneur = L'objet créé à partir du moule**
+**Image = Le moule**  
+**Conteneur = L'objet créé à partir du moule**  
 
 ## Caractéristiques principales des images
 
@@ -116,7 +116,7 @@ Les images Docker suivent une convention de nommage précise :
 ### Exemples expliqués
 
 - `nginx` → Image officielle de Nginx, tag "latest" par défaut
-- `nginx:1.24` → Image Nginx avec la version spécifique 1.24
+- `nginx:1.27` → Image Nginx avec la version spécifique 1.27
 - `ubuntu:22.04` → Image Ubuntu version 22.04
 - `node:18-alpine` → Image Node.js version 18 basée sur Alpine Linux (version ultra-légère)
 - `monnom/mon-app:v1.0` → Image personnelle, version 1.0
