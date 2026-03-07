@@ -99,10 +99,10 @@ docker login
 **Ce qui se passe** :
 ```bash
 $ docker login
-Login with your Docker ID to push and pull images from Docker Hub.
-Username: johndoe
-Password:
-Login Succeeded
+Login with your Docker ID to push and pull images from Docker Hub.  
+Username: johndoe  
+Password:  
+Login Succeeded  
 ```
 
 Entrez votre Docker ID (pas votre email) et votre mot de passe.
@@ -195,10 +195,10 @@ docker-id/nom-image:tag
 ### Exemples de noms valides
 
 ```
-johndoe/mon-app:latest
-johndoe/mon-app:v1.0
-johndoe/mon-site-web:production
-johndoe/api-users:2.3.1
+johndoe/mon-app:latest  
+johndoe/mon-app:v1.0  
+johndoe/mon-site-web:production  
+johndoe/api-users:2.3.1  
 ```
 
 ### Taguer votre image
@@ -222,9 +222,9 @@ docker images
 
 Vous verrez maintenant deux entrées (qui pointent vers la même image) :
 ```
-REPOSITORY           TAG       IMAGE ID       CREATED         SIZE
-mon-app              latest    abc123def456   5 minutes ago   25MB
-johndoe/mon-app      latest    abc123def456   5 minutes ago   25MB
+REPOSITORY           TAG       IMAGE ID       CREATED         SIZE  
+mon-app              latest    abc123def456   5 minutes ago   25MB  
+johndoe/mon-app      latest    abc123def456   5 minutes ago   25MB  
 ```
 
 **Note** : Elles ont le même IMAGE ID car c'est la même image, juste avec deux noms différents.
@@ -259,8 +259,8 @@ docker push johndoe/mon-app:latest
 $ docker push johndoe/mon-app:latest
 The push refers to repository [docker.io/johndoe/mon-app]
 5f70bf18a086: Pushed
-e2eb06d8af82: Pushed
-latest: digest: sha256:abc123... size: 1234
+e2eb06d8af82: Pushed  
+latest: digest: sha256:abc123... size: 1234  
 ```
 
 Docker envoie les layers de votre image sur Docker Hub. Les layers déjà présents (comme ceux de nginx:alpine) ne sont pas re-uploadés.
@@ -270,9 +270,9 @@ Docker envoie les layers de votre image sur Docker Hub. Les layers déjà prése
 Pour pousser tous les tags d'une image :
 
 ```bash
-docker push johndoe/mon-app:latest
-docker push johndoe/mon-app:1.0.0
-docker push johndoe/mon-app:prod
+docker push johndoe/mon-app:latest  
+docker push johndoe/mon-app:1.0.0  
+docker push johndoe/mon-app:prod  
 ```
 
 Ou en une seule commande (pousse tous les tags) :
@@ -315,7 +315,7 @@ Sur la page de votre repository, vous verrez :
 3. Cliquez sur **Edit**
 4. Ajoutez une description en Markdown :
 
-```markdown
+````markdown
 # Mon Application Docker
 
 Cette application est un exemple de site web conteneurisé avec Nginx.
@@ -333,7 +333,7 @@ Puis visitez http://localhost:8080
 - `latest` : Dernière version stable
 - `1.0.0` : Version 1.0.0
 - `dev` : Version de développement
-```
+````
 
 Cette description apparaîtra sur Docker Hub et aidera les autres développeurs à utiliser votre image.
 
@@ -360,8 +360,6 @@ docker run -d -p 8080:80 johndoe/mon-app:latest
 Vous pouvez aussi utiliser votre image dans un `docker-compose.yml` :
 
 ```yaml
-version: '3.8'
-
 services:
   web:
     image: johndoe/mon-app:latest
@@ -455,8 +453,8 @@ Voici le processus complet du développement à la publication :
 
 ```bash
 # Créer votre Dockerfile et votre application
-nano Dockerfile
-nano index.html
+nano Dockerfile  
+nano index.html  
 ```
 
 ### 2. Construire l'image
@@ -482,23 +480,23 @@ docker login
 ### 5. Taguer l'image
 
 ```bash
-docker tag mon-app johndoe/mon-app:1.0.0
-docker tag mon-app johndoe/mon-app:latest
+docker tag mon-app johndoe/mon-app:1.0.0  
+docker tag mon-app johndoe/mon-app:latest  
 ```
 
 ### 6. Pousser sur Docker Hub
 
 ```bash
-docker push johndoe/mon-app:1.0.0
-docker push johndoe/mon-app:latest
+docker push johndoe/mon-app:1.0.0  
+docker push johndoe/mon-app:latest  
 ```
 
 ### 7. Utiliser l'image ailleurs
 
 ```bash
 # Sur un serveur de production
-docker pull johndoe/mon-app:latest
-docker run -d -p 80:80 johndoe/mon-app:latest
+docker pull johndoe/mon-app:latest  
+docker run -d -p 80:80 johndoe/mon-app:latest  
 ```
 
 ## Bonnes pratiques pour les tags
@@ -507,23 +505,23 @@ docker run -d -p 80:80 johndoe/mon-app:latest
 
 ```bash
 # ✅ Bon : versions explicites
-docker push johndoe/mon-app:1.0.0
-docker push johndoe/mon-app:1.0.1
-docker push johndoe/mon-app:2.0.0
+docker push johndoe/mon-app:1.0.0  
+docker push johndoe/mon-app:1.0.1  
+docker push johndoe/mon-app:2.0.0  
 
 # ❌ Moins clair
-docker push johndoe/mon-app:v1
-docker push johndoe/mon-app:version2
+docker push johndoe/mon-app:v1  
+docker push johndoe/mon-app:version2  
 ```
 
 ### 2. Maintenez un tag "latest"
 
 ```bash
 # Toujours pousser latest avec la dernière version stable
-docker tag mon-app johndoe/mon-app:2.0.0
-docker tag mon-app johndoe/mon-app:latest
-docker push johndoe/mon-app:2.0.0
-docker push johndoe/mon-app:latest
+docker tag mon-app johndoe/mon-app:2.0.0  
+docker tag mon-app johndoe/mon-app:latest  
+docker push johndoe/mon-app:2.0.0  
+docker push johndoe/mon-app:latest  
 ```
 
 Le tag `latest` doit pointer vers la dernière version stable.
@@ -532,9 +530,9 @@ Le tag `latest` doit pointer vers la dernière version stable.
 
 ```bash
 # Pour différents environnements
-johndoe/mon-app:dev
-johndoe/mon-app:staging
-johndoe/mon-app:prod
+johndoe/mon-app:dev  
+johndoe/mon-app:staging  
+johndoe/mon-app:prod  
 ```
 
 ### 4. Incluez le SHA Git si pertinent
@@ -555,8 +553,8 @@ docker push johndoe/mon-app:1.0.0  # contenu A
 docker push johndoe/mon-app:1.0.0  # contenu B différent !
 
 # ✅ Bon : créer un nouveau tag
-docker push johndoe/mon-app:1.0.0
-docker push johndoe/mon-app:1.0.1  # nouvelle version
+docker push johndoe/mon-app:1.0.0  
+docker push johndoe/mon-app:1.0.1  # nouvelle version  
 ```
 
 ## Automatisation avec GitHub Actions
@@ -576,16 +574,16 @@ jobs:
   push:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Se connecter à Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build et Push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
@@ -656,7 +654,7 @@ Docker Hub n'est pas le seul registre d'images Docker :
 - Hautement évolutif
 - Idéal pour les déploiements AWS
 
-### Google Container Registry
+### Google Artifact Registry
 - Service Google Cloud
 - Intégration avec GKE
 - Performant
@@ -676,8 +674,8 @@ Docker Hub n'est pas le seul registre d'images Docker :
 
 **Solution** :
 ```bash
-docker logout
-docker login
+docker logout  
+docker login  
 # Vérifiez votre Docker ID et mot de passe
 ```
 
