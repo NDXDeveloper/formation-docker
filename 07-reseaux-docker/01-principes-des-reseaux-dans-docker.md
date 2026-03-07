@@ -154,10 +154,10 @@ docker network ls
 **Sortie typique :**
 
 ```
-NETWORK ID     NAME      DRIVER    SCOPE
-abc123def456   bridge    bridge    local
-def456ghi789   host      host      local
-ghi789jkl012   none      null      local
+NETWORK ID     NAME      DRIVER    SCOPE  
+abc123def456   bridge    bridge    local  
+def456ghi789   host      host      local  
+ghi789jkl012   none      null      local  
 ```
 
 - **bridge** : Le réseau par défaut pour les conteneurs
@@ -186,8 +186,8 @@ Vous pouvez créer vos propres réseaux. C'est la méthode **recommandée** car 
 docker network create mon-reseau
 
 # Lancer des conteneurs sur ce réseau
-docker run -d --name ma-db --network mon-reseau postgres
-docker run -d --name mon-app --network mon-reseau mon-application
+docker run -d --name ma-db --network mon-reseau postgres  
+docker run -d --name mon-app --network mon-reseau mon-application  
 ```
 
 **Avantage :** `mon-app` peut maintenant se connecter à `ma-db` simplement en utilisant le nom `ma-db` comme nom d'hôte !
@@ -248,8 +248,8 @@ docker run -d \
 
 Dans le code de `nodejs-app`, vous pouvez simplement vous connecter à :
 ```javascript
-host: 'postgres-db',  // Le nom du conteneur !
-port: 5432
+host: 'postgres-db',  // Le nom du conteneur !  
+port: 5432  
 ```
 
 Docker résout automatiquement `postgres-db` vers l'adresse IP correcte.
@@ -352,12 +352,12 @@ docker port mon-conteneur
 
 ```bash
 # ✅ OK
-docker run -d -p 8080:80 nginx
-docker run -d -p 8081:80 nginx
+docker run -d -p 8080:80 nginx  
+docker run -d -p 8081:80 nginx  
 
 # ❌ ERREUR - Port 8080 déjà utilisé
-docker run -d -p 8080:80 nginx
-docker run -d -p 8080:80 apache
+docker run -d -p 8080:80 nginx  
+docker run -d -p 8080:80 apache  
 ```
 
 ## Adresses IP et sous-réseaux
@@ -410,8 +410,8 @@ Si nécessaire, un conteneur peut appartenir à plusieurs réseaux :
 
 ```bash
 # Créer deux réseaux
-docker network create frontend
-docker network create backend
+docker network create frontend  
+docker network create backend  
 
 # Lancer un conteneur
 docker run -d --name app --network frontend mon-app
@@ -545,16 +545,16 @@ docker network prune
 
 ❌ **À éviter :**
 ```bash
-docker run -d --name app1 mon-app
-docker run -d --name app2 mon-app
+docker run -d --name app1 mon-app  
+docker run -d --name app2 mon-app  
 # Utilise le réseau bridge par défaut (pas de DNS)
 ```
 
 ✅ **Recommandé :**
 ```bash
-docker network create mon-reseau
-docker run -d --name app1 --network mon-reseau mon-app
-docker run -d --name app2 --network mon-reseau mon-app
+docker network create mon-reseau  
+docker run -d --name app1 --network mon-reseau mon-app  
+docker run -d --name app2 --network mon-reseau mon-app  
 # DNS automatique, isolation, meilleure gestion
 ```
 
@@ -563,9 +563,9 @@ docker run -d --name app2 --network mon-reseau mon-app
 Créez différents réseaux selon les besoins de communication :
 
 ```bash
-docker network create frontend   # Pour les services web
-docker network create backend    # Pour les APIs
-docker network create database   # Pour les BDD
+docker network create frontend   # Pour les services web  
+docker network create backend    # Pour les APIs  
+docker network create database   # Pour les BDD  
 ```
 
 ### 3. N'exposez que ce qui est nécessaire
@@ -574,14 +574,14 @@ Seuls les services qui doivent être accessibles depuis l'extérieur doivent avo
 
 ```bash
 # ✅ BON - Seul Nginx est exposé
-docker run -d --network app -p 80:80 nginx
-docker run -d --network app mon-api        # Pas de -p
-docker run -d --network app postgres       # Pas de -p
+docker run -d --network app -p 80:80 nginx  
+docker run -d --network app mon-api        # Pas de -p  
+docker run -d --network app postgres       # Pas de -p  
 
 # ❌ MAUVAIS - Tout est exposé
-docker run -d -p 80:80 nginx
-docker run -d -p 3000:3000 mon-api
-docker run -d -p 5432:5432 postgres
+docker run -d -p 80:80 nginx  
+docker run -d -p 3000:3000 mon-api  
+docker run -d -p 5432:5432 postgres  
 ```
 
 ### 4. Nommez vos conteneurs de manière significative
@@ -590,12 +590,12 @@ Les noms deviennent des noms d'hôte dans le réseau :
 
 ```bash
 # ✅ BON - Noms clairs
-docker run -d --name api-users --network app mon-api
-docker run -d --name db-users --network app postgres
+docker run -d --name api-users --network app mon-api  
+docker run -d --name db-users --network app postgres  
 
 # ❌ PAS CLAIR
-docker run -d --name cont1 --network app mon-api
-docker run -d --name cont2 --network app postgres
+docker run -d --name cont1 --network app mon-api  
+docker run -d --name cont2 --network app postgres  
 ```
 
 ### 5. Documentez votre architecture réseau
