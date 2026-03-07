@@ -29,9 +29,9 @@ registry/namespace/repository:tag
 
 **Exemples** :
 ```
-docker.io/library/nginx:1.25.3
-docker.io/johndoe/mon-app:v1.0.0
-ghcr.io/myorg/api:latest
+docker.io/library/nginx:1.27.3  
+docker.io/johndoe/mon-app:v1.0.0  
+ghcr.io/myorg/api:latest  
 ```
 
 **Décortiquons** :
@@ -49,10 +49,10 @@ username/image:tag
 
 **Exemples** :
 ```
-johndoe/mon-app:latest
-johndoe/mon-app:1.0.0
-postgres:15
-nginx:alpine
+johndoe/mon-app:latest  
+johndoe/mon-app:1.0.0  
+postgres:15  
+nginx:alpine  
 ```
 
 ### Le tag par défaut : "latest"
@@ -61,12 +61,12 @@ Si vous ne spécifiez pas de tag, Docker utilise automatiquement `latest` :
 
 ```bash
 # Ces deux commandes sont équivalentes
-docker pull nginx
-docker pull nginx:latest
+docker pull nginx  
+docker pull nginx:latest  
 
 # Ces deux commandes aussi
-docker run nginx
-docker run nginx:latest
+docker run nginx  
+docker run nginx:latest  
 ```
 
 **⚠️ Important** : `latest` ne signifie pas toujours "la toute dernière version" ! C'est juste un tag par défaut. C'est à vous de le maintenir à jour.
@@ -108,8 +108,8 @@ En cas de problème, vous pouvez revenir rapidement à une version antérieure :
 
 ```bash
 # Version actuelle pose problème
-docker stop mon-app-prod
-docker rm mon-app-prod
+docker stop mon-app-prod  
+docker rm mon-app-prod  
 
 # Retour à la version précédente
 docker run -d --name mon-app-prod mon-app:1.2.4
@@ -146,10 +146,10 @@ MAJEUR.MINEUR.PATCH
 
 **Exemples** :
 ```
-mon-app:1.0.0    # Première version stable
-mon-app:1.0.1    # Correction de bug
-mon-app:1.1.0    # Nouvelle fonctionnalité
-mon-app:2.0.0    # Changement majeur (breaking change)
+mon-app:1.0.0    # Première version stable  
+mon-app:1.0.1    # Correction de bug  
+mon-app:1.1.0    # Nouvelle fonctionnalité  
+mon-app:2.0.0    # Changement majeur (breaking change)  
 ```
 
 **Illustration** :
@@ -166,9 +166,9 @@ mon-app:2.0.0    # Changement majeur (breaking change)
 Certains préfèrent ajouter un "v" devant :
 
 ```
-mon-app:v1.0.0
-mon-app:v1.0.1
-mon-app:v2.0.0
+mon-app:v1.0.0  
+mon-app:v1.0.1  
+mon-app:v2.0.0  
 ```
 
 **Les deux approches sont valides**, choisissez celle que vous préférez et restez cohérent.
@@ -179,16 +179,16 @@ Une bonne pratique consiste à créer plusieurs tags pour la même version :
 
 ```bash
 # Image avec plusieurs tags
-docker tag mon-app johndoe/mon-app:1.2.5
-docker tag mon-app johndoe/mon-app:1.2
-docker tag mon-app johndoe/mon-app:1
-docker tag mon-app johndoe/mon-app:latest
+docker tag mon-app johndoe/mon-app:1.2.5  
+docker tag mon-app johndoe/mon-app:1.2  
+docker tag mon-app johndoe/mon-app:1  
+docker tag mon-app johndoe/mon-app:latest  
 
 # Pousser tous les tags
-docker push johndoe/mon-app:1.2.5
-docker push johndoe/mon-app:1.2
-docker push johndoe/mon-app:1
-docker push johndoe/mon-app:latest
+docker push johndoe/mon-app:1.2.5  
+docker push johndoe/mon-app:1.2  
+docker push johndoe/mon-app:1  
+docker push johndoe/mon-app:latest  
 ```
 
 **Avantage** : Les utilisateurs peuvent choisir leur niveau de précision :
@@ -202,17 +202,17 @@ docker push johndoe/mon-app:latest
 Pour différencier les builds selon l'environnement :
 
 ```
-mon-app:dev
-mon-app:staging
-mon-app:prod
+mon-app:dev  
+mon-app:staging  
+mon-app:prod  
 ```
 
 Ou combinés avec la version :
 
 ```
-mon-app:1.2.5-dev
-mon-app:1.2.5-staging
-mon-app:1.2.5-prod
+mon-app:1.2.5-dev  
+mon-app:1.2.5-staging  
+mon-app:1.2.5-prod  
 ```
 
 ### 5. Tags de release candidate
@@ -220,9 +220,9 @@ mon-app:1.2.5-prod
 Pour les versions en cours de test :
 
 ```
-mon-app:1.3.0-rc1      # Release Candidate 1
-mon-app:1.3.0-rc2      # Release Candidate 2
-mon-app:1.3.0          # Version finale
+mon-app:1.3.0-rc1      # Release Candidate 1  
+mon-app:1.3.0-rc2      # Release Candidate 2  
+mon-app:1.3.0          # Version finale  
 ```
 
 ### 6. Tags avec SHA Git
@@ -234,14 +234,14 @@ Pour lier directement à un commit :
 GIT_SHA=$(git rev-parse --short HEAD)
 
 # Créer un tag avec le SHA
-docker tag mon-app johndoe/mon-app:${GIT_SHA}
-docker tag mon-app johndoe/mon-app:1.2.5-${GIT_SHA}
+docker tag mon-app johndoe/mon-app:${GIT_SHA}  
+docker tag mon-app johndoe/mon-app:1.2.5-${GIT_SHA}  
 ```
 
 **Résultat** :
 ```
-mon-app:abc1234
-mon-app:1.2.5-abc1234
+mon-app:abc1234  
+mon-app:1.2.5-abc1234  
 ```
 
 **Avantage** : Traçabilité parfaite entre votre code et votre image Docker.
@@ -266,11 +266,11 @@ docker tag mon-app johndoe/mon-app:1.2.5-20251022
 Pour différentes configurations de la même version :
 
 ```
-nginx:1.25.3-alpine       # Version légère avec Alpine Linux
-nginx:1.25.3-perl         # Avec support Perl
-python:3.11-slim          # Version minimale
-python:3.11-alpine        # Avec Alpine
-python:3.11-bullseye      # Avec Debian Bullseye
+nginx:1.27.3-alpine       # Version légère avec Alpine Linux  
+nginx:1.27.3-perl         # Avec support Perl  
+python:3.11-slim          # Version minimale  
+python:3.11-alpine        # Avec Alpine  
+python:3.11-bullseye      # Avec Debian Bullseye  
 ```
 
 ## Stratégie de tagging complète : Exemple réel
@@ -311,8 +311,8 @@ docker push johndoe/mon-app --all-tags
 
 ```bash
 # Vous publiez la version 1.0.0
-docker push johndoe/mon-app:1.0.0
-docker push johndoe/mon-app:latest  # latest = 1.0.0
+docker push johndoe/mon-app:1.0.0  
+docker push johndoe/mon-app:latest  # latest = 1.0.0  
 
 # Vous publiez la version 2.0.0
 docker push johndoe/mon-app:2.0.0
@@ -342,8 +342,8 @@ Maintenez `latest` comme pointeur vers la dernière version **stable** :
 
 ```bash
 # Nouvelle version stable publiée
-docker push johndoe/mon-app:1.2.5
-docker push johndoe/mon-app:latest  # Met à jour latest
+docker push johndoe/mon-app:1.2.5  
+docker push johndoe/mon-app:latest  # Met à jour latest  
 
 # Version candidate (pas stable)
 docker push johndoe/mon-app:1.3.0-rc1
@@ -356,15 +356,15 @@ docker push johndoe/mon-app:1.3.0-rc1
 
 ```bash
 # Variables
-VERSION="1.2.5"
-MAJOR="1"
-MINOR="1.2"
+VERSION="1.2.5"  
+MAJOR="1"  
+MINOR="1.2"  
 
 # Créer tous les tags
-docker tag mon-app johndoe/mon-app:${VERSION}
-docker tag mon-app johndoe/mon-app:${MINOR}
-docker tag mon-app johndoe/mon-app:${MAJOR}
-docker tag mon-app johndoe/mon-app:latest
+docker tag mon-app johndoe/mon-app:${VERSION}  
+docker tag mon-app johndoe/mon-app:${MINOR}  
+docker tag mon-app johndoe/mon-app:${MAJOR}  
+docker tag mon-app johndoe/mon-app:latest  
 ```
 
 ### Script de tagging automatisé
@@ -373,8 +373,8 @@ docker tag mon-app johndoe/mon-app:latest
 ```bash
 #!/bin/bash
 
-IMAGE_NAME="johndoe/mon-app"
-VERSION=$1
+IMAGE_NAME="johndoe/mon-app"  
+VERSION=$1  
 
 if [ -z "$VERSION" ]; then
     echo "Usage: ./tag-and-push.sh VERSION"
@@ -383,22 +383,22 @@ if [ -z "$VERSION" ]; then
 fi
 
 # Extraire majeur et mineur
-MAJOR=$(echo $VERSION | cut -d. -f1)
-MINOR=$(echo $VERSION | cut -d. -f1,2)
+MAJOR=$(echo $VERSION | cut -d. -f1)  
+MINOR=$(echo $VERSION | cut -d. -f1,2)  
 
 # Taguer
-echo "Tagging ${IMAGE_NAME}:${VERSION}..."
-docker tag mon-app ${IMAGE_NAME}:${VERSION}
-docker tag mon-app ${IMAGE_NAME}:${MINOR}
-docker tag mon-app ${IMAGE_NAME}:${MAJOR}
-docker tag mon-app ${IMAGE_NAME}:latest
+echo "Tagging ${IMAGE_NAME}:${VERSION}..."  
+docker tag mon-app ${IMAGE_NAME}:${VERSION}  
+docker tag mon-app ${IMAGE_NAME}:${MINOR}  
+docker tag mon-app ${IMAGE_NAME}:${MAJOR}  
+docker tag mon-app ${IMAGE_NAME}:latest  
 
 # Pousser
-echo "Pushing tags to Docker Hub..."
-docker push ${IMAGE_NAME}:${VERSION}
-docker push ${IMAGE_NAME}:${MINOR}
-docker push ${IMAGE_NAME}:${MAJOR}
-docker push ${IMAGE_NAME}:latest
+echo "Pushing tags to Docker Hub..."  
+docker push ${IMAGE_NAME}:${VERSION}  
+docker push ${IMAGE_NAME}:${MINOR}  
+docker push ${IMAGE_NAME}:${MAJOR}  
+docker push ${IMAGE_NAME}:latest  
 
 echo "✅ Done!"
 ```
@@ -486,10 +486,10 @@ Malheureusement, Docker Hub gratuit ne propose pas de nettoyage automatique. Vou
 #### 2. Maintenez plusieurs niveaux de tags
 
 ```bash
-docker push johndoe/mon-app:1.2.5  # Précis
-docker push johndoe/mon-app:1.2    # Mineur
-docker push johndoe/mon-app:1      # Majeur
-docker push johndoe/mon-app:latest # Dernier
+docker push johndoe/mon-app:1.2.5  # Précis  
+docker push johndoe/mon-app:1.2    # Mineur  
+docker push johndoe/mon-app:1      # Majeur  
+docker push johndoe/mon-app:latest # Dernier  
 ```
 
 #### 3. Documentez votre stratégie de tagging
@@ -532,14 +532,14 @@ Utilisez les labels dans votre Dockerfile :
 ```dockerfile
 FROM node:18
 
-LABEL version="1.2.5"
-LABEL build-date="2025-10-22"
-LABEL git-commit="abc1234"
-LABEL maintainer="johndoe@example.com"
+LABEL version="1.2.5"  
+LABEL build-date="2025-10-22"  
+LABEL git-commit="abc1234"  
+LABEL maintainer="johndoe@example.com"  
 
-COPY . /app
-WORKDIR /app
-CMD ["node", "server.js"]
+COPY . /app  
+WORKDIR /app  
+CMD ["node", "server.js"]  
 ```
 
 ### ❌ À éviter
@@ -567,16 +567,16 @@ CMD ["node", "server.js"]
 
 ```bash
 ❌ Incohérent :
-mon-app:1.0.0
-mon-app:version-2
-mon-app:v3
-mon-app:latest-stable
+mon-app:1.0.0  
+mon-app:version-2  
+mon-app:v3  
+mon-app:latest-stable  
 
 ✅ Cohérent :
-mon-app:1.0.0
-mon-app:2.0.0
-mon-app:3.0.0
-mon-app:latest
+mon-app:1.0.0  
+mon-app:2.0.0  
+mon-app:3.0.0  
+mon-app:latest  
 ```
 
 ## Exemples de stratégies par type de projet
@@ -584,11 +584,11 @@ mon-app:latest
 ### Projet open source
 
 ```
-mon-lib:1.0.0
-mon-lib:1.0.1
-mon-lib:1.1.0
-mon-lib:2.0.0
-mon-lib:latest
+mon-lib:1.0.0  
+mon-lib:1.0.1  
+mon-lib:1.1.0  
+mon-lib:2.0.0  
+mon-lib:latest  
 ```
 
 Simple et clair pour les utilisateurs.
@@ -596,9 +596,9 @@ Simple et clair pour les utilisateurs.
 ### Application web en microservices
 
 ```
-api-users:1.2.5-abc1234
-api-products:3.1.2-def5678
-frontend:2.0.0-ghi9012
+api-users:1.2.5-abc1234  
+api-products:3.1.2-def5678  
+frontend:2.0.0-ghi9012  
 ```
 
 Avec SHA Git pour la traçabilité.
@@ -606,10 +606,10 @@ Avec SHA Git pour la traçabilité.
 ### Application avec variants
 
 ```
-mon-app:1.2.5-alpine
-mon-app:1.2.5-debian
-mon-app:1.2.5-ubuntu
-mon-app:latest-alpine
+mon-app:1.2.5-alpine  
+mon-app:1.2.5-debian  
+mon-app:1.2.5-ubuntu  
+mon-app:latest-alpine  
 ```
 
 Pour différentes images de base.
@@ -617,9 +617,9 @@ Pour différentes images de base.
 ### Application avec environnements
 
 ```
-mon-app:1.2.5-dev
-mon-app:1.2.5-staging
-mon-app:1.2.5-prod
+mon-app:1.2.5-dev  
+mon-app:1.2.5-staging  
+mon-app:1.2.5-prod  
 ```
 
 Tags spécifiques par environnement.
@@ -630,12 +630,12 @@ Tags spécifiques par environnement.
 
 ```bash
 # Dans Git
-git tag v1.2.5
-git push origin v1.2.5
+git tag v1.2.5  
+git push origin v1.2.5  
 
 # Dans Docker (même version)
-docker tag mon-app johndoe/mon-app:1.2.5
-docker push johndoe/mon-app:1.2.5
+docker tag mon-app johndoe/mon-app:1.2.5  
+docker push johndoe/mon-app:1.2.5  
 ```
 
 ### Pipeline automatisé
@@ -653,7 +653,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Extraire la version
         id: version
@@ -663,7 +663,7 @@ jobs:
         run: docker build -t mon-app .
 
       - name: Login Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -706,8 +706,8 @@ docker inspect johndoe/mon-app:1.2.5 --format='{{json .Config.Labels}}' | jq
 docker images johndoe/mon-app
 
 # Comparer les layers
-docker history johndoe/mon-app:1.2.4
-docker history johndoe/mon-app:1.2.5
+docker history johndoe/mon-app:1.2.4  
+docker history johndoe/mon-app:1.2.5  
 ```
 
 ### Tracer une image jusqu'au code source
@@ -715,9 +715,9 @@ docker history johndoe/mon-app:1.2.5
 Avec des labels appropriés :
 
 ```dockerfile
-LABEL git-commit="abc1234"
-LABEL git-branch="main"
-LABEL build-date="2025-10-22T10:30:00Z"
+LABEL git-commit="abc1234"  
+LABEL git-branch="main"  
+LABEL build-date="2025-10-22T10:30:00Z"  
 ```
 
 Vous pouvez retrouver exactement quel code a été utilisé pour construire l'image.
@@ -738,13 +738,13 @@ Vous pouvez retrouver exactement quel code a été utilisé pour construire l'im
 
 **Exemple** :
 ```
-Anciennes versions :
-mon-app:v1.0
-mon-app:v1.1
+Anciennes versions :  
+mon-app:v1.0  
+mon-app:v1.1  
 
-Nouvelles versions (nouvelle stratégie):
-mon-app:2.0.0
-mon-app:2.0.1
+Nouvelles versions (nouvelle stratégie):  
+mon-app:2.0.0  
+mon-app:2.0.1  
 ```
 
 ## Points clés à retenir
