@@ -134,7 +134,7 @@ docker --version
 
 Vous devriez voir quelque chose comme :
 ```
-Docker version 24.0.6, build ed223bc
+Docker version 27.x.x, build xxxxxxx
 ```
 
 Testez également :
@@ -218,7 +218,7 @@ docker --version
 
 Vous devriez voir :
 ```
-Docker version 24.0.6, build ed223bc
+Docker version 27.x.x, build xxxxxxx
 ```
 
 Testez ensuite :
@@ -258,13 +258,15 @@ Sur Linux, vous avez le choix entre Docker Desktop (avec interface graphique) et
 # Téléchargez le package DEB depuis le site Docker
 # https://docs.docker.com/desktop/install/linux-install/
 
-# Pour Ubuntu 22.04 (exemple)
-wget https://desktop.docker.com/linux/main/amd64/docker-desktop-4.25.0-amd64.deb
+# Pour Ubuntu (exemple, remplacez le numéro de version par le dernier disponible)
+wget https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
 
 # Installez le package
-sudo apt-get update
-sudo apt-get install ./docker-desktop-4.25.0-amd64.deb
+sudo apt-get update  
+sudo apt-get install ./docker-desktop-amd64.deb  
 ```
+
+> **Note :** Vérifiez toujours la dernière version disponible sur la [page de téléchargement officielle](https://docs.docker.com/desktop/install/linux-install/) avant de télécharger.
 
 #### Lancement de Docker Desktop
 
@@ -289,24 +291,19 @@ sudo apt-get remove docker docker-engine docker.io containerd runc
 **Étape 2 : Configurer le dépôt Docker**
 
 ```bash
-# Mettre à jour les paquets
-sudo apt-get update
+# Mettre à jour les paquets et installer les prérequis
+sudo apt-get update  
+sudo apt-get install ca-certificates curl  
 
-# Installer les prérequis
-sudo apt-get install \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
-
-# Ajouter la clé GPG officielle de Docker
-sudo mkdir -m 0755 -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+# Créer le répertoire pour les clés et ajouter la clé GPG officielle de Docker
+sudo install -m 0755 -d /etc/apt/keyrings  
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc  
+sudo chmod a+r /etc/apt/keyrings/docker.asc  
 
 # Configurer le dépôt
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
 **Étape 3 : Installer Docker Engine**
@@ -330,11 +327,12 @@ sudo docker run hello-world
 Les étapes sont identiques à Ubuntu, mais utilisez :
 
 ```bash
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc  
+sudo chmod a+r /etc/apt/keyrings/docker.asc  
 
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
 Puis continuez avec `apt-get install docker-ce...`
@@ -362,12 +360,14 @@ sudo systemctl enable docker
 
 ```bash
 # Docker est disponible dans les dépôts officiels
-sudo pacman -S docker docker-compose
+sudo pacman -S docker
 
 # Démarrer et activer Docker
-sudo systemctl start docker.service
-sudo systemctl enable docker.service
+sudo systemctl start docker.service  
+sudo systemctl enable docker.service  
 ```
+
+> **Note :** Sur Arch Linux, Docker Compose est inclus en tant que plugin via le paquet `docker`. La commande `docker compose` (sans tiret) est disponible directement.
 
 #### Installation sur CentOS/RHEL
 
@@ -382,8 +382,8 @@ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/dock
 sudo yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Démarrer Docker
-sudo systemctl start docker
-sudo systemctl enable docker
+sudo systemctl start docker  
+sudo systemctl enable docker  
 ```
 
 ### Vérification de l'installation sur Linux
@@ -443,7 +443,7 @@ Une fois Docker installé, effectuez ces vérifications de base :
 docker --version
 ```
 
-Devrait afficher quelque chose comme : `Docker version 24.0.6, build ed223bc`
+Devrait afficher quelque chose comme : `Docker version 27.x.x, build xxxxxxx`
 
 ### 2. Informations système
 
