@@ -41,9 +41,9 @@ mon-projet/
 
 **Dockerfile** :
 ```dockerfile
-FROM python:3.11-slim
-COPY app.py .
-CMD ["python", "app.py"]
+FROM python:3.11-slim  
+COPY app.py .  
+CMD ["python", "app.py"]  
 ```
 
 **Construction** :
@@ -88,10 +88,10 @@ Un **tag** est un **nom lisible** associé à une image Docker. Sans tag, votre 
 
 Exemples :
 ```
-nginx:latest                           # Simple
-mon-app:1.0                           # Avec version
-username/mon-app:v2.3                 # Avec namespace
-registry.example.com/app:prod         # Avec registry privé
+nginx:latest                           # Simple  
+mon-app:1.0                           # Avec version  
+username/mon-app:v2.3                 # Avec namespace  
+registry.example.com/app:prod         # Avec registry privé  
 ```
 
 Décomposition :
@@ -137,8 +137,8 @@ Ou taguer après construction :
 docker build -t mon-app:1.0 .
 
 # Ajouter d'autres tags
-docker tag mon-app:1.0 mon-app:latest
-docker tag mon-app:1.0 mon-app:stable
+docker tag mon-app:1.0 mon-app:latest  
+docker tag mon-app:1.0 mon-app:stable  
 ```
 
 ### Convention de nommage des tags
@@ -163,9 +163,9 @@ docker build -t mon-app:1 .
 
 ```bash
 # Environnements
-docker build -t mon-app:dev .
-docker build -t mon-app:staging .
-docker build -t mon-app:prod .
+docker build -t mon-app:dev .  
+docker build -t mon-app:staging .  
+docker build -t mon-app:prod .  
 
 # Avec version
 docker build -t mon-app:1.0-prod .
@@ -175,12 +175,12 @@ docker build -t mon-app:1.0-prod .
 
 ```bash
 # Variantes de build
-docker build -t mon-app:alpine .
-docker build -t mon-app:debian .
+docker build -t mon-app:alpine .  
+docker build -t mon-app:debian .  
 
 # Fonctionnalités
-docker build -t mon-app:with-redis .
-docker build -t mon-app:gpu .
+docker build -t mon-app:with-redis .  
+docker build -t mon-app:gpu .  
 
 # Date
 docker build -t mon-app:2025-01-15 .
@@ -308,8 +308,8 @@ Passer des valeurs aux instructions `ARG` du Dockerfile :
 FROM python:3.11-slim
 
 # Variable avec valeur par défaut
-ARG APP_VERSION=1.0
-ARG BUILD_DATE
+ARG APP_VERSION=1.0  
+ARG BUILD_DATE  
 
 RUN echo "Building version $APP_VERSION on $BUILD_DATE"
 
@@ -349,15 +349,15 @@ Pour les Dockerfiles multi-étapes, construire jusqu'à une étape spécifique :
 
 **Dockerfile** :
 ```dockerfile
-FROM node:18 AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+FROM node:18 AS builder  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
+COPY . .  
+RUN npm run build  
 
-FROM nginx:alpine AS production
-COPY --from=builder /app/dist /usr/share/nginx/html
+FROM nginx:alpine AS production  
+COPY --from=builder /app/dist /usr/share/nginx/html  
 ```
 
 **Build** :
@@ -392,8 +392,8 @@ docker build -q -t mon-app:1.0 .
 
 **Utile dans les scripts** :
 ```bash
-IMAGE_ID=$(docker build -q -t mon-app .)
-echo "Image créée : $IMAGE_ID"
+IMAGE_ID=$(docker build -q -t mon-app .)  
+echo "Image créée : $IMAGE_ID"  
 ```
 
 ### --progress : contrôler l'affichage
@@ -476,8 +476,8 @@ mon-projet/          →       /tmp/docker-build-123/
 **Problème** : Contexte trop large
 ```bash
 # ❌ Mauvais - envoie tout, y compris .git, node_modules, etc.
-cd mon-projet/
-docker build -t mon-app .
+cd mon-projet/  
+docker build -t mon-app .  
 # Sending build context to Docker daemon  2.5GB  ← Trop !
 ```
 
@@ -515,12 +515,12 @@ docker build -f docker/Dockerfile -t mon-app ./src
 node_modules/
 __pycache__/
 *.pyc
-venv/
-env/
+venv/  
+env/  
 
 # Build artifacts
-dist/
-build/
+dist/  
+build/  
 *.egg-info
 
 # IDE
@@ -538,8 +538,8 @@ logs/
 Thumbs.db
 
 # Documentation
-README.md
-docs/
+README.md  
+docs/  
 
 # Tests
 tests/
@@ -585,14 +585,14 @@ tests/
 
 **Application Node.js** :
 ```
-node_modules/
-npm-debug.log
+node_modules/  
+npm-debug.log  
 .npmrc
 .env
 .git
-README.md
-Dockerfile*
-docker-compose*.yml
+README.md  
+Dockerfile*  
+docker-compose*.yml  
 .dockerignore
 ```
 
@@ -603,8 +603,8 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
-venv/
-env/
+venv/  
+env/  
 .env
 .git
 *.log
@@ -662,26 +662,26 @@ docker build -t mon-app .
 Jenkinsfile
 
 # Docker
-Dockerfile*
-docker-compose*.yml
+Dockerfile*  
+docker-compose*.yml  
 .dockerignore
 
 # Documentation
-README*.md
-LICENSE
-docs/
+README*.md  
+LICENSE  
+docs/  
 *.md
 
 # Dépendances (à adapter selon le langage)
 node_modules/
 __pycache__/
-venv/
-vendor/
+venv/  
+vendor/  
 
 # Build & test
-dist/
-build/
-coverage/
+dist/  
+build/  
+coverage/  
 .pytest_cache/
 .tox/
 
@@ -693,14 +693,14 @@ coverage/
 
 # OS
 .DS_Store
-Thumbs.db
-desktop.ini
+Thumbs.db  
+desktop.ini  
 
 # Logs et données temporaires
 *.log
-logs/
-tmp/
-temp/
+logs/  
+tmp/  
+temp/  
 
 # Secrets (NE JAMAIS commiter)
 .env
@@ -723,11 +723,11 @@ Docker affiche des messages d'erreur clairs qui indiquent :
 ```
 Step 5/8 : RUN npm install
  ---> Running in abc123def456
-npm ERR! code ENOENT
-npm ERR! syscall open
-npm ERR! path /app/package.json
-npm ERR! errno -2
-npm ERR! enoent ENOENT: no such file or directory, open '/app/package.json'
+npm ERR! code ENOENT  
+npm ERR! syscall open  
+npm ERR! path /app/package.json  
+npm ERR! errno -2  
+npm ERR! enoent ENOENT: no such file or directory, open '/app/package.json'  
 
 The command '/bin/sh -c npm install' returned a non-zero code: 254
 ```
@@ -738,8 +738,8 @@ The command '/bin/sh -c npm install' returned a non-zero code: 254
 
 **Erreur** :
 ```
-Step 3/6 : COPY app.py /app/
-COPY failed: file not found in build context
+Step 3/6 : COPY app.py /app/  
+COPY failed: file not found in build context  
 ```
 
 **Causes** :
@@ -772,20 +772,20 @@ Step 4/8 : RUN npm install
 **Solution** :
 ```dockerfile
 # ❌ Mauvais
-FROM alpine:latest
-RUN npm install
+FROM alpine:latest  
+RUN npm install  
 
 # ✅ Bon - utiliser une image avec Node.js
-FROM node:18-alpine
-RUN npm install
+FROM node:18-alpine  
+RUN npm install  
 ```
 
 #### 3. Permissions refusées
 
 **Erreur** :
 ```
-Step 5/8 : RUN mkdir /app/data
-mkdir: cannot create directory '/app/data': Permission denied
+Step 5/8 : RUN mkdir /app/data  
+mkdir: cannot create directory '/app/data': Permission denied  
 ```
 
 **Cause** : Utilisateur sans permissions suffisantes.
@@ -803,8 +803,8 @@ USER appuser
 
 **Erreur** :
 ```
-Step 6/10 : RUN pip install -r requirements.txt
-ERROR: Could not find a version that satisfies the requirement package==x.y.z
+Step 6/10 : RUN pip install -r requirements.txt  
+ERROR: Could not find a version that satisfies the requirement package==x.y.z  
 ```
 
 **Solutions** :
@@ -816,9 +816,9 @@ RUN pip install --upgrade pip
 RUN apt-get update && apt-get install -y build-essential
 
 # Vérifier requirements.txt
-COPY requirements.txt .
-RUN cat requirements.txt  # Debug
-RUN pip install -r requirements.txt
+COPY requirements.txt .  
+RUN cat requirements.txt  # Debug  
+RUN pip install -r requirements.txt  
 ```
 
 #### 5. Out of memory (OOM)
@@ -836,7 +836,7 @@ Code 137 = tué par le système (manque de mémoire).
 # Ou au niveau système
 
 # Optimiser les commandes
-RUN npm ci --only=production  # Au lieu de npm install
+RUN npm ci --omit=dev  # Au lieu de npm install
 ```
 
 ### Techniques de débogage
@@ -846,18 +846,18 @@ RUN npm ci --only=production  # Au lieu de npm install
 Commentez les instructions problématiques :
 
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+FROM python:3.11-slim  
+WORKDIR /app  
+COPY requirements.txt .  
+RUN pip install -r requirements.txt  
 # COPY . .               ← Commenter temporairement
 # CMD ["python", "app.py"]  ← Commenter temporairement
 ```
 
 Construisez et testez :
 ```bash
-docker build -t debug-image .
-docker run -it debug-image bash
+docker build -t debug-image .  
+docker run -it debug-image bash  
 # Testez manuellement les commandes
 ```
 
@@ -885,16 +885,16 @@ docker run -it <image-id> bash
 #### 4. Ajouter des RUN echo pour déboguer
 
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
+FROM python:3.11-slim  
+WORKDIR /app  
 
-RUN echo "=== Current directory ===" && pwd
-RUN echo "=== Listing files ===" && ls -la
+RUN echo "=== Current directory ===" && pwd  
+RUN echo "=== Listing files ===" && ls -la  
 
 COPY requirements.txt .
 
-RUN echo "=== requirements.txt content ===" && cat requirements.txt
-RUN pip install -r requirements.txt
+RUN echo "=== requirements.txt content ===" && cat requirements.txt  
+RUN pip install -r requirements.txt  
 ```
 
 #### 5. Utiliser shellcheck pour les scripts
@@ -918,8 +918,8 @@ shellcheck mon-script.sh
 brew install hadolint
 
 # Linux
-wget -O hadolint https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64
-chmod +x hadolint
+wget -O hadolint https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64  
+chmod +x hadolint  
 ```
 
 **Utilisation** :
@@ -929,9 +929,9 @@ hadolint Dockerfile
 
 **Exemple de sortie** :
 ```
-Dockerfile:5 DL3008 warning: Pin versions in apt get install
-Dockerfile:10 DL3059 info: Multiple consecutive RUN instructions
-Dockerfile:15 DL3025 warning: Use arguments JSON notation for CMD
+Dockerfile:5 DL3008 warning: Pin versions in apt get install  
+Dockerfile:10 DL3059 info: Multiple consecutive RUN instructions  
+Dockerfile:15 DL3025 warning: Use arguments JSON notation for CMD  
 ```
 
 ## Workflow de build complet
@@ -949,8 +949,8 @@ docker build \
   --build-arg ENV=development \
   .
 
-# Ou avec docker-compose
-docker-compose build
+# Ou avec docker compose
+docker compose build
 ```
 
 ### CI/CD automatisé
@@ -960,9 +960,9 @@ docker-compose build
 # build-ci.sh
 
 # Variables
-VERSION=$(git describe --tags --always)
-BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-GIT_COMMIT=$(git rev-parse HEAD)
+VERSION=$(git describe --tags --always)  
+BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')  
+GIT_COMMIT=$(git rev-parse HEAD)  
 
 # Build sans cache pour garantir la fraîcheur
 docker build \
@@ -979,8 +979,8 @@ docker build \
 docker run --rm mon-app:${VERSION} npm test
 
 # Push vers le registry
-docker push mon-app:${VERSION}
-docker push mon-app:latest
+docker push mon-app:${VERSION}  
+docker push mon-app:latest  
 ```
 
 ### Production
@@ -1006,8 +1006,8 @@ docker buildx build \
 
 ```bash
 # ✅ Obligatoire
-echo "node_modules/" > .dockerignore
-echo ".git/" >> .dockerignore
+echo "node_modules/" > .dockerignore  
+echo ".git/" >> .dockerignore  
 ```
 
 ### 2. Tagger de manière cohérente
@@ -1025,8 +1025,8 @@ docker build \
 ### 3. Utiliser des ARG pour la flexibilité
 
 ```dockerfile
-ARG NODE_VERSION=18
-FROM node:${NODE_VERSION}-alpine
+ARG NODE_VERSION=18  
+FROM node:${NODE_VERSION}-alpine  
 ```
 
 ### 4. Valider avant de construire
@@ -1085,11 +1085,11 @@ test: build
 
 **Utilisation** :
 ```bash
-make build              # Build standard
-make build-no-cache     # Build sans cache
-make build-dev          # Build développement
-make build-prod         # Build production
-make test               # Build + tests
+make build              # Build standard  
+make build-no-cache     # Build sans cache  
+make build-dev          # Build développement  
+make build-prod         # Build production  
+make test               # Build + tests  
 ```
 
 ## Commandes utiles après le build
@@ -1157,10 +1157,10 @@ Dans cette section, vous avez maîtrisé la **construction d'images Docker** :
 
 **Points clés à retenir** :
 
-🔑 **Toujours utiliser .dockerignore** : réduit drastiquement le temps de build
-🔑 **Stratégie de tagging claire** : versions sémantiques + latest
-🔑 **Build-args pour flexibilité** : configuration sans modifier le Dockerfile
-🔑 **Valider avant de construire** : hadolint, shellcheck
+🔑 **Toujours utiliser .dockerignore** : réduit drastiquement le temps de build  
+🔑 **Stratégie de tagging claire** : versions sémantiques + latest  
+🔑 **Build-args pour flexibilité** : configuration sans modifier le Dockerfile  
+🔑 **Valider avant de construire** : hadolint, shellcheck  
 🔑 **Automatiser** : scripts ou Makefile pour reproductibilité
 
 Vous savez maintenant construire, tagger et déboguer vos images Docker comme un professionnel ! Dans la section suivante, vous découvrirez comment optimiser vos Dockerfiles pour créer des images plus légères et plus rapides.
