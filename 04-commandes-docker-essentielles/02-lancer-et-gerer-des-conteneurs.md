@@ -45,7 +45,7 @@ Lançons un serveur web Nginx :
 docker run nginx
 ```
 
-Vous remarquerez que votre terminal semble "bloqué". C'est normal ! Le conteneur s'exécute en **mode interactif** (au premier plan) et affiche ses logs en temps réel. Pour arrêter le conteneur, appuyez sur `Ctrl+C`.
+Vous remarquerez que votre terminal semble "bloqué". C'est normal ! Le conteneur s'exécute en **mode attaché** (au premier plan) et affiche ses logs en temps réel. Pour arrêter le conteneur, appuyez sur `Ctrl+C`.
 
 ### Le mode détaché avec `-d`
 
@@ -360,7 +360,7 @@ docker run -d -P nginx
 
 ```bash
 # ✅ Bon (version fixée)
-docker run -d nginx:1.25.3
+docker run -d nginx:1.27.3
 
 # ❌ Éviter en production (version changeante)
 docker run -d nginx:latest
