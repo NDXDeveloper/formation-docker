@@ -172,7 +172,7 @@ docker unpause mon-conteneur-web
 
 **⚠️ Note :** État rarement utilisé en production, plus utile pour le développement et les tests.
 
-**Analogie :** Vous mettez Word en pause avec Ctrl+Z dans un terminal Linux.
+**Analogie :** Vous minimisez Word dans la barre des tâches : il ne fait rien mais reste en mémoire, prêt à reprendre instantanément.
 
 ### 4. STOPPED (Arrêté)
 
@@ -309,8 +309,8 @@ docker container prune
 **Exemple concret :**
 ```bash
 # Conteneur arrêté
-docker stop mon-conteneur
-docker rm mon-conteneur
+docker stop mon-conteneur  
+docker rm mon-conteneur  
 
 # Conteneur en cours d'exécution (avec force)
 docker rm -f mon-conteneur-actif
@@ -397,7 +397,7 @@ IMAGE
    # STATUS: Exited (0)
 
 6. Démarrage de la nouvelle version
-   docker run -d -p 8080:80 --name mon-web-v2 nginx:1.24
+   docker run -d -p 8080:80 --name mon-web-v2 nginx:1.27
 
 7. Nettoyage de l'ancienne version
    docker rm mon-web
@@ -446,12 +446,12 @@ IMAGE
 3. Mise en pause pour inspection
    docker pause app-debug
 
-4. Inspection de l'état
+4. Inspection de l'état (depuis l'extérieur du conteneur)
    docker inspect app-debug
-   docker exec app-debug cat /tmp/debug.log
 
-5. Reprise
+5. Reprise puis exécution de commandes
    docker unpause app-debug
+   docker exec app-debug cat /tmp/debug.log
 
 6. Monitoring
    docker stats app-debug
