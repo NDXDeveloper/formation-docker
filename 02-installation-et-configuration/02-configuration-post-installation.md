@@ -68,8 +68,8 @@ Ajouter un utilisateur au groupe `docker` lui donne des privilèges équivalents
 **Si vous rencontrez des problèmes de permissions :**
 ```bash
 # Corriger les permissions du socket Docker
-sudo chown root:docker /var/run/docker.sock
-sudo chmod 660 /var/run/docker.sock
+sudo chown root:docker /var/run/docker.sock  
+sudo chmod 660 /var/run/docker.sock  
 ```
 
 ### 3. Configuration des ressources système
@@ -79,8 +79,8 @@ Sur Linux, Docker utilise directement les ressources du système hôte. Cependan
 **Vérifier les ressources disponibles :**
 ```bash
 # Voir les informations système
-docker info | grep -i memory
-docker info | grep -i cpu
+docker info | grep -i memory  
+docker info | grep -i cpu  
 ```
 
 Ces limites se configurent généralement au niveau de chaque conteneur (nous verrons cela plus tard) plutôt qu'au niveau global.
@@ -204,9 +204,9 @@ Créez ou éditez le fichier `C:\Users\VotreNom\.wslconfig` :
 
 ```ini
 [wsl2]
-memory=6GB
-processors=4
-swap=2GB
+memory=6GB  
+processors=4  
+swap=2GB  
 ```
 
 **Redémarrez WSL 2 pour appliquer :**
@@ -223,8 +223,9 @@ Puis relancez Docker Desktop.
 2. Cochez ✅ **Start Docker Desktop when you log in**
 
 **Accélérer le démarrage (optionnel) :**
-1. Décochez **Use the WSL 2 based engine** si vous n'utilisez pas de conteneurs Linux (rare)
-2. Décochez **Enable Kubernetes** si vous n'en avez pas besoin (pour débutants : décoché recommandé)
+1. Décochez **Enable Kubernetes** si vous n'en avez pas besoin (pour débutants : décoché recommandé)
+
+> **Note :** Gardez toujours le moteur WSL 2 activé. C'est le backend par défaut et le plus performant pour Docker sur Windows. L'ancien backend Hyper-V est déprécié.
 
 ### 5. Configuration du stockage
 
@@ -362,38 +363,22 @@ docker login
 4. Entrez vos identifiants
 
 **Avantages d'un compte Docker Hub :**
-- Pas de limite de téléchargement d'images (compte anonyme : 100 pulls/6h)
+- Limite de téléchargement augmentée (200 pulls/6h vs 100 pulls/6h en anonyme)
 - Possibilité de publier vos propres images
 - Images privées (limitées en version gratuite)
 
-### 2. Activer BuildKit
+### 2. BuildKit (moteur de build)
 
-BuildKit est le nouveau moteur de build de Docker, plus rapide et plus efficace.
+BuildKit est le moteur de build moderne de Docker, plus rapide et plus efficace (builds parallèles, meilleure gestion du cache, secrets de build, etc.).
 
-**Sur Linux, éditez `/etc/docker/daemon.json` :**
-```json
-{
-  "features": {
-    "buildkit": true
-  }
-}
-```
+> **Bonne nouvelle :** Depuis Docker 23.0 (février 2023), BuildKit est activé **par défaut**. Si vous avez une version récente de Docker, vous n'avez rien à configurer.
 
-**Sur Windows/macOS avec Docker Desktop :**
-1. **Settings** → **Docker Engine**
-2. Ajoutez dans la configuration JSON :
-```json
-{
-  "features": {
-    "buildkit": true
-  }
-}
-```
-
-**Ou activez-le temporairement pour une commande :**
+**Vérifier que BuildKit est actif :**
 ```bash
-DOCKER_BUILDKIT=1 docker build .
+docker buildx version
 ```
+
+Si la commande retourne une version, BuildKit est disponible. Vous pouvez l'utiliser directement avec `docker build` ou `docker buildx build`.
 
 ### 3. Configuration des alias (pratique)
 
@@ -402,22 +387,22 @@ Pour gagner du temps, créez des alias pour les commandes Docker fréquentes.
 **Sur Linux/macOS, ajoutez à `~/.bashrc` ou `~/.zshrc` :**
 ```bash
 # Alias Docker pratiques
-alias dps='docker ps'
-alias dpa='docker ps -a'
-alias di='docker images'
-alias dex='docker exec -it'
-alias dlog='docker logs -f'
-alias drm='docker rm'
-alias drmi='docker rmi'
-alias dstop='docker stop $(docker ps -q)'
+alias dps='docker ps'  
+alias dpa='docker ps -a'  
+alias di='docker images'  
+alias dex='docker exec -it'  
+alias dlog='docker logs -f'  
+alias drm='docker rm'  
+alias drmi='docker rmi'  
+alias dstop='docker stop $(docker ps -q)'  
 ```
 
 **Sur Windows PowerShell, ajoutez à votre profil :**
 ```powershell
 # Alias Docker
-function dps { docker ps $args }
-function dpa { docker ps -a $args }
-function di { docker images $args }
+function dps { docker ps $args }  
+function dpa { docker ps -a $args }  
+function di { docker images $args }  
 ```
 
 Rechargez votre terminal et testez : `dps` au lieu de `docker ps`.
@@ -442,9 +427,9 @@ Une fois toutes ces configurations effectuées, vérifiez que tout fonctionne co
 
 ```bash
 # Doit fonctionner sans sudo (Linux) ou erreurs
-docker version
-docker info
-docker ps
+docker version  
+docker info  
+docker ps  
 ```
 
 ### Test 2 : Exécution d'un conteneur
@@ -558,8 +543,8 @@ sudo systemctl restart docker
 Si Docker ne peut pas démarrer à cause de ports déjà utilisés :
 ```bash
 # Voir quel processus utilise le port 80 (exemple)
-sudo lsof -i :80  # Linux/macOS
-netstat -ano | findstr :80  # Windows
+sudo lsof -i :80  # Linux/macOS  
+netstat -ano | findstr :80  # Windows  
 ```
 
 ## En résumé
