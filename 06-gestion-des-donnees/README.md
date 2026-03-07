@@ -71,12 +71,12 @@ Enfin, vous saurez **quand utiliser quoi**. Chaque méthode a ses avantages et s
 
 À la fin de ce chapitre, vous serez capable de répondre à ces questions essentielles :
 
-✅ Pourquoi mes données disparaissent quand je supprime un conteneur ?
-✅ Comment sauvegarder ma base de données dans Docker ?
-✅ Comment partager des fichiers entre mon ordinateur et un conteneur ?
-✅ Comment plusieurs conteneurs peuvent-ils accéder aux mêmes données ?
-✅ Où Docker stocke-t-il réellement mes données ?
-✅ Quelle méthode choisir pour mon projet : volumes ou bind mounts ?
+✅ Pourquoi mes données disparaissent quand je supprime un conteneur ?  
+✅ Comment sauvegarder ma base de données dans Docker ?  
+✅ Comment partager des fichiers entre mon ordinateur et un conteneur ?  
+✅ Comment plusieurs conteneurs peuvent-ils accéder aux mêmes données ?  
+✅ Où Docker stocke-t-il réellement mes données ?  
+✅ Quelle méthode choisir pour mon projet : volumes ou bind mounts ?  
 ✅ Comment éviter de perdre des données lors d'une mise à jour ?
 
 ## Un concept, plusieurs solutions
