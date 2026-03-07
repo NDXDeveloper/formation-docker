@@ -66,10 +66,10 @@ Sans une compréhension solide des réseaux Docker, ces questions restent des my
 
 Les réseaux Docker résolvent tous ces défis en offrant :
 
-✅ **Communication entre conteneurs** - Vos services peuvent se parler facilement
-✅ **Isolation et sécurité** - Contrôlez qui peut communiquer avec qui
-✅ **Découverte de services** - Trouvez automatiquement les autres conteneurs
-✅ **Accès depuis l'extérieur** - Exposez vos applications au monde
+✅ **Communication entre conteneurs** - Vos services peuvent se parler facilement  
+✅ **Isolation et sécurité** - Contrôlez qui peut communiquer avec qui  
+✅ **Découverte de services** - Trouvez automatiquement les autres conteneurs  
+✅ **Accès depuis l'extérieur** - Exposez vos applications au monde  
 ✅ **Architectures complexes** - Construisez des systèmes multi-services robustes
 
 ## Les concepts que vous allez maîtriser
@@ -143,26 +143,26 @@ Simple, mais limité à un seul service.
 
 ### Niveau intermédiaire : Deux conteneurs qui communiquent
 ```bash
-docker network create app-network
-docker run -d --name db --network app-network postgres
-docker run -d --name api --network app-network -p 3000:3000 mon-api
+docker network create app-network  
+docker run -d --name db --network app-network postgres  
+docker run -d --name api --network app-network -p 3000:3000 mon-api  
 # L'API peut maintenant se connecter à "db"
 ```
 Vos services peuvent dialoguer !
 
 ### Niveau avancé : Architecture multi-tiers complète
 ```bash
-docker network create frontend-net
-docker network create backend-net
-docker network create database-net
+docker network create frontend-net  
+docker network create backend-net  
+docker network create database-net  
 
 # Base de données isolée
 docker run -d --name postgres --network database-net postgres
 
 # API avec accès frontend et database
-docker run -d --name api --network backend-net mon-api
-docker network connect database-net api
-docker network connect frontend-net api
+docker run -d --name api --network backend-net mon-api  
+docker network connect database-net api  
+docker network connect frontend-net api  
 
 # Frontend exposé publiquement
 docker run -d --name web --network frontend-net -p 80:80 nginx
@@ -217,13 +217,13 @@ Chaque couche est isolée, chaque service communique uniquement avec ce dont il 
 
 Après ce chapitre, vous maîtriserez des concepts comme :
 
-✅ Pourquoi mes conteneurs ne peuvent-ils pas se parler ?
-✅ Comment exposer mon application web sur le port 80 ?
-✅ Comment faire communiquer une API avec sa base de données ?
-✅ Quel type de réseau choisir pour mon projet ?
-✅ Comment isoler mon environnement de dev de la production ?
-✅ Comment déboguer une erreur "Connection refused" ?
-✅ Comment sécuriser mes communications entre services ?
+✅ Pourquoi mes conteneurs ne peuvent-ils pas se parler ?  
+✅ Comment exposer mon application web sur le port 80 ?  
+✅ Comment faire communiquer une API avec sa base de données ?  
+✅ Quel type de réseau choisir pour mon projet ?  
+✅ Comment isoler mon environnement de dev de la production ?  
+✅ Comment déboguer une erreur "Connection refused" ?  
+✅ Comment sécuriser mes communications entre services ?  
 ✅ Comment construire une architecture microservices ?
 
 ## L'importance des réseaux dans le monde réel
@@ -241,9 +241,9 @@ Les réseaux Docker simplifient drastiquement le développement :
 
 **Avec Docker et les réseaux :**
 ```bash
-docker network create monprojet-dev
-docker run -d --name db --network monprojet-dev postgres
-docker run -d --name api --network monprojet-dev mon-api
+docker network create monprojet-dev  
+docker run -d --name db --network monprojet-dev postgres  
+docker run -d --name api --network monprojet-dev mon-api  
 ```
 Tout fonctionne, isolé, reproductible, et identique pour toute l'équipe !
 
@@ -298,20 +298,20 @@ Vous découvrirez plusieurs outils pour travailler avec les réseaux :
 
 ```bash
 # Gestion des réseaux
-docker network ls
-docker network create
-docker network inspect
-docker network connect
-docker network disconnect
-docker network rm
+docker network ls  
+docker network create  
+docker network inspect  
+docker network connect  
+docker network disconnect  
+docker network rm  
 
 # Lancement avec réseau
-docker run --network
-docker run -p
+docker run --network  
+docker run -p  
 
 # Debugging
-docker exec conteneur ping autre-conteneur
-docker logs conteneur
+docker exec conteneur ping autre-conteneur  
+docker logs conteneur  
 ```
 
 ## Structure d'apprentissage
