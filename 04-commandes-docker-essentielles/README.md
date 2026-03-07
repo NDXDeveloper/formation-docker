@@ -26,9 +26,9 @@ docker <commande> [options] <arguments>
 
 Par exemple :
 ```bash
-docker run -d nginx
-docker stop mon-conteneur
-docker images --all
+docker run -d nginx  
+docker stop mon-conteneur  
+docker images --all  
 ```
 
 ### Obtenir de l'aide
@@ -42,8 +42,8 @@ docker --help
 
 Pour obtenir de l'aide sur une commande spécifique :
 ```bash
-docker run --help
-docker build --help
+docker run --help  
+docker build --help  
 ```
 
 **Conseil** : N'hésitez pas à consulter l'aide régulièrement, même les utilisateurs expérimentés le font !
