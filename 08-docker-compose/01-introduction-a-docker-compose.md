@@ -43,8 +43,6 @@ Une fois ce fichier créé, vous pouvez :
 Voici à quoi ressemble un fichier `docker-compose.yml` basique pour une application web avec une base de données :
 
 ```yaml
-version: '3.8'
-
 services:
   web:
     image: nginx:latest
@@ -103,8 +101,6 @@ Si vous voyez un numéro de version s'afficher, vous êtes prêt à l'utiliser !
 Un fichier Docker Compose est écrit en format YAML (Yet Another Markup Language), un format de configuration lisible par les humains. Voici les éléments de base :
 
 ```yaml
-version: '3.8'  # Version de Docker Compose utilisée
-
 services:  # Liste des conteneurs à créer
   nom-du-service:
     image: nom-de-l-image
@@ -168,8 +164,6 @@ docker run -d \
 ### Avec Docker Compose :
 ```yaml
 # fichier docker-compose.yml
-version: '3.8'
-
 services:
   database:
     image: postgres:15
