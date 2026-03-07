@@ -23,8 +23,6 @@ Quand vous définissez plusieurs services dans un fichier `docker-compose.yml`, 
 **Exemple simple** :
 
 ```yaml
-version: '3.8'
-
 services:
   frontend:
     image: nginx
@@ -63,8 +61,6 @@ services:
 Commençons par un exemple classique : une application web qui se connecte à une base de données PostgreSQL.
 
 ```yaml
-version: '3.8'
-
 services:
   # Base de données PostgreSQL
   database:
@@ -107,8 +103,6 @@ volumes:
 Construisons une application plus complexe avec une séparation frontend/backend :
 
 ```yaml
-version: '3.8'
-
 services:
   # Frontend React
   frontend:
@@ -171,8 +165,6 @@ volumes:
 Un cas d'usage très populaire : déployer WordPress avec sa base de données MySQL.
 
 ```yaml
-version: '3.8'
-
 services:
   # Base de données MySQL pour WordPress
   db:
@@ -218,8 +210,6 @@ volumes:
 Parfois, vous avez besoin de différents types de stockage :
 
 ```yaml
-version: '3.8'
-
 services:
   # Application principale
   app:
@@ -320,8 +310,6 @@ services:
 Pour une meilleure organisation et sécurité, vous pouvez séparer vos services en plusieurs réseaux :
 
 ```yaml
-version: '3.8'
-
 services:
   # Frontend - réseau public
   nginx:
@@ -375,8 +363,6 @@ Cette approche améliore la sécurité : la base de données n'est accessible qu
 Voici un exemple réaliste d'environnement de développement :
 
 ```yaml
-version: '3.8'
-
 services:
   # Proxy inverse Nginx
   proxy:
@@ -448,8 +434,8 @@ services:
       - backend-network
 
   # Service de mail pour le développement
-  mailhog:
-    image: mailhog/mailhog
+  mailpit:
+    image: axllent/mailpit
     ports:
       - "1025:1025"  # SMTP
       - "8025:8025"  # Interface web
@@ -466,7 +452,7 @@ networks:
 
 **Ce qui rend cette stack puissante** :
 - Interface d'administration de base de données (Adminer)
-- Serveur de mail de test (MailHog)
+- Serveur de mail de test (Mailpit)
 - Séparation réseau frontend/backend
 - Hot reload pour le développement
 - Volumes pour la persistance
@@ -476,8 +462,6 @@ networks:
 Plusieurs services peuvent utiliser le même volume pour partager des fichiers :
 
 ```yaml
-version: '3.8'
-
 services:
   # Application qui génère des fichiers
   producer:
@@ -508,19 +492,17 @@ Pour éviter la duplication, vous pouvez utiliser le fichier `.env` :
 **Fichier `.env`** :
 ```env
 # Base de données
-DB_USER=admin
-DB_PASSWORD=supersecret
-DB_NAME=production
+DB_USER=admin  
+DB_PASSWORD=supersecret  
+DB_NAME=production  
 
 # Configuration générale
-APP_ENV=production
-LOG_LEVEL=info
+APP_ENV=production  
+LOG_LEVEL=info  
 ```
 
 **Fichier `docker-compose.yml`** :
 ```yaml
-version: '3.8'
-
 services:
   api:
     image: mon-api
@@ -664,8 +646,6 @@ services:
 Organisez votre fichier par couches ou par fonction :
 
 ```yaml
-version: '3.8'
-
 services:
   # === Couche présentation ===
   nginx:
@@ -698,8 +678,6 @@ services:
 Pour attendre qu'un service soit vraiment prêt (et pas juste démarré) :
 
 ```yaml
-version: '3.8'
-
 services:
   database:
     image: postgres:15
