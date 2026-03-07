@@ -20,9 +20,9 @@ Docker offre plusieurs façons de faire communiquer les conteneurs :
 
 ### Analogie : Appeler un ami
 
-**Méthode 1 (Par nom)** : "Appelle Alice" - Votre téléphone trouve automatiquement le numéro
-**Méthode 2 (Par IP)** : "Appelle le 06 12 34 56 78" - Vous devez connaître le numéro exact
-**Méthode 3 (Via l'hôte)** : "Appelle maman, elle transmettra à Alice" - Passage par un intermédiaire
+**Méthode 1 (Par nom)** : "Appelle Alice" - Votre téléphone trouve automatiquement le numéro  
+**Méthode 2 (Par IP)** : "Appelle le 06 12 34 56 78" - Vous devez connaître le numéro exact  
+**Méthode 3 (Via l'hôte)** : "Appelle maman, elle transmettra à Alice" - Passage par un intermédiaire  
 
 La première méthode est clairement la plus pratique !
 
@@ -148,15 +148,15 @@ Maintenant, ces trois noms pointent vers le même conteneur :
 
 ```bash
 # ❌ Ne fonctionne PAS sur le bridge par défaut
-docker run -d --name db postgres
-docker run -d --name app mon-app
-docker exec app ping db  # Erreur !
+docker run -d --name db postgres  
+docker run -d --name app mon-app  
+docker exec app ping db  # Erreur !  
 
 # ✅ Fonctionne sur un réseau personnalisé
-docker network create my-network
-docker run -d --name db --network my-network postgres
-docker run -d --name app --network my-network mon-app
-docker exec app ping db  # Succès !
+docker network create my-network  
+docker run -d --name db --network my-network postgres  
+docker run -d --name app --network my-network mon-app  
+docker exec app ping db  # Succès !  
 ```
 
 ## Méthode 2 : Communication par IP
@@ -245,8 +245,8 @@ Avec le mode `--network host`, le conteneur partage directement le réseau de l'
 docker run -d --network host mon-app
 ```
 
-**Avantage :** Accès direct à tous les services de l'hôte
-**Inconvénient :** Aucune isolation réseau (moins sécurisé)
+**Avantage :** Accès direct à tous les services de l'hôte  
+**Inconvénient :** Aucune isolation réseau (moins sécurisé)  
 
 ## Patterns de communication
 
@@ -306,12 +306,12 @@ Architecture : API Gateway → Multiple Services → Databases
 
 ```bash
 # Réseaux séparés pour sécurité
-docker network create frontend-network
-docker network create backend-network
+docker network create frontend-network  
+docker network create backend-network  
 
 # Bases de données
-docker run -d --name users-db --network backend-network postgres
-docker run -d --name orders-db --network backend-network postgres
+docker run -d --name users-db --network backend-network postgres  
+docker run -d --name orders-db --network backend-network postgres  
 
 # Microservices
 docker run -d --name users-service --network backend-network \
@@ -367,9 +367,9 @@ Plusieurs instances du même service derrière un load balancer :
 docker network create loadbalanced-network
 
 # Lancer plusieurs instances du service
-docker run -d --name app1 --network loadbalanced-network mon-app:latest
-docker run -d --name app2 --network loadbalanced-network mon-app:latest
-docker run -d --name app3 --network loadbalanced-network mon-app:latest
+docker run -d --name app1 --network loadbalanced-network mon-app:latest  
+docker run -d --name app2 --network loadbalanced-network mon-app:latest  
+docker run -d --name app3 --network loadbalanced-network mon-app:latest  
 
 # Load balancer (Nginx ou HAProxy)
 docker run -d --name loadbalancer --network loadbalanced-network \
@@ -452,14 +452,14 @@ Pour des architectures complexes, chaque service a un proxy sidecar :
 
 ```bash
 # Service A avec son proxy
-docker run -d --name service-a --network mesh-network app-a:latest
-docker run -d --name proxy-a --network mesh-network \
-  --link service-a envoy-proxy:latest
+docker run -d --name service-a --network mesh-network app-a:latest  
+docker run -d --name proxy-a --network mesh-network \  
+  -e SERVICE_HOST=service-a envoy-proxy:latest
 
 # Service B avec son proxy
-docker run -d --name service-b --network mesh-network app-b:latest
-docker run -d --name proxy-b --network mesh-network \
-  --link service-b envoy-proxy:latest
+docker run -d --name service-b --network mesh-network app-b:latest  
+docker run -d --name proxy-b --network mesh-network \  
+  -e SERVICE_HOST=service-b envoy-proxy:latest
 ```
 
 Les services communiquent via leurs proxies, ce qui permet d'ajouter :
@@ -528,8 +528,8 @@ docker run -d --name client --network app-network \
 
 ```javascript
 // Appel HTTP vers l'API
-const response = await fetch('http://api:3000/api/v1/users');
-const users = await response.json();
+const response = await fetch('http://api:3000/api/v1/users');  
+const users = await response.json();  
 ```
 
 ### TCP/UDP brut
@@ -550,8 +550,8 @@ docker run -d --name app --network app-network \
 **Dans le code :**
 
 ```javascript
-const redis = require('redis');
-const client = redis.createClient({
+const redis = require('redis');  
+const client = redis.createClient({  
   host: 'redis',  // Nom du conteneur
   port: 6379
 });
@@ -612,8 +612,6 @@ Dans Docker Compose, utilisez un fichier `.env` :
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
-
 services:
   app:
     image: mon-app:latest
@@ -641,9 +639,9 @@ networks:
 
 ```bash
 # .env
-DB_NAME=myapp
-DB_USER=admin
-DB_PASSWORD=supersecret123
+DB_NAME=myapp  
+DB_USER=admin  
+DB_PASSWORD=supersecret123  
 ```
 
 ## Docker Links (méthode legacy - à éviter)
@@ -653,8 +651,8 @@ DB_PASSWORD=supersecret123
 Avant les réseaux personnalisés, Docker utilisait `--link` pour connecter les conteneurs :
 
 ```bash
-docker run -d --name db postgres
-docker run -d --name app --link db:database mon-app
+docker run -d --name db postgres  
+docker run -d --name app --link db:database mon-app  
 ```
 
 ### Pourquoi ne plus l'utiliser ?
@@ -676,17 +674,17 @@ Ne connectez les conteneurs qu'aux réseaux strictement nécessaires :
 
 ```bash
 # ✅ BON - Séparation claire
-docker network create frontend-net
-docker network create backend-net
-docker network create database-net
+docker network create frontend-net  
+docker network create backend-net  
+docker network create database-net  
 
 # Frontend n'a PAS accès à la base de données
 docker run -d --name frontend --network frontend-net nginx
 
 # Backend a accès au frontend et à la database
-docker run -d --name backend --network backend-net api
-docker network connect frontend-net backend
-docker network connect database-net backend
+docker run -d --name backend --network backend-net api  
+docker network connect frontend-net backend  
+docker network connect database-net backend  
 
 # Database est isolée
 docker run -d --name database --network database-net postgres
@@ -772,11 +770,11 @@ Lancez un conteneur avec des outils réseau :
 docker run -it --network app-network nicolaka/netshoot
 
 # À l'intérieur, utilisez:
-nslookup postgres-db
-ping api-server
-curl http://web-frontend
-traceroute database
-tcpdump -i eth0
+nslookup postgres-db  
+ping api-server  
+curl http://web-frontend  
+traceroute database  
+tcpdump -i eth0  
 ```
 
 ### Inspecter les logs
@@ -787,9 +785,9 @@ Les logs révèlent souvent les problèmes de connexion :
 docker logs mon-app
 
 # Rechercher des erreurs de connexion
-docker logs mon-app 2>&1 | grep -i "connection"
-docker logs mon-app 2>&1 | grep -i "refused"
-docker logs mon-app 2>&1 | grep -i "timeout"
+docker logs mon-app 2>&1 | grep -i "connection"  
+docker logs mon-app 2>&1 | grep -i "refused"  
+docker logs mon-app 2>&1 | grep -i "timeout"  
 ```
 
 ### Vérifier la configuration réseau
@@ -864,9 +862,9 @@ Error: getaddrinfo ENOTFOUND postgres-db
 docker network inspect app-network
 
 # Créer un réseau personnalisé si nécessaire
-docker network create app-network
-docker network connect app-network conteneur1
-docker network connect app-network conteneur2
+docker network create app-network  
+docker network connect app-network conteneur1  
+docker network connect app-network conteneur2  
 
 # Vérifier le nom exact
 docker ps --format "{{.Names}}"
@@ -893,8 +891,8 @@ Error: connect ETIMEDOUT
 # Vérifier les règles iptables
 
 # Tester la connectivité basique
-docker exec conteneur1 ping conteneur2
-docker exec conteneur1 telnet conteneur2 3000
+docker exec conteneur1 ping conteneur2  
+docker exec conteneur1 telnet conteneur2 3000  
 ```
 
 ### Problème 4 : Ordre de démarrage
@@ -904,8 +902,6 @@ docker exec conteneur1 telnet conteneur2 3000
 **Solution :** Implémenter une logique de retry ou utiliser `depends_on` avec healthcheck dans Docker Compose :
 
 ```yaml
-version: '3.8'
-
 services:
   app:
     image: mon-app
@@ -1008,29 +1004,29 @@ web-frontend (port 80)
   ↓ appelle
 api-backend (port 3000)
   ↓ appelle
-postgres-db (port 5432)
-redis-cache (port 6379)
+postgres-db (port 5432)  
+redis-cache (port 6379)  
 ```
 
 ### 6. Limiter l'exposition des ports
 
 ```bash
 # ✅ BON - Seul le frontend est exposé publiquement
-docker run -d -p 80:80 frontend
-docker run -d api-backend  # Pas de -p
-docker run -d database     # Pas de -p
+docker run -d -p 80:80 frontend  
+docker run -d api-backend  # Pas de -p  
+docker run -d database     # Pas de -p  
 
 # ❌ MAUVAIS - Tout est exposé
-docker run -d -p 80:80 frontend
-docker run -d -p 3000:3000 api-backend
-docker run -d -p 5432:5432 database
+docker run -d -p 80:80 frontend  
+docker run -d -p 3000:3000 api-backend  
+docker run -d -p 5432:5432 database  
 ```
 
 ### 7. Séparer les réseaux par fonction
 
 ```bash
-docker network create public-network
-docker network create private-network
+docker network create public-network  
+docker network create private-network  
 
 # Services publics
 docker run -d --network public-network frontend
@@ -1046,8 +1042,8 @@ Avant de déployer, testez :
 ```bash
 # Script de test de connectivité
 #!/bin/bash
-docker exec api-server curl -f http://database:5432 || echo "DB non accessible"
-docker exec frontend curl -f http://api-server:3000/health || echo "API non accessible"
+docker exec api-server curl -f http://database:5432 || echo "DB non accessible"  
+docker exec frontend curl -f http://api-server:3000/health || echo "API non accessible"  
 ```
 
 ## À retenir
