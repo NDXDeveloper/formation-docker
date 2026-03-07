@@ -33,10 +33,10 @@ Avant d'optimiser, il est important de comprendre comment Docker construit les i
 Chaque instruction dans un Dockerfile crée un nouveau layer (couche). Ces layers sont empilés les uns sur les autres pour former l'image finale.
 
 ```dockerfile
-FROM ubuntu:22.04        # Layer 1
-RUN apt-get update       # Layer 2
-RUN apt-get install -y python3  # Layer 3
-COPY app.py /app/        # Layer 4
+FROM ubuntu:22.04        # Layer 1  
+RUN apt-get update       # Layer 2  
+RUN apt-get install -y python3  # Layer 3  
+COPY app.py /app/        # Layer 4  
 ```
 
 **Important :** Chaque layer conserve TOUTES les modifications par rapport au layer précédent, y compris les fichiers supprimés !
@@ -45,11 +45,11 @@ COPY app.py /app/        # Layer 4
 
 ```dockerfile
 # Ce Dockerfile crée une image inutilement grande
-FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y wget
-RUN wget https://example.com/fichier-enorme.zip
-RUN unzip fichier-enorme.zip
-RUN rm fichier-enorme.zip  # Le fichier est supprimé mais toujours dans le layer !
+FROM ubuntu:22.04  
+RUN apt-get update && apt-get install -y wget  
+RUN wget https://example.com/fichier-enorme.zip  
+RUN unzip fichier-enorme.zip  
+RUN rm fichier-enorme.zip  # Le fichier est supprimé mais toujours dans le layer !  
 ```
 
 Même si le fichier ZIP est supprimé, il reste présent dans le layer où il a été créé, augmentant la taille totale de l'image.
@@ -73,14 +73,14 @@ debian:12-slim         → ~74 MB
 alpine:3.18            → ~7 MB
 
 # Images Node.js
-node:18                → ~1 GB
-node:18-slim           → ~240 MB
-node:18-alpine         → ~170 MB
+node:18                → ~1 GB  
+node:18-slim           → ~240 MB  
+node:18-alpine         → ~170 MB  
 
 # Images Python
-python:3.11            → ~1 GB
-python:3.11-slim       → ~125 MB
-python:3.11-alpine     → ~50 MB
+python:3.11            → ~1 GB  
+python:3.11-slim       → ~125 MB  
+python:3.11-alpine     → ~50 MB  
 ```
 
 **Recommandations :**
@@ -93,22 +93,22 @@ python:3.11-alpine     → ~50 MB
 
 ```dockerfile
 # Version lourde (1+ GB)
-FROM python:3.11
-COPY app.py .
-RUN pip install flask
-CMD ["python", "app.py"]
+FROM python:3.11  
+COPY app.py .  
+RUN pip install flask  
+CMD ["python", "app.py"]  
 
 # Version optimisée (125 MB)
-FROM python:3.11-slim
-COPY app.py .
-RUN pip install flask
-CMD ["python", "app.py"]
+FROM python:3.11-slim  
+COPY app.py .  
+RUN pip install flask  
+CMD ["python", "app.py"]  
 
 # Version ultra-légère (60 MB)
-FROM python:3.11-alpine
-COPY app.py .
-RUN pip install flask
-CMD ["python", "app.py"]
+FROM python:3.11-alpine  
+COPY app.py .  
+RUN pip install flask  
+CMD ["python", "app.py"]  
 ```
 
 ### 2. Combiner les commandes RUN
@@ -118,12 +118,12 @@ Chaque instruction RUN crée un nouveau layer. En combinant les commandes, vous 
 #### ❌ Mauvaise pratique
 
 ```dockerfile
-FROM ubuntu:22.04
-RUN apt-get update
-RUN apt-get install -y curl
-RUN apt-get install -y git
-RUN apt-get install -y vim
-RUN rm -rf /var/lib/apt/lists/*
+FROM ubuntu:22.04  
+RUN apt-get update  
+RUN apt-get install -y curl  
+RUN apt-get install -y git  
+RUN apt-get install -y vim  
+RUN rm -rf /var/lib/apt/lists/*  
 ```
 
 Problèmes :
@@ -134,8 +134,8 @@ Problèmes :
 #### ✅ Bonne pratique
 
 ```dockerfile
-FROM ubuntu:22.04
-RUN apt-get update && \
+FROM ubuntu:22.04  
+RUN apt-get update && \  
     apt-get install -y \
         curl \
         git \
@@ -185,8 +185,8 @@ RUN apk add --no-cache \
 ```dockerfile
 FROM python:3.11-slim
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt .  
+RUN pip install --no-cache-dir -r requirements.txt  
 ```
 
 **Note :** L'option `--no-cache-dir` évite de stocker le cache pip.
@@ -211,13 +211,13 @@ __pycache__
 .pytest_cache
 
 # Fichiers de build
-dist
-build
+dist  
+build  
 *.egg-info
 
 # Environnements virtuels
-venv
-env
+venv  
+env  
 .env
 
 # IDE
@@ -228,12 +228,12 @@ env
 
 # Logs et données temporaires
 *.log
-tmp
-temp
+tmp  
+temp  
 
 # Fichiers de test
-tests
-test
+tests  
+test  
 *.test.js
 ```
 
@@ -241,21 +241,21 @@ test
 
 Sans `.dockerignore` :
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY . .                    # Copie TOUT, y compris node_modules (100+ MB)
-RUN npm install
-CMD ["node", "server.js"]
+FROM node:18-alpine  
+WORKDIR /app  
+COPY . .                    # Copie TOUT, y compris node_modules (100+ MB)  
+RUN npm install  
+CMD ["node", "server.js"]  
 ```
 
 Avec `.dockerignore` :
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .                    # Copie seulement les fichiers nécessaires
-CMD ["node", "server.js"]
+FROM node:18-alpine  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
+COPY . .                    # Copie seulement les fichiers nécessaires  
+CMD ["node", "server.js"]  
 ```
 
 Gain : Plusieurs centaines de Mo, plus un build plus rapide !
@@ -273,11 +273,11 @@ Vous utilisez une première image pour compiler votre application (avec tous les
 **Sans multi-stage (image lourde) :**
 
 ```dockerfile
-FROM golang:1.21
-WORKDIR /app
-COPY . .
-RUN go build -o myapp
-CMD ["./myapp"]
+FROM golang:1.23  
+WORKDIR /app  
+COPY . .  
+RUN go build -o myapp  
+CMD ["./myapp"]  
 ```
 
 Résultat : ~1 GB (contient le compilateur Go et toutes les dépendances de build)
@@ -286,16 +286,16 @@ Résultat : ~1 GB (contient le compilateur Go et toutes les dépendances de buil
 
 ```dockerfile
 # Stage 1: Build
-FROM golang:1.21 AS builder
-WORKDIR /app
-COPY . .
-RUN go build -o myapp
+FROM golang:1.23 AS builder  
+WORKDIR /app  
+COPY . .  
+RUN go build -o myapp  
 
 # Stage 2: Runtime
-FROM alpine:3.18
-WORKDIR /app
-COPY --from=builder /app/myapp .
-CMD ["./myapp"]
+FROM alpine:3.18  
+WORKDIR /app  
+COPY --from=builder /app/myapp .  
+CMD ["./myapp"]  
 ```
 
 Résultat : ~15 MB (contient seulement l'exécutable compilé)
@@ -304,20 +304,20 @@ Résultat : ~15 MB (contient seulement l'exécutable compilé)
 
 ```dockerfile
 # Stage 1: Build
-FROM node:18 AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+FROM node:18 AS builder  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
+COPY . .  
+RUN npm run build  
 
 # Stage 2: Runtime
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install --only=production
-COPY --from=builder /app/dist ./dist
-CMD ["node", "dist/server.js"]
+FROM node:18-alpine  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm ci --omit=dev  
+COPY --from=builder /app/dist ./dist  
+CMD ["node", "dist/server.js"]  
 ```
 
 Avantages :
@@ -329,20 +329,20 @@ Avantages :
 
 ```dockerfile
 # Stage 1: Build
-FROM python:3.11 AS builder
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+FROM python:3.11 AS builder  
+WORKDIR /app  
+COPY requirements.txt .  
+RUN pip install --user --no-cache-dir -r requirements.txt  
 
 # Stage 2: Runtime
-FROM python:3.11-slim
-WORKDIR /app
+FROM python:3.11-slim  
+WORKDIR /app  
 # Copier les packages installés depuis le builder
-COPY --from=builder /root/.local /root/.local
-COPY . .
+COPY --from=builder /root/.local /root/.local  
+COPY . .  
 # Ajouter les binaires au PATH
-ENV PATH=/root/.local/bin:$PATH
-CMD ["python", "app.py"]
+ENV PATH=/root/.local/bin:$PATH  
+CMD ["python", "app.py"]  
 ```
 
 ### 6. Optimiser l'ordre des instructions
@@ -352,11 +352,11 @@ Docker met en cache chaque layer. En organisant intelligemment vos instructions,
 #### ❌ Ordre non optimisé
 
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY . .                    # Copie tout (invalide le cache à chaque modification)
-RUN npm install             # Réinstalle TOUT à chaque fois
-CMD ["node", "server.js"]
+FROM node:18-alpine  
+WORKDIR /app  
+COPY . .                    # Copie tout (invalide le cache à chaque modification)  
+RUN npm install             # Réinstalle TOUT à chaque fois  
+CMD ["node", "server.js"]  
 ```
 
 Problème : Chaque modification du code invalide le cache et force une réinstallation complète des dépendances.
@@ -364,12 +364,12 @@ Problème : Chaque modification du code invalide le cache et force une réinstal
 #### ✅ Ordre optimisé
 
 ```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./       # Copie d'abord les fichiers de dépendances
-RUN npm install             # S'exécute seulement si package.json change
-COPY . .                    # Copie le code (changements fréquents en dernier)
-CMD ["node", "server.js"]
+FROM node:18-alpine  
+WORKDIR /app  
+COPY package*.json ./       # Copie d'abord les fichiers de dépendances  
+RUN npm install             # S'exécute seulement si package.json change  
+COPY . .                    # Copie le code (changements fréquents en dernier)  
+CMD ["node", "server.js"]  
 ```
 
 Avantages :
@@ -383,19 +383,19 @@ Les images "distroless" sont des images ultra-minimalistes qui contiennent uniqu
 
 ```dockerfile
 # Stage 1: Build
-FROM node:18 AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+FROM node:18 AS builder  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
+COPY . .  
+RUN npm run build  
 
 # Stage 2: Runtime avec distroless
-FROM gcr.io/distroless/nodejs18-debian11
-WORKDIR /app
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-CMD ["dist/server.js"]
+FROM gcr.io/distroless/nodejs18-debian11  
+WORKDIR /app  
+COPY --from=builder /app/dist ./dist  
+COPY --from=builder /app/node_modules ./node_modules  
+CMD ["dist/server.js"]  
 ```
 
 Avantages :
@@ -414,8 +414,8 @@ Supprimez systématiquement les fichiers qui ne sont pas nécessaires à l'exéc
 ```dockerfile
 FROM python:3.11-slim
 
-WORKDIR /app
-COPY requirements.txt .
+WORKDIR /app  
+COPY requirements.txt .  
 
 RUN pip install --no-cache-dir -r requirements.txt && \
     # Supprimer les fichiers .pyc (bytecode)
@@ -424,8 +424,8 @@ RUN pip install --no-cache-dir -r requirements.txt && \
     find /usr/local/lib/python3.11 -name 'tests' -type d -exec rm -rf {} + && \
     find /usr/local/lib/python3.11 -name '*.md' -delete
 
-COPY . .
-CMD ["python", "app.py"]
+COPY . .  
+CMD ["python", "app.py"]  
 ```
 
 ### 9. Compresser les fichiers statiques
@@ -439,8 +439,8 @@ FROM nginx:alpine
 RUN apk add --no-cache gzip
 
 # Copier et compresser les fichiers statiques
-COPY static /usr/share/nginx/html/static
-RUN find /usr/share/nginx/html/static -type f \
+COPY static /usr/share/nginx/html/static  
+RUN find /usr/share/nginx/html/static -type f \  
     \( -name '*.html' -o -name '*.css' -o -name '*.js' \) \
     -exec gzip -k {} \;
 
@@ -454,12 +454,12 @@ CMD ["nginx", "-g", "daemon off;"]
 #### Avant optimisation (1.2 GB)
 
 ```dockerfile
-FROM node:18
-WORKDIR /app
-COPY . .
-RUN npm install
-EXPOSE 3000
-CMD ["node", "server.js"]
+FROM node:18  
+WORKDIR /app  
+COPY . .  
+RUN npm install  
+EXPOSE 3000  
+CMD ["node", "server.js"]  
 ```
 
 #### Après optimisation (150 MB)
@@ -475,7 +475,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installer seulement les dépendances de production sans cache
-RUN npm ci --only=production --no-cache && \
+RUN npm ci --omit=dev --no-cache && \
     npm cache clean --force
 
 # Copier le reste de l'application
@@ -498,11 +498,11 @@ CMD ["node", "server.js"]
 #### Avant optimisation (1.1 GB)
 
 ```dockerfile
-FROM python:3.11
-WORKDIR /app
-COPY . .
-RUN pip install -r requirements.txt
-CMD ["python", "app.py"]
+FROM python:3.11  
+WORKDIR /app  
+COPY . .  
+RUN pip install -r requirements.txt  
+CMD ["python", "app.py"]  
 ```
 
 #### Après optimisation (80 MB)
@@ -519,8 +519,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Copier et installer les dépendances
-COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+COPY requirements.txt .  
+RUN pip install --user --no-cache-dir -r requirements.txt  
 
 # Stage 2: Image finale
 FROM python:3.11-slim
@@ -537,8 +537,8 @@ COPY . .
 ENV PATH=/root/.local/bin:$PATH
 
 # Créer un utilisateur non-root
-RUN useradd -m appuser && chown -R appuser:appuser /app
-USER appuser
+RUN useradd -m appuser && chown -R appuser:appuser /app  
+USER appuser  
 
 CMD ["python", "app.py"]
 ```
@@ -550,32 +550,32 @@ CMD ["python", "app.py"]
 #### Avant optimisation (1.8 GB)
 
 ```dockerfile
-FROM node:18
-WORKDIR /app
-COPY . .
-RUN npm install
-RUN npm run build
-RUN npm install -g serve
-CMD ["serve", "-s", "build"]
+FROM node:18  
+WORKDIR /app  
+COPY . .  
+RUN npm install  
+RUN npm run build  
+RUN npm install -g serve  
+CMD ["serve", "-s", "build"]  
 ```
 
 #### Après optimisation (25 MB)
 
 ```dockerfile
 # Stage 1: Build
-FROM node:18-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
+FROM node:18-alpine AS builder  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm ci --omit=dev  
+COPY . .  
+RUN npm run build  
 
 # Stage 2: Serveur web
-FROM nginx:alpine
-COPY --from=builder /app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM nginx:alpine  
+COPY --from=builder /app/build /usr/share/nginx/html  
+COPY nginx.conf /etc/nginx/conf.d/default.conf  
+EXPOSE 80  
+CMD ["nginx", "-g", "daemon off;"]  
 ```
 
 **Gain : 1775 MB (98% de réduction)**
@@ -608,8 +608,8 @@ L'outil `dive` permet d'explorer en détail les layers d'une image.
 brew install dive
 
 # Sur Linux
-wget https://github.com/wagoodman/dive/releases/download/v0.11.0/dive_0.11.0_linux_amd64.deb
-sudo apt install ./dive_0.11.0_linux_amd64.deb
+wget https://github.com/wagoodman/dive/releases/download/v0.11.0/dive_0.11.0_linux_amd64.deb  
+sudo apt install ./dive_0.11.0_linux_amd64.deb  
 
 # Analyser une image
 dive mon-image:latest
