@@ -36,11 +36,11 @@ Avec cette configuration, Docker Compose garantit que :
 Voici ce qui se passe en réalité :
 
 ```
-Temps 0s  : database démarre (conteneur créé)
-Temps 1s  : app démarre (depends_on satisfait)
-Temps 2s  : app essaie de se connecter à database
-Temps 3s  : ERREUR ! database n'est pas encore prête
-Temps 5s  : database est enfin prête à accepter des connexions
+Temps 0s  : database démarre (conteneur créé)  
+Temps 1s  : app démarre (depends_on satisfait)  
+Temps 2s  : app essaie de se connecter à database  
+Temps 3s  : ERREUR ! database n'est pas encore prête  
+Temps 5s  : database est enfin prête à accepter des connexions  
 ```
 
 PostgreSQL, MySQL et autres bases de données ont besoin de temps pour :
@@ -58,8 +58,6 @@ Les health checks permettent de vérifier qu'un service est réellement prêt à
 ### Définir un health check
 
 ```yaml
-version: '3.8'
-
 services:
   database:
     image: postgres:15
@@ -191,8 +189,6 @@ Une autre approche consiste à faire attendre votre application que le service s
 `wait-for-it` est un script bash populaire qui attend qu'un port TCP soit accessible.
 
 ```yaml
-version: '3.8'
-
 services:
   database:
     image: postgres:15
@@ -223,13 +219,13 @@ Dans votre Dockerfile :
 FROM node:18
 
 # Installer wait-for-it
-ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/wait-for-it.sh
-RUN chmod +x /usr/local/bin/wait-for-it.sh
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /usr/local/bin/wait-for-it.sh  
+RUN chmod +x /usr/local/bin/wait-for-it.sh  
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
+COPY . .  
 
 CMD ["node", "server.js"]
 ```
@@ -299,9 +295,9 @@ module.exports = { connectWithRetry };
 
 ```python
 # database.py
-import psycopg2
-import time
-import os
+import psycopg2  
+import time  
+import os  
 
 def connect_with_retry(max_retries=10, delay=5):
     for attempt in range(max_retries):
@@ -385,8 +381,6 @@ services:
 Vous pouvez créer un service temporaire qui attend que tout soit prêt :
 
 ```yaml
-version: '3.8'
-
 services:
   # Service d'initialisation
   wait-for-db:
@@ -497,8 +491,6 @@ services:
 Voici un exemple qui combine plusieurs techniques :
 
 ```yaml
-version: '3.8'
-
 services:
   # Base de données principale
   database:
@@ -635,8 +627,8 @@ docker inspect <container-name> | grep -A 10 Health
 docker compose exec api sh
 
 # Tester la connexion à la base de données depuis l'intérieur
-ping database
-nc -zv database 5432
+ping database  
+nc -zv database 5432  
 ```
 
 ## Stratégies de démarrage selon l'environnement
