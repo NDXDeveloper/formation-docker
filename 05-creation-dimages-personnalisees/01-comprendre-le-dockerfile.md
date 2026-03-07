@@ -45,8 +45,8 @@ Tout comme une recette décrit **comment préparer** un plat (et non le plat lui
 Voici le Dockerfile le plus simple possible :
 
 ```dockerfile
-FROM ubuntu:22.04
-CMD ["echo", "Hello Docker!"]
+FROM ubuntu:22.04  
+CMD ["echo", "Hello Docker!"]  
 ```
 
 Ce Dockerfile fait deux choses :
@@ -93,9 +93,9 @@ INSTRUCTION arguments
 
 Exemples :
 ```dockerfile
-FROM node:18
-RUN apt-get update
-COPY . /app
+FROM node:18  
+RUN apt-get update  
+COPY . /app  
 ```
 
 ## Principe fondamental : les couches (layers)
@@ -135,16 +135,13 @@ Chaque instruction dans un Dockerfile crée une **nouvelle couche** (layer) dans
 docker build -t mon-app .
 ```
 ```
-Step 1/5 : FROM node:18
- ---> Pulling image...
-Step 2/5 : COPY package.json /app
- ---> Running in abc123...
-Step 3/5 : RUN npm install
- ---> Running in def456...
-Step 4/5 : COPY . /app
- ---> Running in ghi789...
-Step 5/5 : CMD ["node", "app.js"]
- ---> Running in jkl012...
+[+] Building 45.2s (9/9) FINISHED
+ => [1/5] FROM node:18
+ => [2/5] COPY package.json /app
+ => [3/5] RUN npm install
+ => [4/5] COPY . /app
+ => [5/5] CMD ["node", "app.js"]
+ => exporting to image
 ```
 
 **Deuxième construction** (sans modifications) :
@@ -152,16 +149,13 @@ Step 5/5 : CMD ["node", "app.js"]
 docker build -t mon-app .
 ```
 ```
-Step 1/5 : FROM node:18
- ---> Using cache
-Step 2/5 : COPY package.json /app
- ---> Using cache
-Step 3/5 : RUN npm install
- ---> Using cache
-Step 4/5 : COPY . /app
- ---> Using cache
-Step 5/5 : CMD ["node", "app.js"]
- ---> Using cache
+[+] Building 0.5s (9/9) FINISHED
+ => CACHED [1/5] FROM node:18
+ => CACHED [2/5] COPY package.json /app
+ => CACHED [3/5] RUN npm install
+ => CACHED [4/5] COPY . /app
+ => CACHED [5/5] CMD ["node", "app.js"]
+ => exporting to image
 ```
 
 Tout est pris du cache ! Construction quasi instantanée.
@@ -171,16 +165,13 @@ Tout est pris du cache ! Construction quasi instantanée.
 docker build -t mon-app .
 ```
 ```
-Step 1/5 : FROM node:18
- ---> Using cache
-Step 2/5 : COPY package.json /app
- ---> Using cache
-Step 3/5 : RUN npm install
- ---> Using cache
-Step 4/5 : COPY . /app
- ---> Running in mno345...  ← Reconstruite
-Step 5/5 : CMD ["node", "app.js"]
- ---> Running in pqr678...  ← Reconstruite
+[+] Building 2.1s (9/9) FINISHED
+ => CACHED [1/5] FROM node:18
+ => CACHED [2/5] COPY package.json /app
+ => CACHED [3/5] RUN npm install
+ => [4/5] COPY . /app                    ← Reconstruite
+ => [5/5] CMD ["node", "app.js"]         ← Reconstruite
+ => exporting to image
 ```
 
 Seules les étapes 4 et 5 sont reconstruites !
@@ -232,11 +223,11 @@ RUN apt-get update && apt-get install -y \
 
 ```dockerfile
 # ✅ Bon - lisible
-FROM node:18
-WORKDIR /app
-COPY . .
+FROM node:18  
+WORKDIR /app  
+COPY . .  
 
-# ❌ Éviter - difficile à lire
+# ❌ Invalide - une seule instruction par ligne
 FROM node:18 WORKDIR /app COPY . .
 ```
 
@@ -246,12 +237,12 @@ Par convention, les instructions sont en MAJUSCULES :
 
 ```dockerfile
 # ✅ Bon
-FROM node:18
-RUN npm install
+FROM node:18  
+RUN npm install  
 
 # ❌ Éviter (fonctionne mais non conventionnel)
-from node:18
-run npm install
+from node:18  
+run npm install  
 ```
 
 ### 5. Ordre logique des instructions
@@ -264,8 +255,8 @@ FROM python:3.11
 LABEL maintainer="vous@example.com"
 
 # 3. Configuration de l'environnement
-ENV APP_HOME=/app
-WORKDIR $APP_HOME
+ENV APP_HOME=/app  
+WORKDIR $APP_HOME  
 
 # 4. Installation des dépendances système
 RUN apt-get update && apt-get install -y curl
@@ -306,9 +297,9 @@ Décomposition :
 Créez un fichier `Dockerfile` :
 
 ```dockerfile
-FROM alpine:latest
-RUN echo "Construction de l'image..."
-CMD ["echo", "Image construite avec succès!"]
+FROM alpine:latest  
+RUN echo "Construction de l'image..."  
+CMD ["echo", "Image construite avec succès!"]  
 ```
 
 Construisez l'image :
@@ -429,11 +420,11 @@ Docker est intelligent : il compare l'instruction actuelle avec l'instruction pr
 **Exemple** :
 
 ```dockerfile
-FROM node:18                    # Couche 1: rarement modifiée → cache
-COPY package.json /app/         # Couche 2: rarement modifiée → cache
-RUN npm install                 # Couche 3: dépend de couche 2 → cache
-COPY . /app/                    # Couche 4: code change souvent → REBUILD
-CMD ["node", "app.js"]          # Couche 5: dépend de couche 4 → REBUILD
+FROM node:18                    # Couche 1: rarement modifiée → cache  
+COPY package.json /app/         # Couche 2: rarement modifiée → cache  
+RUN npm install                 # Couche 3: dépend de couche 2 → cache  
+COPY . /app/                    # Couche 4: code change souvent → REBUILD  
+CMD ["node", "app.js"]          # Couche 5: dépend de couche 4 → REBUILD  
 ```
 
 Si seul le code change (pas `package.json`), seules les couches 4 et 5 sont reconstruites.
@@ -484,8 +475,8 @@ mon-app-python/
 ### app.py
 
 ```python
-print("Hello from Docker!")
-print("Application Python en cours d'exécution...")
+print("Hello from Docker!")  
+print("Application Python en cours d'exécution...")  
 ```
 
 ### requirements.txt
@@ -528,8 +519,8 @@ docker run --rm mon-app-python:v1
 
 Sortie :
 ```
-Hello from Docker!
-Application Python en cours d'exécution...
+Hello from Docker!  
+Application Python en cours d'exécution...  
 ```
 
 ## Exemple pratique : serveur web simple
@@ -618,8 +609,8 @@ Pour tester vos commandes avant de les mettre dans le Dockerfile :
 docker run -it python:3.11 bash
 
 # Tester vos commandes
-pip install flask
-python --version
+pip install flask  
+python --version  
 
 # Une fois satisfait, ajoutez-les au Dockerfile
 ```
@@ -640,15 +631,15 @@ docker build -t mon-image .
 
 ```dockerfile
 # ❌ Inefficace - invalide le cache à chaque changement de code
-FROM node:18
-COPY . /app
-RUN npm install
+FROM node:18  
+COPY . /app  
+RUN npm install  
 
 # ✅ Efficace - cache optimisé
-FROM node:18
-COPY package.json /app/
-RUN npm install
-COPY . /app
+FROM node:18  
+COPY package.json /app/  
+RUN npm install  
+COPY . /app  
 ```
 
 ### 3. Ne pas utiliser .dockerignore
@@ -659,9 +650,9 @@ Sans `.dockerignore`, tout est copié, y compris `node_modules/`, `.git/`, etc.,
 
 ```dockerfile
 # ❌ Crée 3 couches
-RUN apt-get update
-RUN apt-get install -y curl
-RUN apt-get install -y git
+RUN apt-get update  
+RUN apt-get install -y curl  
+RUN apt-get install -y git  
 
 # ✅ Crée 1 couche
 RUN apt-get update && \
@@ -691,9 +682,9 @@ Choisissez une image de base adaptée :
 
 Exemples :
 ```dockerfile
-FROM python:3.11-alpine   # Le plus léger
-FROM python:3.11-slim     # Compromis
-FROM python:3.11          # Le plus complet
+FROM python:3.11-alpine   # Le plus léger  
+FROM python:3.11-slim     # Compromis  
+FROM python:3.11          # Le plus complet  
 ```
 
 ### Documentation officielle
