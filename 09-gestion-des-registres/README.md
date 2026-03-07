@@ -67,9 +67,9 @@ Depuis le début de cette formation, vous utilisez déjà un registre sans le sa
 
 Chaque fois que vous avez tapé :
 ```bash
-docker pull nginx
-docker pull postgres
-docker pull redis
+docker pull nginx  
+docker pull postgres  
+docker pull redis  
 ```
 
 Docker a téléchargé ces images depuis Docker Hub, le registre officiel et public de Docker.
@@ -87,25 +87,25 @@ Docker Hub c'est :
 
 **1. Images officielles** (Verified Publisher)
 ```
-nginx          ← Maintenue par Nginx Inc.
-postgres       ← Maintenue par l'équipe PostgreSQL
-redis          ← Maintenue par Redis Labs
-node           ← Maintenue par l'équipe Node.js
+nginx          ← Maintenue par Nginx Inc.  
+postgres       ← Maintenue par l'équipe PostgreSQL  
+redis          ← Maintenue par Redis Labs  
+node           ← Maintenue par l'équipe Node.js  
 ```
 Ces images sont vérifiées, sécurisées et régulièrement mises à jour.
 
 **2. Images certifiées** (Certified Images)
 ```
-Images de partenaires certifiés par Docker
-Testées et validées
-Support commercial disponible
+Images de partenaires certifiés par Docker  
+Testées et validées  
+Support commercial disponible  
 ```
 
 **3. Images de la communauté**
 ```
-johndoe/mon-app       ← Créée par un utilisateur
-acme-corp/api         ← Créée par une organisation
-votrenomdutilisateur/...
+johndoe/mon-app       ← Créée par un utilisateur  
+acme-corp/api         ← Créée par une organisation  
+votrenomdutilisateur/...  
 ```
 C'est ici que vous allez publier vos propres images !
 
@@ -115,7 +115,7 @@ Docker Hub n'est pas le seul registre existant. Il existe de nombreuses alternat
 
 ### Registres cloud
 - **Amazon ECR** : Pour AWS
-- **Google Container Registry** : Pour Google Cloud
+- **Google Artifact Registry** : Pour Google Cloud
 - **Azure Container Registry** : Pour Microsoft Azure
 
 ### Registres de développement
@@ -149,8 +149,8 @@ docker push johndoe/mon-app:latest
 Déployer votre application devient trivial :
 ```bash
 # Sur votre serveur de production
-docker pull johndoe/mon-app:1.0.0
-docker run -d -p 80:80 johndoe/mon-app:1.0.0
+docker pull johndoe/mon-app:1.0.0  
+docker run -d -p 80:80 johndoe/mon-app:1.0.0  
 # C'est tout ! 🚀
 ```
 
@@ -158,9 +158,9 @@ docker run -d -p 80:80 johndoe/mon-app:1.0.0
 
 Gérez facilement différentes versions :
 ```bash
-docker pull mon-app:1.0.0   # Version stable
-docker pull mon-app:1.1.0   # Nouvelle version
-docker pull mon-app:latest  # Dernière version
+docker pull mon-app:1.0.0   # Version stable  
+docker pull mon-app:1.1.0   # Nouvelle version  
+docker pull mon-app:latest  # Dernière version  
 
 # Problème avec 1.1.0 ? Retour à 1.0.0 en quelques secondes !
 ```
@@ -254,8 +254,8 @@ docker push private-registry.com/client-xyz/app:1.0.0
 
 **Solution** : Amazon ECR (Elastic Container Registry)
 ```bash
-docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/api:latest
-docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/api:latest  
+docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/frontend:latest  
 ```
 **Résultat** : Performance optimale, sécurité AWS, intégration ECS/EKS.
 
@@ -304,9 +304,9 @@ Voici comment les registres s'intègrent dans un workflow de développement mode
 
 Pour tirer le meilleur parti de ce chapitre, vous devriez :
 
-✅ Savoir créer des images Docker avec un Dockerfile
-✅ Comprendre les commandes `docker build` et `docker run`
-✅ Avoir Docker installé sur votre machine
+✅ Savoir créer des images Docker avec un Dockerfile  
+✅ Comprendre les commandes `docker build` et `docker run`  
+✅ Avoir Docker installé sur votre machine  
 ✅ Connaître les bases de la ligne de commande
 
 Si vous avez suivi les chapitres précédents, vous avez déjà tout ce qu'il faut ! 💪
@@ -316,8 +316,8 @@ Si vous avez suivi les chapitres précédents, vous avez déjà tout ce qu'il fa
 ### 1. Push et Pull
 
 ```bash
-docker push   # Envoyer une image vers un registre
-docker pull   # Télécharger une image depuis un registre
+docker push   # Envoyer une image vers un registre  
+docker pull   # Télécharger une image depuis un registre  
 ```
 
 C'est comme `git push` et `git pull`, mais pour des images Docker !
@@ -398,8 +398,8 @@ docker run mon-app:1.2.5   # Version précise
 docker push johndoe/mon-app:latest
 
 # ✅ Se connecter d'abord
-docker login
-docker push johndoe/mon-app:latest
+docker login  
+docker push johndoe/mon-app:latest  
 ```
 
 ### Erreur 4 : Exposer des secrets dans les images
@@ -454,11 +454,11 @@ Ce chapitre combine :
 
 ### Ce que vous saurez faire après ce chapitre
 
-✅ Publier vos images sur Docker Hub
-✅ Gérer les versions de vos images professionnellement
-✅ Choisir le bon registre pour votre projet
-✅ Utiliser des registres privés pour protéger votre code
-✅ Intégrer les registres dans vos workflows de développement
+✅ Publier vos images sur Docker Hub  
+✅ Gérer les versions de vos images professionnellement  
+✅ Choisir le bon registre pour votre projet  
+✅ Utiliser des registres privés pour protéger votre code  
+✅ Intégrer les registres dans vos workflows de développement  
 ✅ Partager vos applications avec le monde ou votre équipe
 
 ## L'impact sur votre workflow de développement
