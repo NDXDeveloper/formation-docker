@@ -100,7 +100,7 @@ Commençons par un rappel visuel des deux approches :
 **Benchmark typique :** Accès rapide, même avec beaucoup de fichiers.
 
 #### Bind Mounts
-✅ **Excellentes sur Linux**
+✅ **Excellentes sur Linux**  
 ⚠️ **Variables sur Windows/macOS**
 - Performances natives excellentes sur Linux
 - Sur Windows/macOS (Docker Desktop) : passage par une VM, peut être plus lent
@@ -245,8 +245,6 @@ Quelle méthode choisir ?
 **Recommandation :**
 
 ```yaml
-version: '3.8'
-
 services:
   wordpress:
     image: wordpress
@@ -282,8 +280,6 @@ volumes:
 **Recommandation :**
 
 ```yaml
-version: '3.8'
-
 services:
   api:
     image: node:18
@@ -322,8 +318,6 @@ volumes:
 **Recommandation :**
 
 ```yaml
-version: '3.8'
-
 services:
   processor:
     image: python:3.11
@@ -352,8 +346,6 @@ volumes:
 **Recommandation :**
 
 ```yaml
-version: '3.8'
-
 services:
   test-runner:
     image: node:18
@@ -378,8 +370,6 @@ volumes:
 **Recommandation :**
 
 ```yaml
-version: '3.8'
-
 services:
   frontend:
     image: node:18
