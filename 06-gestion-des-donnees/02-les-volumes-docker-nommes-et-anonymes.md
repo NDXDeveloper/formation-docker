@@ -53,10 +53,10 @@ Un volume nommé est un volume auquel vous donnez un **nom explicite** et facile
 **Exemple :** `postgres-data`, `mon-projet-uploads`, `cache-redis`
 
 #### Avantages
-✅ Facile à identifier et à gérer
-✅ Réutilisable entre plusieurs conteneurs
-✅ Peut être sauvegardé et restauré facilement
-✅ Persiste même après la suppression du conteneur
+✅ Facile à identifier et à gérer  
+✅ Réutilisable entre plusieurs conteneurs  
+✅ Peut être sauvegardé et restauré facilement  
+✅ Persiste même après la suppression du conteneur  
 ✅ **C'est la méthode recommandée pour la production**
 
 #### Quand l'utiliser ?
@@ -72,10 +72,10 @@ Un volume anonyme est un volume créé automatiquement par Docker **sans nom exp
 **Exemple d'identifiant :** `a3f5b2c1d4e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7`
 
 #### Caractéristiques
-⚠️ Difficile à identifier (long identifiant aléatoire)
-⚠️ Compliqué à réutiliser
-⚠️ Peut s'accumuler et occuper de l'espace disque
-✅ Supprimé automatiquement avec le conteneur (avec `--rm`)
+⚠️ Difficile à identifier (long identifiant aléatoire)  
+⚠️ Compliqué à réutiliser  
+⚠️ Peut s'accumuler et occuper de l'espace disque  
+✅ Supprimé automatiquement avec le conteneur (avec `--rm`)  
 ✅ Utile pour les données temporaires
 
 #### Quand l'utiliser ?
@@ -120,11 +120,11 @@ docker volume ls
 **Sortie typique :**
 
 ```
-DRIVER    VOLUME NAME
-local     postgres-data
-local     app-uploads
-local     redis-cache
-local     a3f5b2c1d4e6...    ← Volume anonyme
+DRIVER    VOLUME NAME  
+local     postgres-data  
+local     app-uploads  
+local     redis-cache  
+local     a3f5b2c1d4e6...    ← Volume anonyme  
 ```
 
 ### Inspecter un volume
@@ -240,8 +240,8 @@ docker exec -it ma-base-postgres psql -U postgres
 # \q  (pour quitter)
 
 # 2. Arrêter et supprimer le conteneur
-docker stop ma-base-postgres
-docker rm ma-base-postgres
+docker stop ma-base-postgres  
+docker rm ma-base-postgres  
 
 # 3. Relancer un nouveau conteneur avec le MÊME volume
 docker run -d \
@@ -372,14 +372,14 @@ Choisissez des noms qui indiquent clairement le contenu et l'usage :
 
 ```bash
 # ✅ BON
-docker volume create monprojet-postgres-data
-docker volume create monprojet-uploads
-docker volume create monprojet-redis-cache
+docker volume create monprojet-postgres-data  
+docker volume create monprojet-uploads  
+docker volume create monprojet-redis-cache  
 
 # ❌ PAS CLAIR
-docker volume create vol1
-docker volume create data
-docker volume create test
+docker volume create vol1  
+docker volume create data  
+docker volume create test  
 ```
 
 ### 3. Documentez vos volumes
