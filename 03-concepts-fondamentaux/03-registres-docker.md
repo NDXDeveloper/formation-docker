@@ -92,10 +92,9 @@ Votre recherche → Résultats du registre
 ### Compte gratuit vs payant
 
 **Compte gratuit :**
-- ✅ Téléchargement illimité d'images publiques
 - ✅ Publication d'images publiques illimitées
-- ✅ 1 registre privé gratuit
-- ⚠️ Limitations sur les pull rates (nombre de téléchargements par période)
+- ✅ Dépôts privés illimités (avec stockage limité)
+- ⚠️ 200 pulls par 6 heures (100 en anonyme)
 
 **Compte payant (Pro, Team, Business) :**
 - ✅ Plus de registres privés
@@ -150,10 +149,10 @@ Ce sont les images **les plus fiables et recommandées**.
 
 **Comment évaluer une image communautaire :**
 
-✅ **Nombre de téléchargements** : Plus c'est élevé, plus elle est populaire et testée
-✅ **Date de dernière mise à jour** : Image maintenue récemment ?
-✅ **Nombre d'étoiles** : Popularité et satisfaction des utilisateurs
-✅ **Documentation** : README complet et clair ?
+✅ **Nombre de téléchargements** : Plus c'est élevé, plus elle est populaire et testée  
+✅ **Date de dernière mise à jour** : Image maintenue récemment ?  
+✅ **Nombre d'étoiles** : Popularité et satisfaction des utilisateurs  
+✅ **Documentation** : README complet et clair ?  
 ✅ **Dockerfile disponible** : Transparence sur le contenu ?
 
 ⚠️ **Signaux d'alerte :**
@@ -185,12 +184,12 @@ nginx
 
 **Exemple 2 : Image officielle avec tag spécifique**
 ```
-nginx:1.24-alpine
+nginx:1.27-alpine
 ```
 - Registre : Docker Hub (par défaut)
 - Organisation : (aucune, c'est une image officielle)
 - Nom : nginx
-- Tag : 1.24-alpine (version 1.24 basée sur Alpine Linux)
+- Tag : 1.27-alpine (version 1.27 basée sur Alpine Linux)
 
 **Exemple 3 : Image communautaire**
 ```
@@ -224,7 +223,7 @@ Les tags sont essentiels pour gérer les **versions** de vos images.
 | `X` | Version majeure | `redis:7` |
 | `slim` | Version allégée | `python:3.11-slim` |
 | `alpine` | Basée sur Alpine Linux (ultra-légère) | `node:18-alpine` |
-| `buster`, `bullseye` | Basée sur Debian spécifique | `python:3.11-bullseye` |
+| `bullseye`, `bookworm` | Basée sur Debian spécifique | `python:3.11-bookworm` |
 | `dev`, `prod` | Environnement | `mon-app:prod` |
 | `v1.0`, `v2.0` | Version personnalisée | `mon-api:v2.0` |
 
@@ -281,10 +280,10 @@ docker search --limit 5 python
 
 **Résultat typique :**
 ```
-NAME                DESCRIPTION                    STARS    OFFICIAL
-nginx               Official build of Nginx        19000    [OK]
-jwilder/nginx-proxy Automated nginx proxy          2500
-bitnami/nginx       Bitnami nginx Docker Image     250
+NAME                DESCRIPTION                    STARS    OFFICIAL  
+nginx               Official build of Nginx        19000    [OK]  
+jwilder/nginx-proxy Automated nginx proxy          2500  
+bitnami/nginx       Bitnami nginx Docker Image     250  
 ```
 
 ## Registres alternatifs
@@ -303,9 +302,9 @@ Docker Hub n'est pas le seul registre disponible. Il en existe d'autres :
 - CI/CD natif
 - Exemple : `registry.gitlab.com/utilisateur/projet/image:tag`
 
-**3. Google Container Registry (GCR)**
+**3. Google Artifact Registry (anciennement GCR)**
 - Service Google Cloud
-- Exemple : `gcr.io/mon-projet/mon-image:tag`
+- Exemple : `us-docker.pkg.dev/mon-projet/mon-repo/mon-image:tag`
 
 **4. Amazon Elastic Container Registry (ECR)**
 - Service AWS
@@ -356,8 +355,8 @@ Docker Hub propose un **scan automatique** des images pour détecter les vulnér
 ```
 Critique   : 2 vulnérabilités
 Élevé      : 5 vulnérabilités
-Moyen      : 12 vulnérabilités
-Faible     : 8 vulnérabilités
+Moyen      : 12 vulnérabilités  
+Faible     : 8 vulnérabilités  
 ```
 
 ### Docker Content Trust
@@ -396,45 +395,45 @@ docker login
 
 ### 1. Privilégiez les images officielles
 
-✅ Fiables, maintenues, sécurisées
-✅ Documentation complète
+✅ Fiables, maintenues, sécurisées  
+✅ Documentation complète  
 ✅ Communauté large en cas de problème
 
 ### 2. Utilisez des tags de version spécifiques
 
-✅ Production : `python:3.11.5` plutôt que `python:latest`
-✅ Reproductibilité garantie
+✅ Production : `python:3.11.5` plutôt que `python:latest`  
+✅ Reproductibilité garantie  
 ✅ Évite les surprises lors des mises à jour
 
 ### 3. Vérifiez les images communautaires
 
-✅ Nombre de téléchargements élevé
-✅ Mise à jour récente
-✅ Documentation claire
+✅ Nombre de téléchargements élevé  
+✅ Mise à jour récente  
+✅ Documentation claire  
 ✅ Dockerfile source disponible
 
 ### 4. Scannez régulièrement vos images
 
-✅ Détectez les vulnérabilités
-✅ Mettez à jour les images obsolètes
+✅ Détectez les vulnérabilités  
+✅ Mettez à jour les images obsolètes  
 ✅ Utilisez les outils de scan intégrés
 
 ### 5. Utilisez un registre privé pour le code propriétaire
 
-✅ Ne publiez jamais de code propriétaire sur un registre public
-✅ Configurez un registre privé (Docker Hub, Harbor, ECR...)
+✅ Ne publiez jamais de code propriétaire sur un registre public  
+✅ Configurez un registre privé (Docker Hub, Harbor, ECR...)  
 ✅ Gérez les accès avec des permissions appropriées
 
 ### 6. Organisez vos images avec des tags cohérents
 
-✅ Convention de nommage claire : `v1.0.0`, `prod-2024-01-15`
-✅ Tags sémantiques : `latest`, `stable`, `dev`
+✅ Convention de nommage claire : `v1.0.0`, `prod-2024-01-15`  
+✅ Tags sémantiques : `latest`, `stable`, `dev`  
 ✅ Documentation des tags dans le README
 
 ### 7. Nettoyez les anciennes versions
 
-✅ Supprimez les tags obsolètes
-✅ Économisez de l'espace de stockage
+✅ Supprimez les tags obsolètes  
+✅ Économisez de l'espace de stockage  
 ✅ Réduisez la confusion sur les versions à utiliser
 
 ## Workflow typique avec Docker Hub
