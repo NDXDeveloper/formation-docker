@@ -8,10 +8,10 @@ Vous connaissez maintenant les principes des réseaux Docker et les différents 
 
 Bien que Docker fournisse des réseaux par défaut, créer vos propres réseaux personnalisés offre de nombreux avantages :
 
-✅ **Meilleur contrôle** - Configuration adaptée à vos besoins
-✅ **Isolation** - Séparation logique entre projets ou environnements
-✅ **Résolution DNS automatique** - Les conteneurs se trouvent par leur nom
-✅ **Sécurité renforcée** - Contrôle précis de qui peut communiquer avec qui
+✅ **Meilleur contrôle** - Configuration adaptée à vos besoins  
+✅ **Isolation** - Séparation logique entre projets ou environnements  
+✅ **Résolution DNS automatique** - Les conteneurs se trouvent par leur nom  
+✅ **Sécurité renforcée** - Contrôle précis de qui peut communiquer avec qui  
 ✅ **Organisation** - Structure claire de votre infrastructure
 
 Cette section vous apprendra à maîtriser la création et la gestion de réseaux personnalisés de manière professionnelle.
@@ -24,8 +24,8 @@ Lorsque vous lancez des conteneurs sans spécifier de réseau, ils utilisent le 
 
 ```bash
 # Ces conteneurs utilisent le réseau bridge par défaut
-docker run -d --name app1 nginx
-docker run -d --name app2 nginx
+docker run -d --name app1 nginx  
+docker run -d --name app2 nginx  
 
 # ❌ Problème : app1 ne peut pas trouver app2 par son nom
 docker exec app1 ping app2
@@ -41,8 +41,8 @@ Avec un réseau personnalisé, tout devient plus simple :
 docker network create mon-reseau
 
 # Lancer les conteneurs sur ce réseau
-docker run -d --name app1 --network mon-reseau nginx
-docker run -d --name app2 --network mon-reseau nginx
+docker run -d --name app1 --network mon-reseau nginx  
+docker run -d --name app2 --network mon-reseau nginx  
 
 # ✅ Succès : app1 trouve app2 par son nom
 docker exec app1 ping app2
@@ -75,10 +75,10 @@ Cette commande crée un réseau bridge personnalisé avec des paramètres par d�
 docker network ls
 
 # Sortie typique
-NETWORK ID     NAME           DRIVER    SCOPE
-abc123def456   bridge         bridge    local
-def456ghi789   host           host      local
-ghi789jkl012   app-network    bridge    local  ← Notre réseau !
+NETWORK ID     NAME           DRIVER    SCOPE  
+abc123def456   bridge         bridge    local  
+def456ghi789   host           host      local  
+ghi789jkl012   app-network    bridge    local  ← Notre réseau !  
 ```
 
 ### Inspecter le réseau créé
@@ -258,8 +258,8 @@ Un conteneur peut appartenir à plusieurs réseaux simultanément :
 
 ```bash
 # Créer deux réseaux
-docker network create frontend-network
-docker network create backend-network
+docker network create frontend-network  
+docker network create backend-network  
 
 # Lancer un conteneur sur le premier réseau
 docker run -d --name api --network frontend-network mon-api
@@ -320,9 +320,9 @@ docker network inspect app-network --format '{{range .Containers}}{{.Name}} - {{
 
 **Sortie :**
 ```
-web-server - 172.28.0.2/16
-api-backend - 172.28.0.3/16
-postgres-db - 172.28.0.4/16
+web-server - 172.28.0.2/16  
+api-backend - 172.28.0.3/16  
+postgres-db - 172.28.0.4/16  
 ```
 
 ### Lister les réseaux avec filtres
@@ -379,9 +379,9 @@ docker network create api-internal-network
 Créez des réseaux séparés pour chaque environnement :
 
 ```bash
-docker network create app-dev-network
-docker network create app-staging-network
-docker network create app-prod-network
+docker network create app-dev-network  
+docker network create app-staging-network  
+docker network create app-prod-network  
 ```
 
 ### Organiser par couche applicative
@@ -432,9 +432,9 @@ docker network create database-network
 
 ```bash
 # 1. Créer les réseaux
-docker network create frontend-net
-docker network create backend-net
-docker network create database-net
+docker network create frontend-net  
+docker network create backend-net  
+docker network create database-net  
 
 # 2. Lancer la base de données (uniquement sur database-net)
 docker run -d \
@@ -489,8 +489,8 @@ Si des conteneurs sont encore connectés :
 docker network inspect mon-reseau --format '{{range .Containers}}{{.Name}} {{end}}'
 
 # Déconnecter chaque conteneur
-docker network disconnect mon-reseau conteneur1
-docker network disconnect mon-reseau conteneur2
+docker network disconnect mon-reseau conteneur1  
+docker network disconnect mon-reseau conteneur2  
 
 # Puis supprimer le réseau
 docker network rm mon-reseau
@@ -512,8 +512,8 @@ docker network prune
 
 **Avertissement :**
 ```
-WARNING! This will remove all custom networks not used by at least one container.
-Are you sure you want to continue? [y/N]
+WARNING! This will remove all custom networks not used by at least one container.  
+Are you sure you want to continue? [y/N]  
 ```
 
 Tapez `y` pour confirmer.
@@ -540,14 +540,14 @@ Chaque développeur a son propre réseau pour éviter les conflits :
 
 ```bash
 # Alice
-docker network create alice-dev-network
-docker run -d --network alice-dev-network --name alice-db postgres
-docker run -d --network alice-dev-network --name alice-app mon-app
+docker network create alice-dev-network  
+docker run -d --network alice-dev-network --name alice-db postgres  
+docker run -d --network alice-dev-network --name alice-app mon-app  
 
 # Bob
-docker network create bob-dev-network
-docker run -d --network bob-dev-network --name bob-db postgres
-docker run -d --network bob-dev-network --name bob-app mon-app
+docker network create bob-dev-network  
+docker run -d --network bob-dev-network --name bob-db postgres  
+docker run -d --network bob-dev-network --name bob-app mon-app  
 ```
 
 Les conteneurs d'Alice et Bob sont complètement isolés.
@@ -558,12 +558,12 @@ Créez un réseau temporaire pour chaque série de tests :
 
 ```bash
 # Avant les tests
-TEST_NETWORK="test-run-$(date +%s)"
-docker network create $TEST_NETWORK
+TEST_NETWORK="test-run-$(date +%s)"  
+docker network create $TEST_NETWORK  
 
 # Lancer les conteneurs de test
-docker run -d --network $TEST_NETWORK --name test-db postgres
-docker run --network $TEST_NETWORK --name test-runner mon-test-suite
+docker run -d --network $TEST_NETWORK --name test-db postgres  
+docker run --network $TEST_NETWORK --name test-runner mon-test-suite  
 
 # Après les tests
 docker network rm $TEST_NETWORK
@@ -575,16 +575,16 @@ docker network rm $TEST_NETWORK
 # Réseau de staging
 docker network create staging-network
 
-docker run -d --network staging-network --name staging-db postgres
-docker run -d --network staging-network --name staging-api mon-api
-docker run -d --network staging-network -p 8080:80 --name staging-web nginx
+docker run -d --network staging-network --name staging-db postgres  
+docker run -d --network staging-network --name staging-api mon-api  
+docker run -d --network staging-network -p 8080:80 --name staging-web nginx  
 
 # Réseau de production
 docker network create production-network
 
-docker run -d --network production-network --name prod-db postgres
-docker run -d --network production-network --name prod-api mon-api
-docker run -d --network production-network -p 80:80 --name prod-web nginx
+docker run -d --network production-network --name prod-db postgres  
+docker run -d --network production-network --name prod-api mon-api  
+docker run -d --network production-network -p 80:80 --name prod-web nginx  
 ```
 
 **Avantage :** Aucun risque qu'un conteneur de staging communique accidentellement avec un conteneur de production.
@@ -608,9 +608,9 @@ docker run -d \
 docker network connect private-network api-gateway
 
 # Microservices (uniquement sur private-network)
-docker run -d --network private-network --name user-service user-api
-docker run -d --network private-network --name order-service order-api
-docker run -d --network private-network --name payment-service payment-api
+docker run -d --network private-network --name user-service user-api  
+docker run -d --network private-network --name order-service order-api  
+docker run -d --network private-network --name payment-service payment-api  
 ```
 
 **Résultat :** Les microservices ne sont pas directement accessibles depuis l'extérieur, seulement via l'API Gateway.
@@ -630,8 +630,8 @@ docker network create \
   infrastructure-network
 
 # Lancer des services avec IPs fixes
-docker run -d --network infrastructure-network --ip 10.0.0.10 --name dns-server mon-dns
-docker run -d --network infrastructure-network --ip 10.0.0.11 --name dhcp-server mon-dhcp
+docker run -d --network infrastructure-network --ip 10.0.0.10 --name dns-server mon-dns  
+docker run -d --network infrastructure-network --ip 10.0.0.11 --name dhcp-server mon-dhcp  
 ```
 
 ## Options avancées de gestion
@@ -704,9 +704,9 @@ docker network inspect mon-reseau
 2. Utilisez-vous un réseau personnalisé (pas le bridge par défaut) ?
 ```bash
 # Créer un réseau personnalisé si nécessaire
-docker network create mon-reseau-custom
-docker network connect mon-reseau-custom conteneur1
-docker network connect mon-reseau-custom conteneur2
+docker network create mon-reseau-custom  
+docker network connect mon-reseau-custom conteneur1  
+docker network connect mon-reseau-custom conteneur2  
 ```
 
 3. Test de résolution DNS :
@@ -760,10 +760,10 @@ docker network rm mon-reseau
 docker run -it --network mon-reseau --name debug-container nicolaka/netshoot
 
 # À l'intérieur du conteneur
-ping autre-conteneur
-nslookup autre-conteneur
-traceroute autre-conteneur
-curl http://autre-conteneur:port
+ping autre-conteneur  
+nslookup autre-conteneur  
+traceroute autre-conteneur  
+curl http://autre-conteneur:port  
 ```
 
 #### Analyser le trafic réseau
@@ -782,16 +782,16 @@ docker run --network container:mon-conteneur nicolaka/netshoot tcpdump
 
 ❌ **Mauvais :**
 ```bash
-docker network create net1
-docker network create net2
-docker network create test
+docker network create net1  
+docker network create net2  
+docker network create test  
 ```
 
 ✅ **Bon :**
 ```bash
-docker network create ecommerce-frontend-network
-docker network create ecommerce-backend-network
-docker network create ecommerce-database-network
+docker network create ecommerce-frontend-network  
+docker network create ecommerce-backend-network  
+docker network create ecommerce-database-network  
 ```
 
 ### 2. Utilisez des labels pour l'organisation
@@ -845,9 +845,9 @@ Créez un document qui décrit :
 Séparez clairement dev, staging et production :
 
 ```bash
-docker network create app-dev-network
-docker network create app-staging-network
-docker network create app-production-network
+docker network create app-dev-network  
+docker network create app-staging-network  
+docker network create app-production-network  
 ```
 
 ### 5. Nettoyez régulièrement
@@ -858,11 +858,11 @@ Mettez en place un processus de nettoyage périodique :
 # Créer un script de nettoyage
 cat > cleanup-networks.sh << 'EOF'
 #!/bin/bash
-echo "Nettoyage des réseaux Docker inutilisés..."
-docker network prune -f
-echo "Réseaux restants:"
-docker network ls
-EOF
+echo "Nettoyage des réseaux Docker inutilisés..."  
+docker network prune -f  
+echo "Réseaux restants:"  
+docker network ls  
+EOF  
 
 chmod +x cleanup-networks.sh
 ```
@@ -873,14 +873,14 @@ N'exposez (avec `-p`) que les services qui doivent être accessibles depuis l'ex
 
 ```bash
 # ✅ BON - Seul le frontend est exposé
-docker run -d --network frontend-net -p 80:80 web-frontend
-docker run -d --network backend-net api-backend  # Pas de -p
-docker run -d --network db-net postgres-db       # Pas de -p
+docker run -d --network frontend-net -p 80:80 web-frontend  
+docker run -d --network backend-net api-backend  # Pas de -p  
+docker run -d --network db-net postgres-db       # Pas de -p  
 
 # ❌ MAUVAIS - Tout est exposé
-docker run -d -p 80:80 web-frontend
-docker run -d -p 3000:3000 api-backend
-docker run -d -p 5432:5432 postgres-db
+docker run -d -p 80:80 web-frontend  
+docker run -d -p 3000:3000 api-backend  
+docker run -d -p 5432:5432 postgres-db  
 ```
 
 ### 7. Utilisez des sous-réseaux cohérents
@@ -889,14 +889,14 @@ Définissez un schéma d'adressage cohérent :
 
 ```bash
 # Développement : 172.20.x.0/16
-docker network create --subnet=172.20.1.0/24 app-dev-frontend
-docker network create --subnet=172.20.2.0/24 app-dev-backend
-docker network create --subnet=172.20.3.0/24 app-dev-database
+docker network create --subnet=172.20.1.0/24 app-dev-frontend  
+docker network create --subnet=172.20.2.0/24 app-dev-backend  
+docker network create --subnet=172.20.3.0/24 app-dev-database  
 
 # Production : 172.21.x.0/16
-docker network create --subnet=172.21.1.0/24 app-prod-frontend
-docker network create --subnet=172.21.2.0/24 app-prod-backend
-docker network create --subnet=172.21.3.0/24 app-prod-database
+docker network create --subnet=172.21.1.0/24 app-prod-frontend  
+docker network create --subnet=172.21.2.0/24 app-prod-backend  
+docker network create --subnet=172.21.3.0/24 app-prod-database  
 ```
 
 ### 8. Testez avant de déployer en production
@@ -908,8 +908,8 @@ Testez votre configuration réseau dans un environnement de staging :
 docker network create --subnet=172.28.0.0/16 test-network
 
 # Lancer vos conteneurs
-docker run -d --network test-network --name test-app mon-app
-docker run -d --network test-network --name test-db postgres
+docker run -d --network test-network --name test-app mon-app  
+docker run -d --network test-network --name test-db postgres  
 
 # Tester la connectivité
 docker exec test-app ping test-db
@@ -923,9 +923,9 @@ docker exec test-app ping test-db
 #!/bin/bash
 # create-networks.sh
 
-PROJECT="monapp"
-ENVIRONMENTS=("dev" "staging" "prod")
-LAYERS=("frontend" "backend" "database")
+PROJECT="monapp"  
+ENVIRONMENTS=("dev" "staging" "prod")  
+LAYERS=("frontend" "backend" "database")  
 
 for ENV in "${ENVIRONMENTS[@]}"; do
     for LAYER in "${LAYERS[@]}"; do
@@ -941,8 +941,8 @@ for ENV in "${ENVIRONMENTS[@]}"; do
     done
 done
 
-echo "Réseaux créés avec succès!"
-docker network ls --filter label=projet=$PROJECT
+echo "Réseaux créés avec succès!"  
+docker network ls --filter label=projet=$PROJECT  
 ```
 
 ### Script de nettoyage intelligent
@@ -951,12 +951,12 @@ docker network ls --filter label=projet=$PROJECT
 #!/bin/bash
 # cleanup-networks.sh
 
-echo "Réseaux inutilisés:"
-docker network ls --filter "dangling=true"
+echo "Réseaux inutilisés:"  
+docker network ls --filter "dangling=true"  
 
-echo ""
-read -p "Voulez-vous supprimer ces réseaux? (y/n) " -n 1 -r
-echo
+echo ""  
+read -p "Voulez-vous supprimer ces réseaux? (y/n) " -n 1 -r  
+echo  
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     docker network prune -f
@@ -971,8 +971,6 @@ fi
 Dans Docker Compose, vous pouvez facilement gérer des réseaux personnalisés :
 
 ```yaml
-version: '3.8'
-
 services:
   web:
     image: nginx
