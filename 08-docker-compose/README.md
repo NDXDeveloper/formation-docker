@@ -65,8 +65,6 @@ docker run -d \
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
-
 services:
   database:
     image: postgres:15
@@ -173,9 +171,9 @@ Orchestrez plusieurs microservices localement pour le développement et les test
 
 Avant de commencer ce chapitre, assurez-vous d'être à l'aise avec :
 
-✅ Les concepts de base de Docker (images, conteneurs)
-✅ Les commandes Docker essentielles (`docker run`, `docker build`)
-✅ Les volumes Docker pour la persistance des données
+✅ Les concepts de base de Docker (images, conteneurs)  
+✅ Les commandes Docker essentielles (`docker run`, `docker build`)  
+✅ Les volumes Docker pour la persistance des données  
 ✅ Les réseaux Docker pour la communication entre conteneurs
 
 Si vous avez suivi les chapitres précédents de cette formation, vous avez déjà toutes les connaissances nécessaires !
@@ -199,8 +197,6 @@ Si vous voyez un numéro de version (par exemple `Docker Compose version v2.23.0
 Pour vous donner un avant-goût, voici à quoi ressemble un fichier Docker Compose complet pour une application WordPress :
 
 ```yaml
-version: '3.8'
-
 services:
   # Base de données MySQL
   db:
@@ -270,8 +266,8 @@ docker compose up -d
 
 ### Notes importantes
 Les informations critiques seront mises en évidence :
-⚠️ **Attention** : Points importants à ne pas manquer
-✅ **Conseil** : Bonnes pratiques recommandées
+⚠️ **Attention** : Points importants à ne pas manquer  
+✅ **Conseil** : Bonnes pratiques recommandées  
 💡 **Astuce** : Astuces pour gagner du temps
 
 ## Mindset pour réussir
@@ -290,12 +286,12 @@ Docker Compose peut sembler intimidant au début, mais gardez à l'esprit :
 
 ## À la fin de ce chapitre, vous saurez...
 
-✅ Créer des fichiers `docker-compose.yml` pour vos projets
-✅ Orchestrer plusieurs services qui communiquent entre eux
-✅ Gérer les dépendances et l'ordre de démarrage
-✅ Utiliser les commandes essentielles pour gérer vos applications
-✅ Déboguer les problèmes courants
-✅ Appliquer les bonnes pratiques pour des configurations robustes
+✅ Créer des fichiers `docker-compose.yml` pour vos projets  
+✅ Orchestrer plusieurs services qui communiquent entre eux  
+✅ Gérer les dépendances et l'ordre de démarrage  
+✅ Utiliser les commandes essentielles pour gérer vos applications  
+✅ Déboguer les problèmes courants  
+✅ Appliquer les bonnes pratiques pour des configurations robustes  
 ✅ Créer des environnements de développement reproductibles
 
 ## Prêt à commencer ?
@@ -306,6 +302,6 @@ Docker Compose va transformer votre façon de travailler avec Docker. Au lieu de
 
 ---
 
-**Prochaine section** : [8.1 Introduction à Docker Compose](./8.1-introduction-docker-compose.md) - Découvrons en détail cet outil puissant !
+**Prochaine section** : [8.1 Introduction à Docker Compose](/08-docker-compose/01-introduction-a-docker-compose.md) - Découvrons en détail cet outil puissant !
 
 ⏭️ [Introduction à Docker Compose](/08-docker-compose/01-introduction-a-docker-compose.md)
