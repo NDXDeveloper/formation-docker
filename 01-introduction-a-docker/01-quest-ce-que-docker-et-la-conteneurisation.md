@@ -35,7 +35,7 @@ Les conteneurs maritimes ont révolutionné le transport en créant une unité s
 
 **Docker** est la plateforme de conteneurisation la plus populaire au monde. C'est un outil qui permet de créer, déployer et exécuter des applications dans des conteneurs.
 
-Docker n'a pas inventé la conteneurisation, mais il l'a rendue accessible, simple et standardisée pour tous les développeurs.
+Docker n'a pas inventé la conteneurisation. Des technologies comme **LXC** (Linux Containers), les **cgroups** et les **namespaces** Linux existaient déjà avant Docker. Mais Docker a rendu la conteneurisation accessible, simple et standardisée pour tous les développeurs, grâce à une interface conviviale et un écosystème complet (images, registres, outils).
 
 ### Les composants principaux de Docker
 
@@ -54,6 +54,8 @@ Chaque conteneur s'exécute dans son propre environnement isolé. Les conteneurs
 
 ### Portabilité
 Un conteneur qui fonctionne sur votre ordinateur portable fonctionnera exactement de la même manière sur un serveur de production, qu'il soit sous Linux, Windows ou macOS (avec Docker installé).
+
+> **Note :** Sur Windows et macOS, Docker exécute les conteneurs Linux à l'intérieur d'une machine virtuelle légère (gérée automatiquement par Docker Desktop). Cela est transparent pour l'utilisateur, mais signifie que les conteneurs Linux ne tournent pas directement sur le noyau de l'hôte dans ces cas-là.
 
 ### Légèreté
 Contrairement aux machines virtuelles, les conteneurs partagent le noyau du système d'exploitation hôte, ce qui les rend beaucoup plus légers et rapides à démarrer (quelques secondes au lieu de plusieurs minutes).
