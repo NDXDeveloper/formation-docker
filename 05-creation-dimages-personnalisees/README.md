@@ -35,9 +35,9 @@ Une image personnalisée garantit que votre application fonctionnera **exactemen
 
 **Le problème classique sans Docker** :
 ```
-Développeur 1: "Ça marche sur ma machine !"
-Développeur 2: "Chez moi ça ne fonctionne pas..."
-Admin système: "En production, ça plante..."
+Développeur 1: "Ça marche sur ma machine !"  
+Développeur 2: "Chez moi ça ne fonctionne pas..."  
+Admin système: "En production, ça plante..."  
 ```
 
 **Avec Docker** :
@@ -83,8 +83,8 @@ Code modifié → Tests → Build image → Tests sur l'image → Déploiement
 - Débug facilité
 
 ✅ **Versions multiples sans conflit**
-- Python 2.7 pour un projet, Python 3.11 pour un autre
-- Node 14 et Node 18 sur la même machine
+- Python 3.9 pour un projet, Python 3.12 pour un autre
+- Node 18 et Node 22 sur la même machine
 - Aucun conflit de dépendances
 
 ### Pour les équipes
@@ -92,9 +92,9 @@ Code modifié → Tests → Build image → Tests sur l'image → Déploiement
 ✅ **Onboarding accéléré**
 ```bash
 # Au lieu de 2 jours d'installation...
-git clone projet
-cd projet
-docker-compose up
+git clone projet  
+cd projet  
+docker compose up  
 # ... 5 minutes !
 ```
 
@@ -165,12 +165,12 @@ Voici le processus typique que vous allez apprendre :
 Un fichier texte qui décrit comment construire votre image :
 
 ```dockerfile
-FROM node:18
-WORKDIR /app
-COPY package.json .
-RUN npm install
-COPY . .
-CMD ["npm", "start"]
+FROM node:18  
+WORKDIR /app  
+COPY package.json .  
+RUN npm install  
+COPY . .  
+CMD ["npm", "start"]  
 ```
 
 ### 2. Construire l'image
@@ -273,30 +273,30 @@ docker build -t mon-image:v1.0 .
 Des **bibliothèques** où stocker et partager vos images :
 - **Docker Hub** : registre public gratuit
 - **Registres privés** : pour les images internes d'entreprise
-- **GitHub Container Registry**, **Amazon ECR**, **Google Container Registry**...
+- **GitHub Container Registry**, **Amazon ECR**, **Google Artifact Registry**...
 
 ## Analogies pour bien comprendre
 
 ### Analogie 1 : La recette de cuisine
 
-**Image de base** = Pâte à pizza du commerce
-**Dockerfile** = Votre recette personnalisée
-**docker build** = Le four qui cuit la pizza
-**Image finale** = Votre pizza personnalisée prête à servir
-**Conteneur** = Une assiette avec une part de cette pizza
+**Image de base** = Pâte à pizza du commerce  
+**Dockerfile** = Votre recette personnalisée  
+**docker build** = Le four qui cuit la pizza  
+**Image finale** = Votre pizza personnalisée prête à servir  
+**Conteneur** = Une assiette avec une part de cette pizza  
 
 ### Analogie 2 : La construction d'une maison
 
-**Image de base** = Fondations et structure de base
-**Instructions du Dockerfile** = Plans de construction
-**Couches (layers)** = Étages successifs
-**docker build** = L'équipe de construction
-**Image finale** = Maison terminée et habitable
+**Image de base** = Fondations et structure de base  
+**Instructions du Dockerfile** = Plans de construction  
+**Couches (layers)** = Étages successifs  
+**docker build** = L'équipe de construction  
+**Image finale** = Maison terminée et habitable  
 
 ### Analogie 3 : Le modèle et les copies
 
-**Image** = Un moule à gaufres
-**Conteneur** = Une gaufre faite avec ce moule
+**Image** = Un moule à gaufres  
+**Conteneur** = Une gaufre faite avec ce moule  
 - Le moule (image) reste intact
 - On peut faire autant de gaufres (conteneurs) qu'on veut
 - Chaque gaufre est identique aux autres
@@ -305,10 +305,10 @@ Des **bibliothèques** où stocker et partager vos images :
 
 Pour tirer le meilleur parti de cette section, assurez-vous de :
 
-✅ Avoir Docker installé et fonctionnel
-✅ Connaître les commandes de base (sections 1-4)
-✅ Comprendre ce qu'est une image et un conteneur
-✅ Savoir utiliser `docker run`, `docker ps`, `docker images`
+✅ Avoir Docker installé et fonctionnel  
+✅ Connaître les commandes de base (sections 1-4)  
+✅ Comprendre ce qu'est une image et un conteneur  
+✅ Savoir utiliser `docker run`, `docker ps`, `docker images`  
 ✅ Avoir un éditeur de texte (VS Code, Sublime, Vim, etc.)
 
 ## État d'esprit et approche
@@ -368,16 +368,16 @@ En créant des Dockerfiles, vous adoptez une philosophie moderne :
 
 **Avant Docker** :
 ```
-Configuration manuelle du serveur
-Documentation dans un wiki (souvent obsolète)
+Configuration manuelle du serveur  
+Documentation dans un wiki (souvent obsolète)  
 "On a installé ça il y a 2 ans, je ne sais plus comment..."
 ```
 
 **Avec Docker** :
 ```
-Configuration dans le Dockerfile (versionnée avec Git)
-Documentation vivante et toujours à jour
-Reproductible à l'infini
+Configuration dans le Dockerfile (versionnée avec Git)  
+Documentation vivante et toujours à jour  
+Reproductible à l'infini  
 ```
 
 Votre infrastructure devient du **code** :
