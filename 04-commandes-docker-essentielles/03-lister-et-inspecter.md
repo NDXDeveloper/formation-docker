@@ -29,9 +29,9 @@ docker ps
 ### Exemple de sortie
 
 ```
-CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                  NAMES
-f4d5e8a9b2c1   nginx     "/docker-entrypoint.…"   5 minutes ago   Up 5 minutes   0.0.0.0:8080->80/tcp   mon-nginx
-a1b2c3d4e5f6   mysql     "docker-entrypoint.s…"   2 hours ago     Up 2 hours     3306/tcp, 33060/tcp    ma-base
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                  NAMES  
+f4d5e8a9b2c1   nginx     "/docker-entrypoint.…"   5 minutes ago   Up 5 minutes   0.0.0.0:8080->80/tcp   mon-nginx  
+a1b2c3d4e5f6   mysql     "docker-entrypoint.s…"   2 hours ago     Up 2 hours     3306/tcp, 33060/tcp    ma-base  
 ```
 
 ### Comprendre les colonnes
@@ -65,9 +65,9 @@ docker ps --all
 Exemple de sortie incluant des conteneurs arrêtés :
 
 ```
-CONTAINER ID   IMAGE         STATUS                     NAMES
-f4d5e8a9b2c1   nginx         Up 5 minutes               mon-nginx
-a1b2c3d4e5f6   mysql         Up 2 hours                 ma-base
+CONTAINER ID   IMAGE         STATUS                     NAMES  
+f4d5e8a9b2c1   nginx         Up 5 minutes               mon-nginx  
+a1b2c3d4e5f6   mysql         Up 2 hours                 ma-base  
 9e8d7c6b5a4f   ubuntu        Exited (0) 10 minutes ago  test-ubuntu
 3b2a1c0d9e8f   hello-world   Exited (0) 3 days ago      modest_tesla
 ```
@@ -87,8 +87,8 @@ docker ps -q
 
 Sortie :
 ```
-f4d5e8a9b2c1
-a1b2c3d4e5f6
+f4d5e8a9b2c1  
+a1b2c3d4e5f6  
 ```
 
 C'est très utile pour les scripts et pour combiner avec d'autres commandes :
@@ -142,9 +142,9 @@ docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Status}}"
 
 Sortie :
 ```
-CONTAINER ID   NAMES         STATUS
-f4d5e8a9b2c1   mon-nginx     Up 5 minutes
-a1b2c3d4e5f6   ma-base       Up 2 hours
+CONTAINER ID   NAMES         STATUS  
+f4d5e8a9b2c1   mon-nginx     Up 5 minutes  
+a1b2c3d4e5f6   ma-base       Up 2 hours  
 ```
 
 Variables disponibles :
@@ -207,12 +207,12 @@ docker image ls
 ### Exemple de sortie
 
 ```
-REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
-nginx         latest    605c77e624dd   2 weeks ago    141MB
-nginx         alpine    8e75cbc5b25c   2 weeks ago    41MB
-mysql         8.0       3218b38490ce   3 weeks ago    517MB
-python        3.11      a7a6f5d0f4e6   1 month ago    917MB
-ubuntu        22.04     5a81c4b8502e   2 months ago   77.8MB
+REPOSITORY    TAG       IMAGE ID       CREATED        SIZE  
+nginx         latest    605c77e624dd   2 weeks ago    141MB  
+nginx         alpine    8e75cbc5b25c   2 weeks ago    41MB  
+mysql         8.0       3218b38490ce   3 weeks ago    517MB  
+python        3.11      a7a6f5d0f4e6   1 month ago    917MB  
+ubuntu        22.04     5a81c4b8502e   2 months ago   77.8MB  
 ```
 
 ### Comprendre les colonnes
@@ -220,7 +220,7 @@ ubuntu        22.04     5a81c4b8502e   2 months ago   77.8MB
 | Colonne | Description | Exemple |
 |---------|-------------|---------|
 | **REPOSITORY** | Nom de l'image (dépôt) | `nginx` |
-| **TAG** | Version ou variante de l'image | `latest`, `alpine`, `1.25` |
+| **TAG** | Version ou variante de l'image | `latest`, `alpine`, `1.27` |
 | **IMAGE ID** | Identifiant unique de l'image (12 premiers caractères) | `605c77e624dd` |
 | **CREATED** | Quand l'image a été créée (par le créateur) | `2 weeks ago` |
 | **SIZE** | Taille de l'image sur le disque | `141MB` |
@@ -230,10 +230,10 @@ ubuntu        22.04     5a81c4b8502e   2 months ago   77.8MB
 Une image complète est identifiée par `REPOSITORY:TAG` :
 
 ```
-nginx:latest
-nginx:1.25
-nginx:alpine
-python:3.11-slim
+nginx:latest  
+nginx:1.27  
+nginx:alpine  
+python:3.11-slim  
 ```
 
 - Si vous ne spécifiez pas de tag, Docker utilise automatiquement `latest`
@@ -314,10 +314,10 @@ docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}"
 
 Sortie :
 ```
-REPOSITORY   TAG       SIZE
-nginx        latest    141MB
-mysql        8.0       517MB
-python       3.11      917MB
+REPOSITORY   TAG       SIZE  
+nginx        latest    141MB  
+mysql        8.0       517MB  
+python       3.11      917MB  
 ```
 
 ### Afficher les digest avec `--digests`
@@ -330,8 +330,8 @@ docker images --digests
 
 Sortie :
 ```
-REPOSITORY   TAG      DIGEST                                                                    IMAGE ID       SIZE
-nginx        latest   sha256:0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31   605c77e624dd   141MB
+REPOSITORY   TAG      DIGEST                                                                    IMAGE ID       SIZE  
+nginx        latest   sha256:0d17b565c37bcbd895e9d92315a05c1c3c9a29f762b011a10c54a66cd53c9b31   605c77e624dd   141MB  
 ```
 
 ## La commande `docker inspect` : inspection détaillée
@@ -496,8 +496,8 @@ docker inspect conteneur1 conteneur2 image1
 Ces deux commandes sont équivalentes :
 
 ```bash
-docker ps
-docker container ls
+docker ps  
+docker container ls  
 ```
 
 La syntaxe `docker container ls` fait partie de la nouvelle syntaxe Docker qui regroupe les commandes par type de ressource.
@@ -507,8 +507,8 @@ La syntaxe `docker container ls` fait partie de la nouvelle syntaxe Docker qui r
 Pareil pour les images :
 
 ```bash
-docker images
-docker image ls
+docker images  
+docker image ls  
 ```
 
 ### Nouvelle syntaxe recommandée
@@ -621,8 +621,8 @@ docker stop $(docker ps -q -f name=nginx)
 Avant de chercher un problème, inspectez d'abord le conteneur :
 
 ```bash
-docker inspect mon-conteneur
-docker logs mon-conteneur
+docker inspect mon-conteneur  
+docker logs mon-conteneur  
 ```
 
 ### 5. Nettoyez régulièrement
