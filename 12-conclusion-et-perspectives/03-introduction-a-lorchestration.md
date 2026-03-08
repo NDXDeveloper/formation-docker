@@ -22,13 +22,13 @@ L'**orchestration de conteneurs** est l'automatisation du déploiement, de la ge
 
 Un orchestrateur de conteneurs :
 
-✅ **Déploie** vos applications sur plusieurs serveurs
-✅ **Surveille** la santé de vos conteneurs
-✅ **Redémarre** automatiquement les conteneurs qui plantent
-✅ **Scale** (augmente/diminue) le nombre de conteneurs selon la charge
-✅ **Distribue** le trafic entre les conteneurs (load balancing)
-✅ **Met à jour** les applications sans interruption de service (rolling updates)
-✅ **Gère** les secrets et la configuration
+✅ **Déploie** vos applications sur plusieurs serveurs  
+✅ **Surveille** la santé de vos conteneurs  
+✅ **Redémarre** automatiquement les conteneurs qui plantent  
+✅ **Scale** (augmente/diminue) le nombre de conteneurs selon la charge  
+✅ **Distribue** le trafic entre les conteneurs (load balancing)  
+✅ **Met à jour** les applications sans interruption de service (rolling updates)  
+✅ **Gère** les secrets et la configuration  
 ✅ **Organise** le réseau entre les conteneurs
 
 ## Pourquoi avez-vous besoin d'orchestration ?
@@ -48,22 +48,22 @@ services:
 
 **Problèmes qui apparaissent** :
 
-❌ **Panne du serveur** → Toute l'application tombe
-❌ **Pic de trafic** → Impossible d'ajouter automatiquement des conteneurs
-❌ **Ressources limitées** → Un seul serveur a une capacité limitée
-❌ **Mise à jour** → Temps d'arrêt pendant le déploiement
-❌ **Conteneur qui plante** → Doit être redémarré manuellement
+❌ **Panne du serveur** → Toute l'application tombe  
+❌ **Pic de trafic** → Impossible d'ajouter automatiquement des conteneurs  
+❌ **Ressources limitées** → Un seul serveur a une capacité limitée  
+❌ **Mise à jour** → Temps d'arrêt pendant le déploiement  
+❌ **Conteneur qui plante** → Doit être redémarré manuellement  
 ❌ **Distribution du trafic** → Pas de load balancing avancé
 
 ### La solution avec orchestration
 
 **Avec un orchestrateur sur un cluster** :
 
-✅ **Haute disponibilité** : L'application tourne sur plusieurs serveurs
-✅ **Auto-scaling** : Ajoute automatiquement des conteneurs si besoin
-✅ **Auto-healing** : Redémarre les conteneurs défaillants automatiquement
-✅ **Rolling updates** : Met à jour sans interruption de service
-✅ **Load balancing** : Distribue intelligemment le trafic
+✅ **Haute disponibilité** : L'application tourne sur plusieurs serveurs  
+✅ **Auto-scaling** : Ajoute automatiquement des conteneurs si besoin  
+✅ **Auto-healing** : Redémarre les conteneurs défaillants automatiquement  
+✅ **Rolling updates** : Met à jour sans interruption de service  
+✅ **Load balancing** : Distribue intelligemment le trafic  
 ✅ **Gestion des ressources** : Optimise l'utilisation des serveurs
 
 ### Quand avez-vous besoin d'orchestration ?
@@ -91,15 +91,15 @@ Il existe deux orchestrateurs majeurs dans l'écosystème Docker :
 
 ### Docker Swarm
 
-**Créé par** : Docker Inc.
-**Année** : 2016
-**Philosophie** : Simplicité et intégration native avec Docker
+**Créé par** : Docker Inc.  
+**Année** : 2016  
+**Philosophie** : Simplicité et intégration native avec Docker  
 
 ### Kubernetes
 
-**Créé par** : Google (maintenant CNCF)
-**Année** : 2014
-**Philosophie** : Flexibilité et puissance maximale
+**Créé par** : Google (maintenant CNCF)  
+**Année** : 2014  
+**Philosophie** : Flexibilité et puissance maximale  
 
 **Note importante** : Nous allons présenter les deux, mais sachez que **Kubernetes** est devenu le standard de l'industrie et est beaucoup plus utilisé que Docker Swarm.
 
@@ -139,8 +139,8 @@ Cluster Swarm
     └── Worker 3
 ```
 
-**Managers** : Gèrent le cluster, prennent les décisions
-**Workers** : Exécutent les conteneurs
+**Managers** : Gèrent le cluster, prennent les décisions  
+**Workers** : Exécutent les conteneurs  
 
 #### Services
 
@@ -186,8 +186,6 @@ Docker Swarm utilise des fichiers similaires à docker-compose.yml :
 
 **docker-stack.yml** :
 ```yaml
-version: '3.8'
-
 services:
   web:
     image: nginx:alpine
@@ -321,8 +319,6 @@ Dans le conteneur, le secret est disponible à `/run/secrets/db_password`.
 
 **docker-stack.yml** :
 ```yaml
-version: '3.8'
-
 services:
   frontend:
     image: my-frontend:latest
@@ -377,18 +373,18 @@ volumes:
 
 ### Avantages de Docker Swarm
 
-✅ **Simplicité** : Si vous connaissez Docker, vous connaissez 80% de Swarm
-✅ **Zéro configuration** : Intégré à Docker Engine
-✅ **Apprentissage rapide** : Courbe d'apprentissage douce
-✅ **Fichiers Compose** : Réutilisez vos docker-compose.yml
+✅ **Simplicité** : Si vous connaissez Docker, vous connaissez 80% de Swarm  
+✅ **Zéro configuration** : Intégré à Docker Engine  
+✅ **Apprentissage rapide** : Courbe d'apprentissage douce  
+✅ **Fichiers Compose** : Réutilisez vos docker-compose.yml  
 ✅ **Léger** : Peu de ressources nécessaires
 
 ### Limites de Docker Swarm
 
-❌ **Moins de fonctionnalités** que Kubernetes
-❌ **Écosystème limité** : Moins d'outils et intégrations
-❌ **Adoption en déclin** : Moins utilisé en entreprise
-❌ **Scaling limité** : Moins performant sur très grands clusters
+❌ **Moins de fonctionnalités** que Kubernetes  
+❌ **Écosystème limité** : Moins d'outils et intégrations  
+❌ **Adoption en déclin** : Moins utilisé en entreprise  
+❌ **Scaling limité** : Moins performant sur très grands clusters  
 ❌ **Développement ralenti** : Docker se concentre moins dessus
 
 ### Quand utiliser Docker Swarm ?
@@ -412,20 +408,20 @@ volumes:
 
 Kubernetes (souvent abrégé **K8s**) est la **plateforme d'orchestration la plus populaire au monde**. C'est devenu le standard de facto pour déployer et gérer des applications conteneurisées à grande échelle.
 
-**Créé par** : Google, basé sur leur système interne Borg
-**Open source depuis** : 2014
-**Maintenu par** : Cloud Native Computing Foundation (CNCF)
+**Créé par** : Google, basé sur leur système interne Borg  
+**Open source depuis** : 2014  
+**Maintenu par** : Cloud Native Computing Foundation (CNCF)  
 
 **Utilisé par** : Google, Microsoft, Amazon, Netflix, Spotify, Airbnb, Uber, et des milliers d'autres entreprises.
 
 ### Pourquoi Kubernetes domine ?
 
-✅ **Standard de l'industrie** : Compétence la plus recherchée en DevOps
-✅ **Écosystème énorme** : Des milliers d'outils et intégrations
-✅ **Puissant et flexible** : Gère des workloads complexes
-✅ **Cloud-agnostic** : Fonctionne partout (AWS, Azure, GCP, on-premise)
-✅ **Communauté active** : Support, documentation, ressources
-✅ **Scaling massif** : Géré des clusters de milliers de nœuds
+✅ **Standard de l'industrie** : Compétence la plus recherchée en DevOps  
+✅ **Écosystème énorme** : Des milliers d'outils et intégrations  
+✅ **Puissant et flexible** : Gère des workloads complexes  
+✅ **Cloud-agnostic** : Fonctionne partout (AWS, Azure, GCP, on-premise)  
+✅ **Communauté active** : Support, documentation, ressources  
+✅ **Scaling massif** : Géré des clusters de milliers de nœuds  
 ✅ **Self-healing avancé** : Récupération automatique sophistiquée
 
 ### Concepts de base
@@ -437,9 +433,9 @@ Kubernetes a sa propre terminologie, différente de Docker :
 Le **Pod** est l'unité de base dans Kubernetes (équivalent d'un ou plusieurs conteneurs liés).
 
 ```yaml
-apiVersion: v1
-kind: Pod
-metadata:
+apiVersion: v1  
+kind: Pod  
+metadata:  
   name: my-app
 spec:
   containers:
@@ -456,9 +452,9 @@ spec:
 Un **Deployment** gère un ensemble de Pods identiques (replicas).
 
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
+apiVersion: apps/v1  
+kind: Deployment  
+metadata:  
   name: my-app
 spec:
   replicas: 3
@@ -488,9 +484,9 @@ spec:
 Un **Service** expose vos Pods et distribue le trafic (load balancing).
 
 ```yaml
-apiVersion: v1
-kind: Service
-metadata:
+apiVersion: v1  
+kind: Service  
+metadata:  
   name: my-app
 spec:
   selector:
@@ -536,8 +532,8 @@ Kubernetes Cluster
     └── Node 3
 ```
 
-**Control Plane** : Le "cerveau" qui gère le cluster
-**Worker Nodes** : Les machines qui exécutent vos applications
+**Control Plane** : Le "cerveau" qui gère le cluster  
+**Worker Nodes** : Les machines qui exécutent vos applications  
 
 ### Commandes de base kubectl
 
@@ -578,9 +574,9 @@ kubectl delete -f deployment.yaml
 
 **deployment.yaml** :
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
+apiVersion: apps/v1  
+kind: Deployment  
+metadata:  
   name: web-app
   labels:
     app: web
@@ -618,9 +614,9 @@ spec:
 
 **service.yaml** :
 ```yaml
-apiVersion: v1
-kind: Service
-metadata:
+apiVersion: v1  
+kind: Service  
+metadata:  
   name: web-service
 spec:
   selector:
@@ -634,13 +630,13 @@ spec:
 
 **3. Déploiement** :
 ```bash
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
+kubectl apply -f deployment.yaml  
+kubectl apply -f service.yaml  
 
 # Vérifier
-kubectl get deployments
-kubectl get pods
-kubectl get services
+kubectl get deployments  
+kubectl get pods  
+kubectl get services  
 ```
 
 **4. Scaling** :
@@ -664,9 +660,9 @@ kubectl rollout undo deployment/web-app
 
 **ConfigMap** : Configuration non-sensible
 ```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
+apiVersion: v1  
+kind: ConfigMap  
+metadata:  
   name: app-config
 data:
   APP_ENV: production
@@ -675,12 +671,12 @@ data:
 
 **Secret** : Données sensibles
 ```yaml
-apiVersion: v1
-kind: Secret
-metadata:
+apiVersion: v1  
+kind: Secret  
+metadata:  
   name: app-secrets
-type: Opaque
-data:
+type: Opaque  
+data:  
   password: bW9uX21vdF9kZV9wYXNzZQ==  # base64
 ```
 
@@ -701,9 +697,9 @@ spec:
 Pour les données persistantes :
 
 ```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
+apiVersion: v1  
+kind: PersistentVolumeClaim  
+metadata:  
   name: db-pvc
 spec:
   accessModes:
@@ -731,9 +727,9 @@ spec:
 Routage HTTP/HTTPS avancé :
 
 ```yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
+apiVersion: networking.k8s.io/v1  
+kind: Ingress  
+metadata:  
   name: app-ingress
 spec:
   rules:
@@ -754,9 +750,9 @@ spec:
 Scaling automatique basé sur les métriques :
 
 ```yaml
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
+apiVersion: autoscaling/v2  
+kind: HorizontalPodAutoscaler  
+metadata:  
   name: web-hpa
 spec:
   scaleTargetRef:
@@ -789,17 +785,17 @@ Kubernetes ajustera automatiquement de 3 à 10 replicas selon l'utilisation CPU.
 
 **namespace.yaml** :
 ```yaml
-apiVersion: v1
-kind: Namespace
-metadata:
+apiVersion: v1  
+kind: Namespace  
+metadata:  
   name: myapp
 ```
 
 **frontend-deployment.yaml** :
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
+apiVersion: apps/v1  
+kind: Deployment  
+metadata:  
   name: frontend
   namespace: myapp
 spec:
@@ -818,9 +814,9 @@ spec:
         ports:
         - containerPort: 3000
 ---
-apiVersion: v1
-kind: Service
-metadata:
+apiVersion: v1  
+kind: Service  
+metadata:  
   name: frontend
   namespace: myapp
 spec:
@@ -833,9 +829,9 @@ spec:
 
 **api-deployment.yaml** :
 ```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
+apiVersion: apps/v1  
+kind: Deployment  
+metadata:  
   name: api
   namespace: myapp
 spec:
@@ -859,9 +855,9 @@ spec:
         - name: REDIS_URL
           value: redis://redis:6379
 ---
-apiVersion: v1
-kind: Service
-metadata:
+apiVersion: v1  
+kind: Service  
+metadata:  
   name: api
   namespace: myapp
 spec:
@@ -873,12 +869,12 @@ spec:
 
 **Déployer** :
 ```bash
-kubectl apply -f namespace.yaml
-kubectl apply -f frontend-deployment.yaml
-kubectl apply -f api-deployment.yaml
-kubectl apply -f database-deployment.yaml
-kubectl apply -f redis-deployment.yaml
-kubectl apply -f ingress.yaml
+kubectl apply -f namespace.yaml  
+kubectl apply -f frontend-deployment.yaml  
+kubectl apply -f api-deployment.yaml  
+kubectl apply -f database-deployment.yaml  
+kubectl apply -f redis-deployment.yaml  
+kubectl apply -f ingress.yaml  
 ```
 
 ### Outils de l'écosystème Kubernetes
@@ -932,22 +928,22 @@ kubectl apply -k overlays/production
 
 ### Avantages de Kubernetes
 
-✅ **Standard de l'industrie** : Compétence la plus demandée
-✅ **Puissance et flexibilité** : Gère des workloads très complexes
-✅ **Écosystème riche** : Des milliers d'outils et intégrations
-✅ **Cloud-agnostic** : Même expérience partout
-✅ **Scaling massif** : Milliers de nœuds, dizaines de milliers de Pods
-✅ **Self-healing avancé** : Récupération sophistiquée
-✅ **Communauté énorme** : Support, documentation, événements
+✅ **Standard de l'industrie** : Compétence la plus demandée  
+✅ **Puissance et flexibilité** : Gère des workloads très complexes  
+✅ **Écosystème riche** : Des milliers d'outils et intégrations  
+✅ **Cloud-agnostic** : Même expérience partout  
+✅ **Scaling massif** : Milliers de nœuds, dizaines de milliers de Pods  
+✅ **Self-healing avancé** : Récupération sophistiquée  
+✅ **Communauté énorme** : Support, documentation, événements  
 ✅ **Évolution constante** : Nouvelles fonctionnalités régulières
 
 ### Défis de Kubernetes
 
-❌ **Complexité** : Courbe d'apprentissage abrupte
-❌ **Over-engineering** : Peut être trop pour des petits projets
-❌ **Configuration verbose** : Beaucoup de YAML
-❌ **Ressources nécessaires** : Cluster minimum = plusieurs serveurs
-❌ **Expertise requise** : Gestion opérationnelle complexe
+❌ **Complexité** : Courbe d'apprentissage abrupte  
+❌ **Over-engineering** : Peut être trop pour des petits projets  
+❌ **Configuration verbose** : Beaucoup de YAML  
+❌ **Ressources nécessaires** : Cluster minimum = plusieurs serveurs  
+❌ **Expertise requise** : Gestion opérationnelle complexe  
 ❌ **Temps de setup** : Plus long à mettre en place que Swarm
 
 ### Quand utiliser Kubernetes ?
@@ -1047,11 +1043,11 @@ az aks create --resource-group myRG --name myCluster
 
 ### Avantages du Managed K8s
 
-✅ Pas de gestion du control plane
-✅ Mises à jour automatiques
-✅ Backup et récupération
-✅ Intégration cloud native
-✅ Scaling automatique du cluster
+✅ Pas de gestion du control plane  
+✅ Mises à jour automatiques  
+✅ Backup et récupération  
+✅ Intégration cloud native  
+✅ Scaling automatique du cluster  
 ✅ Support professionnel
 
 **Coût** : Gratuit pour le control plane (vous payez seulement les nœuds worker)
@@ -1071,8 +1067,8 @@ brew install minikube
 choco install minikube
 
 # Linux
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64  
+sudo install minikube-linux-amd64 /usr/local/bin/minikube  
 ```
 
 **Usage** :
@@ -1100,9 +1096,9 @@ minikube delete
 brew install kind
 
 # Linux
-curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
-chmod +x ./kind
-sudo mv ./kind /usr/local/bin/kind
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64  
+chmod +x ./kind  
+sudo mv ./kind /usr/local/bin/kind  
 ```
 
 **Usage** :
@@ -1223,10 +1219,10 @@ curl -sfL https://get.k3s.io | sh -
 
 #### CKA (Certified Kubernetes Administrator)
 
-**Niveau** : Intermédiaire
-**Durée** : 2 heures
-**Format** : Pratique (pas QCM)
-**Coût** : ~395 USD
+**Niveau** : Intermédiaire  
+**Durée** : 2 heures  
+**Format** : Pratique (pas QCM)  
+**Coût** : ~395 USD  
 
 **Domaines** :
 - Installation et configuration
@@ -1237,9 +1233,9 @@ curl -sfL https://get.k3s.io | sh -
 
 #### CKAD (Certified Kubernetes Application Developer)
 
-**Niveau** : Intermédiaire
-**Focus** : Développeurs
-**Format** : Pratique
+**Niveau** : Intermédiaire  
+**Focus** : Développeurs  
+**Format** : Pratique  
 
 **Domaines** :
 - Core concepts
@@ -1250,9 +1246,9 @@ curl -sfL https://get.k3s.io | sh -
 
 #### CKS (Certified Kubernetes Security Specialist)
 
-**Niveau** : Avancé
-**Prérequis** : CKA
-**Focus** : Sécurité
+**Niveau** : Avancé  
+**Prérequis** : CKA  
+**Focus** : Sécurité  
 
 **Domaines** :
 - Cluster setup
@@ -1284,7 +1280,7 @@ curl -sfL https://get.k3s.io | sh -
 **Docker/Docker Compose** → **Kubernetes**
 
 - `docker run` → `kubectl apply -f deployment.yaml`
-- `docker-compose up` → `kubectl apply -f *.yaml`
+- `docker compose up` → `kubectl apply -f *.yaml`
 - `docker ps` → `kubectl get pods`
 - `docker logs` → `kubectl logs`
 - `docker exec` → `kubectl exec`
@@ -1378,8 +1374,8 @@ kompose convert -f docker-compose.yml
 
 ### L'orchestration en perspective
 
-**Docker** vous a donné la capacité de conteneuriser vos applications.
-**L'orchestration** vous donne la capacité de les gérer à l'échelle de la production.
+**Docker** vous a donné la capacité de conteneuriser vos applications.  
+**L'orchestration** vous donne la capacité de les gérer à l'échelle de la production.  
 
 C'est la différence entre :
 - Développer une application sur votre laptop
