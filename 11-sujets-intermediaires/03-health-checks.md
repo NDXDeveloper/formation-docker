@@ -108,10 +108,10 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 ```dockerfile
 FROM node:18-alpine
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm install --production
-COPY . .
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm ci --omit=dev  
+COPY . .  
 
 # Health check HTTP avec curl
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
@@ -170,10 +170,10 @@ HEALTHCHECK --interval=5s --timeout=3s --start-period=5s \
 ```dockerfile
 FROM python:3.11-slim
 
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
+WORKDIR /app  
+COPY requirements.txt .  
+RUN pip install --no-cache-dir -r requirements.txt  
+COPY . .  
 
 # Health check avec curl
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s \
@@ -202,10 +202,10 @@ app.get('/health', (req, res) => {
 ```dockerfile
 FROM node:18-alpine
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm install --production
-COPY . .
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm ci --omit=dev  
+COPY . .  
 
 # Health check sur l'endpoint dédié
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
@@ -252,8 +252,6 @@ C'est la méthode la plus courante en pratique.
 ### Syntaxe Docker Compose
 
 ```yaml
-version: '3.8'
-
 services:
   web:
     image: nginx:alpine
@@ -268,8 +266,6 @@ services:
 ### Exemple complet : Application multi-services
 
 ```yaml
-version: '3.8'
-
 services:
   # Frontend
   frontend:
@@ -350,10 +346,10 @@ docker ps
 
 **Output** :
 ```
-CONTAINER ID   IMAGE     STATUS                    PORTS
-abc123         nginx     Up 2 minutes (healthy)    80/tcp
-def456         redis     Up 1 minute (healthy)     6379/tcp
-ghi789         postgres  Up 30 seconds (starting)  5432/tcp
+CONTAINER ID   IMAGE     STATUS                    PORTS  
+abc123         nginx     Up 2 minutes (healthy)    80/tcp  
+def456         redis     Up 1 minute (healthy)     6379/tcp  
+ghi789         postgres  Up 30 seconds (starting)  5432/tcp  
 ```
 
 ### Commande docker inspect
@@ -443,8 +439,8 @@ FROM node:18-alpine
 # Installation de curl
 RUN apk add --no-cache curl
 
-WORKDIR /app
-COPY . .
+WORKDIR /app  
+COPY . .  
 
 # Health check complexe : vérifier l'API et la connexion DB
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s \
@@ -473,14 +469,14 @@ if ! curl -f http://localhost:3000/api/db/ping > /dev/null 2>&1; then
 fi
 
 # Vérifier l'utilisation mémoire (optionnel)
-MEMORY_USAGE=$(free | grep Mem | awk '{print ($3/$2) * 100.0}')
-if [ $(echo "$MEMORY_USAGE > 90" | bc) -eq 1 ]; then
+MEMORY_USAGE=$(free | grep Mem | awk '{print ($3/$2) * 100.0}')  
+if [ $(echo "$MEMORY_USAGE > 90" | bc) -eq 1 ]; then  
   echo "Memory usage too high: ${MEMORY_USAGE}%"
   exit 1
 fi
 
-echo "All checks passed"
-exit 0
+echo "All checks passed"  
+exit 0  
 ```
 
 **Dockerfile** :
@@ -489,10 +485,10 @@ FROM node:18-alpine
 
 RUN apk add --no-cache curl bc
 
-WORKDIR /app
-COPY healthcheck.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/healthcheck.sh
-COPY . .
+WORKDIR /app  
+COPY healthcheck.sh /usr/local/bin/  
+RUN chmod +x /usr/local/bin/healthcheck.sh  
+COPY . .  
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s \
   CMD /usr/local/bin/healthcheck.sh
@@ -557,8 +553,6 @@ Docker Swarm utilise les health checks pour :
 - Router le trafic uniquement vers les conteneurs healthy
 
 ```yaml
-version: '3.8'
-
 services:
   web:
     image: my-app
@@ -647,14 +641,14 @@ HEALTHCHECK --start-period=30s CMD pg_isready
 
 ```dockerfile
 # ❌ Erreur courante
-FROM alpine
-HEALTHCHECK CMD curl -f http://localhost
+FROM alpine  
+HEALTHCHECK CMD curl -f http://localhost  
 # curl n'est pas installé !
 
 # ✅ Correct
-FROM alpine
-RUN apk add --no-cache curl
-HEALTHCHECK CMD curl -f http://localhost
+FROM alpine  
+RUN apk add --no-cache curl  
+HEALTHCHECK CMD curl -f http://localhost  
 ```
 
 ### 5. Utilisez des codes de sortie corrects
@@ -865,8 +859,8 @@ HEALTHCHECK CMD test -f /tmp/app-ready || exit 1
 ```dockerfile
 FROM python:3.11-slim
 
-COPY healthcheck.py /usr/local/bin/
-RUN chmod +x /usr/local/bin/healthcheck.py
+COPY healthcheck.py /usr/local/bin/  
+RUN chmod +x /usr/local/bin/healthcheck.py  
 
 HEALTHCHECK CMD python /usr/local/bin/healthcheck.py
 ```
@@ -874,8 +868,8 @@ HEALTHCHECK CMD python /usr/local/bin/healthcheck.py
 **healthcheck.py** :
 ```python
 #!/usr/bin/env python3
-import sys
-import requests
+import sys  
+import requests  
 
 try:
     response = requests.get('http://localhost:5000/health', timeout=3)
@@ -931,12 +925,12 @@ Les health checks sont **essentiels** pour garantir la fiabilité de vos applica
 
 ### Points clés à retenir
 
-✅ **Toujours définir des health checks** en production
-✅ **Créer un endpoint /health dédié** dans vos applications
-✅ **Adapter le start-period** au temps de démarrage réel
-✅ **Garder les checks simples et rapides** (< 1 seconde)
-✅ **Utiliser depends_on avec condition** dans Docker Compose
-✅ **Surveiller les statuts** avec `docker ps` et `docker inspect`
+✅ **Toujours définir des health checks** en production  
+✅ **Créer un endpoint /health dédié** dans vos applications  
+✅ **Adapter le start-period** au temps de démarrage réel  
+✅ **Garder les checks simples et rapides** (< 1 seconde)  
+✅ **Utiliser depends_on avec condition** dans Docker Compose  
+✅ **Surveiller les statuts** avec `docker ps` et `docker inspect`  
 ✅ **Tester les health checks** avant la mise en production
 
 ### Commandes essentielles
@@ -958,8 +952,6 @@ docker logs container
 ### Template de base
 
 ```yaml
-version: '3.8'
-
 services:
   app:
     build: .
