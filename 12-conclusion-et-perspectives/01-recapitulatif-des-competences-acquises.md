@@ -69,30 +69,30 @@ docker run -d -p 8080:80 --name my-app nginx
 
 ✅ **Gérer le cycle de vie** des conteneurs
 ```bash
-docker start my-app
-docker stop my-app
-docker restart my-app
-docker rm my-app
+docker start my-app  
+docker stop my-app  
+docker restart my-app  
+docker rm my-app  
 ```
 
 ✅ **Inspecter et surveiller** vos conteneurs
 ```bash
-docker ps
-docker logs my-app
-docker stats my-app
-docker inspect my-app
+docker ps  
+docker logs my-app  
+docker stats my-app  
+docker inspect my-app  
 ```
 
 ✅ **Interagir** avec les conteneurs en cours d'exécution
 ```bash
-docker exec -it my-app bash
-docker attach my-app
+docker exec -it my-app bash  
+docker attach my-app  
 ```
 
 ✅ **Nettoyer** votre environnement Docker
 ```bash
-docker container prune
-docker system prune
+docker container prune  
+docker system prune  
 ```
 
 #### Ce que vous pouvez faire
@@ -109,42 +109,42 @@ docker system prune
 
 ✅ **Rechercher et télécharger** des images
 ```bash
-docker search nginx
-docker pull nginx:alpine
+docker search nginx  
+docker pull nginx:alpine  
 ```
 
 ✅ **Gérer les images locales**
 ```bash
-docker images
-docker rmi nginx:alpine
-docker image prune
+docker images  
+docker rmi nginx:alpine  
+docker image prune  
 ```
 
 ✅ **Comprendre les tags** et versions
 ```bash
-docker pull postgres:15
-docker pull postgres:15-alpine
-docker pull postgres:latest
+docker pull postgres:15  
+docker pull postgres:15-alpine  
+docker pull postgres:latest  
 ```
 
 #### Compétences de création
 
 ✅ **Écrire des Dockerfiles** complets et optimisés
 ```dockerfile
-FROM node:18-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+FROM node:18-alpine AS builder  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
+COPY . .  
+RUN npm run build  
 
-FROM node:18-alpine
-WORKDIR /app
-COPY --from=builder /app/dist ./dist
-COPY package*.json ./
-RUN npm install --production
-EXPOSE 3000
-CMD ["node", "dist/index.js"]
+FROM node:18-alpine  
+WORKDIR /app  
+COPY --from=builder /app/dist ./dist  
+COPY package*.json ./  
+RUN npm ci --omit=dev  
+EXPOSE 3000  
+CMD ["node", "dist/index.js"]  
 ```
 
 ✅ **Utiliser les instructions** Dockerfile correctement
@@ -160,9 +160,9 @@ CMD ["node", "dist/index.js"]
 
 ✅ **Construire des images** efficacement
 ```bash
-docker build -t my-app:1.0 .
-docker build --no-cache -t my-app:1.0 .
-docker build --target production -t my-app:prod .
+docker build -t my-app:1.0 .  
+docker build --no-cache -t my-app:1.0 .  
+docker build --target production -t my-app:prod .  
 ```
 
 ✅ **Optimiser les images** avec multi-stage builds
@@ -193,17 +193,17 @@ docker build --target production -t my-app:prod .
 
 ✅ **Utiliser les volumes Docker**
 ```bash
-docker volume create my-data
-docker run -v my-data:/app/data my-app
-docker volume ls
-docker volume inspect my-data
-docker volume rm my-data
+docker volume create my-data  
+docker run -v my-data:/app/data my-app  
+docker volume ls  
+docker volume inspect my-data  
+docker volume rm my-data  
 ```
 
 ✅ **Utiliser les bind mounts**
 ```bash
-docker run -v $(pwd):/app my-app
-docker run -v /host/path:/container/path my-app
+docker run -v $(pwd):/app my-app  
+docker run -v /host/path:/container/path my-app  
 ```
 
 ✅ **Choisir entre volumes et bind mounts**
@@ -212,8 +212,8 @@ docker run -v /host/path:/container/path my-app
 
 ✅ **Gérer les permissions** sur les volumes
 ```dockerfile
-RUN chown -R appuser:appuser /app/data
-USER appuser
+RUN chown -R appuser:appuser /app/data  
+USER appuser  
 ```
 
 #### Ce que vous pouvez faire
@@ -234,29 +234,29 @@ USER appuser
 
 ✅ **Créer et gérer des réseaux**
 ```bash
-docker network create my-network
-docker network ls
-docker network inspect my-network
-docker network rm my-network
+docker network create my-network  
+docker network ls  
+docker network inspect my-network  
+docker network rm my-network  
 ```
 
 ✅ **Connecter des conteneurs** entre eux
 ```bash
-docker run --network my-network --name db postgres
-docker run --network my-network --name app my-app
+docker run --network my-network --name db postgres  
+docker run --network my-network --name app my-app  
 ```
 
 ✅ **Utiliser la résolution DNS** intégrée
 ```bash
 # Depuis le conteneur app
-curl http://db:5432
-ping db
+curl http://db:5432  
+ping db  
 ```
 
 ✅ **Isoler les applications** avec des réseaux personnalisés
 ```bash
-docker network create frontend-net
-docker network create backend-net
+docker network create frontend-net  
+docker network create backend-net  
 ```
 
 #### Ce que vous pouvez faire
@@ -273,7 +273,6 @@ docker network create backend-net
 
 ✅ **Écrire des fichiers docker-compose.yml**
 ```yaml
-version: '3.8'
 services:
   web:
     build: ./frontend
@@ -300,12 +299,12 @@ volumes:
 
 ✅ **Utiliser les commandes Docker Compose**
 ```bash
-docker-compose up -d
-docker-compose down
-docker-compose logs -f
-docker-compose ps
-docker-compose restart api
-docker-compose exec web bash
+docker compose up -d  
+docker compose down  
+docker compose logs -f  
+docker compose ps  
+docker compose restart api  
+docker compose exec web bash  
 ```
 
 #### Compétences avancées
@@ -317,7 +316,7 @@ docker-compose exec web bash
 
 ✅ **Gérer les environnements** (dev, staging, prod)
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up
 ```
 
 ✅ **Utiliser les variables d'environnement**
@@ -344,16 +343,16 @@ services:
 
 ✅ **Publier des images** sur Docker Hub
 ```bash
-docker login
-docker tag my-app:latest username/my-app:latest
-docker push username/my-app:latest
+docker login  
+docker tag my-app:latest username/my-app:latest  
+docker push username/my-app:latest  
 ```
 
 ✅ **Gérer les tags et versions**
 ```bash
-docker tag my-app:latest username/my-app:1.0.0
-docker tag my-app:latest username/my-app:1.0
-docker tag my-app:latest username/my-app:1
+docker tag my-app:latest username/my-app:1.0.0  
+docker tag my-app:latest username/my-app:1.0  
+docker tag my-app:latest username/my-app:1  
 ```
 
 ✅ **Comprendre les registres privés**
@@ -362,8 +361,8 @@ docker tag my-app:latest username/my-app:1
 
 ✅ **Télécharger et utiliser des images publiques**
 ```bash
-docker pull username/my-app:1.0.0
-docker run username/my-app:1.0.0
+docker pull username/my-app:1.0.0  
+docker run username/my-app:1.0.0  
 ```
 
 #### Ce que vous pouvez faire
@@ -384,8 +383,8 @@ docker run username/my-app:1.0.0
 - Garder les images à jour
 
 ```dockerfile
-RUN adduser -D appuser
-USER appuser
+RUN adduser -D appuser  
+USER appuser  
 ```
 
 ✅ **Gérer les secrets** correctement
@@ -433,17 +432,17 @@ USER appuser
 
 ✅ **Maîtriser les builds multi-étapes**
 ```dockerfile
-FROM node:18 AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+FROM node:18 AS builder  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
+COPY . .  
+RUN npm run build  
 
-FROM node:18-alpine
-WORKDIR /app
-COPY --from=builder /app/dist ./dist
-CMD ["node", "dist/index.js"]
+FROM node:18-alpine  
+WORKDIR /app  
+COPY --from=builder /app/dist ./dist  
+CMD ["node", "dist/index.js"]  
 ```
 
 **Bénéfices** : Réduction de 80-95% de la taille des images
@@ -503,10 +502,10 @@ services:
 
 ✅ **Diagnostiquer les problèmes** efficacement
 ```bash
-docker logs -f my-app
-docker exec -it my-app bash
-docker inspect my-app
-docker stats my-app
+docker logs -f my-app  
+docker exec -it my-app bash  
+docker inspect my-app  
+docker stats my-app  
 ```
 
 **Bénéfices** : Résolution rapide des problèmes, autonomie
@@ -515,50 +514,50 @@ docker stats my-app
 
 ### Niveau 1 : Utilisation de base
 
-✅ Lancer un conteneur depuis une image existante
-✅ Arrêter et redémarrer des conteneurs
-✅ Voir les logs d'un conteneur
-✅ Lister les conteneurs et images
+✅ Lancer un conteneur depuis une image existante  
+✅ Arrêter et redémarrer des conteneurs  
+✅ Voir les logs d'un conteneur  
+✅ Lister les conteneurs et images  
 ✅ Supprimer des conteneurs et images
 
 **Vous pouvez** : Utiliser Docker pour des applications simples
 
 ### Niveau 2 : Création et configuration
 
-✅ Écrire un Dockerfile simple
-✅ Construire une image personnalisée
-✅ Utiliser des volumes pour persister les données
-✅ Exposer des ports et accéder aux applications
+✅ Écrire un Dockerfile simple  
+✅ Construire une image personnalisée  
+✅ Utiliser des volumes pour persister les données  
+✅ Exposer des ports et accéder aux applications  
 ✅ Passer des variables d'environnement
 
 **Vous pouvez** : Conteneuriser vos propres applications
 
 ### Niveau 3 : Orchestration
 
-✅ Créer des fichiers docker-compose.yml
-✅ Orchestrer plusieurs services
-✅ Configurer des réseaux personnalisés
-✅ Gérer les dépendances entre services
+✅ Créer des fichiers docker-compose.yml  
+✅ Orchestrer plusieurs services  
+✅ Configurer des réseaux personnalisés  
+✅ Gérer les dépendances entre services  
 ✅ Utiliser des variables d'environnement et fichiers .env
 
 **Vous pouvez** : Gérer des applications multi-conteneurs complexes
 
 ### Niveau 4 : Optimisation et production
 
-✅ Écrire des multi-stage builds
-✅ Optimiser la taille et la performance des images
-✅ Configurer des health checks
-✅ Limiter les ressources des conteneurs
+✅ Écrire des multi-stage builds  
+✅ Optimiser la taille et la performance des images  
+✅ Configurer des health checks  
+✅ Limiter les ressources des conteneurs  
 ✅ Appliquer les bonnes pratiques de sécurité
 
 **Vous pouvez** : Préparer des applications pour la production
 
 ### Niveau 5 : Expertise opérationnelle
 
-✅ Déboguer efficacement les conteneurs
-✅ Diagnostiquer les problèmes réseau
-✅ Optimiser les workflows de développement
-✅ Configurer des environnements Dev Containers
+✅ Déboguer efficacement les conteneurs  
+✅ Diagnostiquer les problèmes réseau  
+✅ Optimiser les workflows de développement  
+✅ Configurer des environnements Dev Containers  
 ✅ Gérer les registres et versions d'images
 
 **Vous pouvez** : Être autonome et aider vos collègues
@@ -573,25 +572,25 @@ Avec vos compétences actuelles, vous êtes capable de :
 
 **Applications web** (React, Vue, Angular)
 ```dockerfile
-FROM node:18-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+FROM node:18-alpine AS builder  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
+COPY . .  
+RUN npm run build  
 
-FROM nginx:alpine
-COPY --from=builder /app/build /usr/share/nginx/html
+FROM nginx:alpine  
+COPY --from=builder /app/build /usr/share/nginx/html  
 ```
 
 **APIs backend** (Python, Node.js, Go, Java)
 ```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-CMD ["python", "app.py"]
+FROM python:3.11-slim  
+WORKDIR /app  
+COPY requirements.txt .  
+RUN pip install -r requirements.txt  
+COPY . .  
+CMD ["python", "app.py"]  
 ```
 
 **Bases de données** avec persistance
@@ -634,34 +633,34 @@ services:
 **Sur un serveur**
 ```bash
 # Build et push
-docker build -t myapp:1.0 .
-docker push username/myapp:1.0
+docker build -t myapp:1.0 .  
+docker push username/myapp:1.0  
 
 # Sur le serveur
-docker pull username/myapp:1.0
-docker run -d -p 80:3000 username/myapp:1.0
+docker pull username/myapp:1.0  
+docker run -d -p 80:3000 username/myapp:1.0  
 ```
 
 **Avec Docker Compose**
 ```bash
 # Sur le serveur
-docker-compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d
 ```
 
 #### 4. Partager votre travail
 
 **Créer une image réutilisable**
 ```bash
-docker build -t mytools:latest .
-docker tag mytools:latest username/mytools:latest
-docker push username/mytools:latest
+docker build -t mytools:latest .  
+docker tag mytools:latest username/mytools:latest  
+docker push username/mytools:latest  
 ```
 
 **Distribuer un projet avec Docker Compose**
 ```bash
 # Autre développeur
-git clone projet
-docker-compose up
+git clone projet  
+docker compose up  
 # Ça marche immédiatement !
 ```
 
@@ -685,7 +684,7 @@ docker system prune -a
 docker stats
 
 # Logs
-docker-compose logs -f
+docker compose logs -f
 
 # Debugging
 docker exec -it container bash
@@ -696,16 +695,16 @@ docker exec -it container bash
 ✅ **Nouveau projet**
 ```bash
 # Setup en 5 minutes
-git clone repo
-docker-compose up
+git clone repo  
+docker compose up  
 # Commencer à développer
 ```
 
 ✅ **Bug en production**
 ```bash
 # Investigation rapide
-docker logs app
-docker exec -it app bash
+docker logs app  
+docker exec -it app bash  
 # Diagnostiquer et résoudre
 ```
 
@@ -722,8 +721,8 @@ docker push username/app:2.0
 ✅ **Onboarding d'un collègue**
 ```
 "Clone le repo et ouvre-le dans VS Code.
-Clique sur 'Reopen in Container'.
-C'est prêt !"
+Clique sur 'Reopen in Container'.  
+C'est prêt !"  
 ```
 
 ## Auto-évaluation : Testez vos connaissances
@@ -816,23 +815,23 @@ Avec l'option --memory : docker run --memory="512m" mon-app
 
 ### Ce que vous savez maintenant
 
-📚 **Plus de 80 commandes Docker** maîtrisées
-🐳 **50+ instructions Dockerfile** comprises
-🛠️ **10+ outils et techniques** de débogage
-📝 **Docker Compose** pour orchestrer des applications complexes
-🚀 **Multi-stage builds** pour optimiser vos images
-🏥 **Health checks** pour surveiller vos applications
+📚 **Plus de 80 commandes Docker** maîtrisées  
+🐳 **50+ instructions Dockerfile** comprises  
+🛠️ **10+ outils et techniques** de débogage  
+📝 **Docker Compose** pour orchestrer des applications complexes  
+🚀 **Multi-stage builds** pour optimiser vos images  
+🏥 **Health checks** pour surveiller vos applications  
 💻 **Dev Containers** pour des environnements reproductibles
 
 ### Compétences quantifiées
 
 Si nous devions résumer votre apprentissage en compétences mesurables :
 
-✅ **Commandes Docker** : 80+ commandes
-✅ **Instructions Dockerfile** : 15+ instructions
-✅ **Options Docker Compose** : 40+ options
-✅ **Bonnes pratiques** : 25+ règles
-✅ **Patterns d'optimisation** : 10+ techniques
+✅ **Commandes Docker** : 80+ commandes  
+✅ **Instructions Dockerfile** : 15+ instructions  
+✅ **Options Docker Compose** : 40+ options  
+✅ **Bonnes pratiques** : 25+ règles  
+✅ **Patterns d'optimisation** : 10+ techniques  
 ✅ **Stratégies de débogage** : 15+ méthodes
 
 ### Temps économisé
@@ -884,34 +883,34 @@ Vous avez maintenant une boîte à outils complète :
 
 ### Outils de développement
 
-✅ Docker Desktop / Docker Engine
-✅ Docker Compose
-✅ VS Code + Dev Containers
-✅ Dockerfiles optimisés
+✅ Docker Desktop / Docker Engine  
+✅ Docker Compose  
+✅ VS Code + Dev Containers  
+✅ Dockerfiles optimisés  
 ✅ Templates de projet
 
 ### Outils de débogage
 
-✅ docker logs
-✅ docker exec
-✅ docker inspect
-✅ docker stats
-✅ docker events
+✅ docker logs  
+✅ docker exec  
+✅ docker inspect  
+✅ docker stats  
+✅ docker events  
 ✅ Health checks
 
 ### Outils de production
 
-✅ Multi-stage builds
-✅ Limitations de ressources
-✅ Health monitoring
-✅ Registres (Docker Hub)
+✅ Multi-stage builds  
+✅ Limitations de ressources  
+✅ Health monitoring  
+✅ Registres (Docker Hub)  
 ✅ Bonnes pratiques de sécurité
 
 ### Outils de collaboration
 
-✅ Docker Compose pour partager les stacks
-✅ Dev Containers pour uniformiser les environnements
-✅ Registres pour partager les images
+✅ Docker Compose pour partager les stacks  
+✅ Dev Containers pour uniformiser les environnements  
+✅ Registres pour partager les images  
 ✅ Documentation dans les Dockerfiles
 
 ## Impact de vos nouvelles compétences
@@ -963,10 +962,10 @@ Vous avez maintenant une boîte à outils complète :
 
 En maîtrisant Docker, vous démontrez :
 
-✅ **Curiosité technique** : Vous apprenez des technologies modernes
-✅ **Vision pratique** : Vous comprenez les besoins réels de production
-✅ **Rigueur** : Docker demande de la précision et de l'organisation
-✅ **Adaptabilité** : Vous êtes capable d'apprendre des outils complexes
+✅ **Curiosité technique** : Vous apprenez des technologies modernes  
+✅ **Vision pratique** : Vous comprenez les besoins réels de production  
+✅ **Rigueur** : Docker demande de la précision et de l'organisation  
+✅ **Adaptabilité** : Vous êtes capable d'apprendre des outils complexes  
 ✅ **Professionnalisme** : Vous suivez les bonnes pratiques de l'industrie
 
 ## Prochaines étapes suggérées
@@ -975,23 +974,23 @@ Maintenant que vous avez ces compétences, voici comment continuer à progresser
 
 ### 1. Pratiquer sur des projets réels
 
-🎯 Conteneurisez tous vos projets personnels
-🎯 Contribuez à des projets open source avec Docker
+🎯 Conteneurisez tous vos projets personnels  
+🎯 Contribuez à des projets open source avec Docker  
 🎯 Créez des images réutilisables pour la communauté
 
 ### 2. Explorer des sujets avancés
 
-📚 Orchestration avec Kubernetes
-📚 CI/CD avec Docker
-📚 Monitoring et logging avancés
-📚 Sécurité approfondie
+📚 Orchestration avec Kubernetes  
+📚 CI/CD avec Docker  
+📚 Monitoring et logging avancés  
+📚 Sécurité approfondie  
 📚 Docker Swarm
 
 ### 3. Partager vos connaissances
 
-✍️ Écrire des articles de blog
-🎤 Présenter à votre équipe
-👨‍🏫 Aider d'autres développeurs à apprendre
+✍️ Écrire des articles de blog  
+🎤 Présenter à votre équipe  
+👨‍🏫 Aider d'autres développeurs à apprendre  
 🌟 Créer des ressources pédagogiques
 
 ### 4. Obtenir des certifications
