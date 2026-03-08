@@ -44,21 +44,21 @@ Un environnement de développement conteneurisé signifie que **tout ce dont vou
 
 ### Avantages majeurs
 
-✅ **Environnement identique pour tous** : Tous les développeurs ont exactement le même setup
-✅ **Onboarding rapide** : Un nouveau développeur est opérationnel en minutes
-✅ **Isolation** : Chaque projet a son propre environnement sans conflits
-✅ **Reproductibilité** : "Ça marche sur ma machine" devient "Ça marche partout"
-✅ **Nettoyage facile** : Supprimer le conteneur = environnement propre
+✅ **Environnement identique pour tous** : Tous les développeurs ont exactement le même setup  
+✅ **Onboarding rapide** : Un nouveau développeur est opérationnel en minutes  
+✅ **Isolation** : Chaque projet a son propre environnement sans conflits  
+✅ **Reproductibilité** : "Ça marche sur ma machine" devient "Ça marche partout"  
+✅ **Nettoyage facile** : Supprimer le conteneur = environnement propre  
 ✅ **Pas de pollution** : Votre machine reste propre
 
 ### Exemple concret
 
-**Projet A** : Application Python 3.9 + PostgreSQL 13
-**Projet B** : Application Python 3.11 + MongoDB
-**Projet C** : Application Node.js 18 + Redis
+**Projet A** : Application Python 3.9 + PostgreSQL 13  
+**Projet B** : Application Python 3.11 + MongoDB  
+**Projet C** : Application Node.js 18 + Redis  
 
-Sans Docker : Installation et gestion de tous ces outils en local, risques de conflits.
-Avec Docker : Chaque projet dans son conteneur, isolation totale.
+Sans Docker : Installation et gestion de tous ces outils en local, risques de conflits.  
+Avec Docker : Chaque projet dans son conteneur, isolation totale.  
 
 ## Introduction à VS Code Dev Containers
 
@@ -230,8 +230,6 @@ Dev Containers: Add Dev Container Configuration Files...
 
 **.devcontainer/docker-compose.yml** :
 ```yaml
-version: '3.8'
-
 services:
   app:
     build:
@@ -301,9 +299,9 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Utilisateur non-root
-ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+ARG USERNAME=vscode  
+ARG USER_UID=1000  
+ARG USER_GID=$USER_UID  
 
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
@@ -529,8 +527,6 @@ mon-projet/
 
 **.devcontainer/docker-compose.yml** :
 ```yaml
-version: '3.8'
-
 services:
   workspace:
     image: mcr.microsoft.com/devcontainers/javascript-node:18
@@ -629,9 +625,9 @@ Cliquer dessus ouvre un menu rapide avec les actions disponibles.
 
 Commitez le dossier `.devcontainer/` dans Git :
 ```bash
-git add .devcontainer/
-git commit -m "Add dev container configuration"
-git push
+git add .devcontainer/  
+git commit -m "Add dev container configuration"  
+git push  
 ```
 
 Maintenant, toute votre équipe peut utiliser le même environnement !
@@ -641,9 +637,9 @@ Maintenant, toute votre équipe peut utiliser le même environnement !
 Le terminal dans VS Code s'exécute **dans le conteneur** :
 ```bash
 # Dans le terminal VS Code (dans le conteneur)
-python --version  # Version du conteneur
-npm --version     # Version du conteneur
-psql -U postgres -h db  # Connexion à la DB
+python --version  # Version du conteneur  
+npm --version     # Version du conteneur  
+psql -U postgres -h db  # Connexion à la DB  
 ```
 
 ### 3. Debugging
@@ -662,7 +658,7 @@ Le débogueur VS Code fonctionne normalement dans le conteneur :
       "module": "flask",
       "env": {
         "FLASK_APP": "app.py",
-        "FLASK_ENV": "development"
+        "FLASK_DEBUG": "1"
       },
       "args": ["run", "--host=0.0.0.0"],
       "jinja": true
@@ -679,10 +675,10 @@ Les extensions définies dans `devcontainer.json` sont installées automatiqueme
 
 Git utilise vos credentials de la machine hôte :
 ```bash
-git pull
-git add .
-git commit -m "Update"
-git push
+git pull  
+git add .  
+git commit -m "Update"  
+git push  
 ```
 
 ## Personnalisation pour l'équipe
@@ -813,15 +809,15 @@ Ce projet utilise VS Code Dev Containers.
 Ctrl+Shift+P → Dev Containers: Rebuild Without Cache
 
 # Vérifier que tout fonctionne
-npm install
-npm run build
-npm test
+npm install  
+npm run build  
+npm test  
 ```
 
 ### 7. Séparez dev et production
 
-**Pour le développement** : `.devcontainer/`
-**Pour la production** : `Dockerfile` à la racine
+**Pour le développement** : `.devcontainer/`  
+**Pour la production** : `Dockerfile` à la racine  
 
 Ne mélangez pas les deux !
 
@@ -856,7 +852,7 @@ Sans VS Code, vous pouvez utiliser Docker Compose directement :
 
 ```bash
 # Lancer les services
-docker-compose -f .devcontainer/docker-compose.yml up -d
+docker compose -f .devcontainer/docker-compose.yml up -d
 
 # Entrer dans le conteneur
 docker exec -it <container_name> bash
@@ -898,8 +894,8 @@ __pycache__/
 .git/
 *.pyc
 .venv/
-dist/
-build/
+dist/  
+build/  
 ```
 
 ```json
@@ -947,9 +943,9 @@ code --install-extension ms-python.python
 
 **Solution dans le Dockerfile** :
 ```dockerfile
-ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+ARG USERNAME=vscode  
+ARG USER_UID=1000  
+ARG USER_GID=$USER_UID  
 
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
@@ -1026,9 +1022,9 @@ RUN apt-get update && apt-get install -y git \
 npm install <nouvelle-dépendance>
 
 # Mettre à jour requirements.txt ou package.json
-git add package.json
-git commit -m "Add new dependency"
-git push
+git add package.json  
+git commit -m "Add new dependency"  
+git push  
 
 # Autres développeurs
 git pull
@@ -1088,9 +1084,9 @@ echo "✅ Environnement prêt ! Lancez 'python manage.py runserver'"
 
 ### 3. Profils multiples
 
-**devcontainer-backend.json** : Configuration pour le backend
-**devcontainer-frontend.json** : Configuration pour le frontend
-**devcontainer-fullstack.json** : Configuration complète
+**devcontainer-backend.json** : Configuration pour le backend  
+**devcontainer-frontend.json** : Configuration pour le frontend  
+**devcontainer-fullstack.json** : Configuration complète  
 
 Choisir le profil au démarrage.
 
@@ -1100,8 +1096,8 @@ Choisir le profil au démarrage.
 
 **.env** (gitignored) :
 ```
-DATABASE_PASSWORD=secret123
-API_KEY=my-secret-key
+DATABASE_PASSWORD=secret123  
+API_KEY=my-secret-key  
 ```
 
 ```json
@@ -1140,10 +1136,10 @@ Les Dev Containers transforment votre workflow de développement :
 
 ### Bénéfices
 
-✅ **Onboarding rapide** : 5 minutes au lieu de plusieurs heures
-✅ **Environnement identique** : Plus de "ça marche sur ma machine"
-✅ **Isolation** : Chaque projet dans son conteneur
-✅ **Reproductibilité** : Partage facile avec l'équipe
+✅ **Onboarding rapide** : 5 minutes au lieu de plusieurs heures  
+✅ **Environnement identique** : Plus de "ça marche sur ma machine"  
+✅ **Isolation** : Chaque projet dans son conteneur  
+✅ **Reproductibilité** : Partage facile avec l'équipe  
 ✅ **Nettoyage simple** : Supprimer le conteneur = environnement propre
 
 ### Template minimal
