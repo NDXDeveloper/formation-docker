@@ -34,10 +34,10 @@ Imaginez plusieurs scénarios problématiques :
 
 ### Avantages de la limitation de ressources
 
-✅ **Stabilité** : Évite qu'un conteneur ne monopolise toutes les ressources
-✅ **Prévisibilité** : Garantit des performances cohérentes
-✅ **Isolation** : Protège les autres conteneurs des conteneurs gourmands
-✅ **Planification** : Permet de déterminer combien de conteneurs peuvent tourner sur un serveur
+✅ **Stabilité** : Évite qu'un conteneur ne monopolise toutes les ressources  
+✅ **Prévisibilité** : Garantit des performances cohérentes  
+✅ **Isolation** : Protège les autres conteneurs des conteneurs gourmands  
+✅ **Planification** : Permet de déterminer combien de conteneurs peuvent tourner sur un serveur  
 ✅ **Coûts** : Optimise l'utilisation des ressources et donc les coûts cloud
 
 ## Comprendre les ressources système
@@ -212,9 +212,9 @@ docker run --cpu-shares=512 --name app3 postgres
 Machine avec 2 cœurs CPU (200% de capacité totale) :
 
 ```bash
-docker run -d --cpu-shares=1024 --name container1 stress --cpu 2
-docker run -d --cpu-shares=512 --name container2 stress --cpu 2
-docker run -d --cpu-shares=512 --name container3 stress --cpu 2
+docker run -d --cpu-shares=1024 --name container1 stress --cpu 2  
+docker run -d --cpu-shares=512 --name container2 stress --cpu 2  
+docker run -d --cpu-shares=512 --name container3 stress --cpu 2  
 ```
 
 **Répartition** :
@@ -320,11 +320,9 @@ docker run -d \
 
 Vous pouvez définir les ressources dans votre fichier `docker-compose.yml`.
 
-### Version moderne (v3 et +)
+### Syntaxe moderne (Compose Specification)
 
 ```yaml
-version: '3.8'
-
 services:
   web:
     image: nginx
@@ -361,11 +359,11 @@ services:
 - `limits` : Limites maximales (dures)
 - `reservations` : Ressources garanties (souples)
 
-### Version v2 (ancienne syntaxe)
+### Ancienne syntaxe (Compose v2)
+
+> **Note** : Cette syntaxe est dépréciée. Préférez la syntaxe `deploy.resources` ci-dessus.
 
 ```yaml
-version: '2.4'
-
 services:
   web:
     image: nginx
@@ -394,9 +392,9 @@ docker stats --no-stream
 
 **Exemple de sortie** :
 ```
-CONTAINER ID   NAME      CPU %    MEM USAGE / LIMIT    MEM %    NET I/O
-abc123         nginx     0.5%     50MiB / 512MiB      9.77%     1.2kB / 0B
-def456         redis     1.2%     100MiB / 1GiB       9.77%     5kB / 2kB
+CONTAINER ID   NAME      CPU %    MEM USAGE / LIMIT    MEM %    NET I/O  
+abc123         nginx     0.5%     50MiB / 512MiB      9.77%     1.2kB / 0B  
+def456         redis     1.2%     100MiB / 1GiB       9.77%     5kB / 2kB  
 ```
 
 ### Inspecter les limites configurées
@@ -406,8 +404,8 @@ def456         redis     1.2%     100MiB / 1GiB       9.77%     5kB / 2kB
 docker inspect my-container
 
 # Voir uniquement les ressources
-docker inspect my-container --format='{{.HostConfig.Memory}}'
-docker inspect my-container --format='{{.HostConfig.NanoCpus}}'
+docker inspect my-container --format='{{.HostConfig.Memory}}'  
+docker inspect my-container --format='{{.HostConfig.NanoCpus}}'  
 ```
 
 ### Format personnalisé
@@ -449,9 +447,9 @@ Ne découvrez pas en production que votre application nécessite plus de ressour
 
 ```bash
 # Testez avec différentes limites
-docker run --memory="256m" my-app  # Trop peu ?
-docker run --memory="512m" my-app  # Suffisant ?
-docker run --memory="1g" my-app    # Confortable ?
+docker run --memory="256m" my-app  # Trop peu ?  
+docker run --memory="512m" my-app  # Suffisant ?  
+docker run --memory="1g" my-app    # Confortable ?  
 ```
 
 ### 4. Surveillez régulièrement avec docker stats
@@ -536,10 +534,10 @@ services:
 **Utilisation** :
 ```bash
 # Développement
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 
 # Production
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up
 ```
 
 ## Calcul des ressources nécessaires
@@ -548,8 +546,8 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
 
 **Étape 1 : Mesurer sans limite**
 ```bash
-docker run -d --name test-app my-app
-docker stats test-app --no-stream
+docker run -d --name test-app my-app  
+docker stats test-app --no-stream  
 ```
 
 **Étape 2 : Observer pendant la charge**
@@ -698,7 +696,7 @@ docker run -d \
   --volume=/sys:/sys:ro \
   --volume=/var/lib/docker/:/var/lib/docker:ro \
   --publish=8080:8080 \
-  google/cadvisor:latest
+  gcr.io/cadvisor/cadvisor:latest
 ```
 
 Accessible sur http://localhost:8080
