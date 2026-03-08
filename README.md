@@ -1,7 +1,7 @@
 # 🐳 Formation Docker - Débutant à Intermédiaire
 
 ![License](https://img.shields.io/badge/License-CC%20BY%204.0-blue.svg)
-![Docker Version](https://img.shields.io/badge/Docker-20.10%2B-blue.svg)
+![Docker Version](https://img.shields.io/badge/Docker-27.x-blue.svg)
 ![Modules](https://img.shields.io/badge/Chapitres-12%2F12-green.svg)
 ![Language](https://img.shields.io/badge/Langue-Français-blue.svg)
 ![Platform](https://img.shields.io/badge/Plateforme-Windows%20%7C%20Ubuntu-lightgrey.svg)
@@ -17,7 +17,7 @@
 - [À propos](#-à-propos)
 - [Contenu de la formation](#-contenu-de-la-formation)
 - [Prérequis](#-prérequis)
-- [Installation](#-démarrage-rapide)
+- [Démarrage rapide](#-démarrage-rapide)
 - [Structure du projet](#-structure-du-projet)
 - [Utilisation](#-comment-utiliser-cette-formation)
 - [Parcours suggéré](#️-parcours-suggéré)
@@ -54,7 +54,7 @@ Formation sur Docker couvrant les aspects essentiels pour passer de débutant à
 5. **Création d'images personnalisées** - Dockerfile, CMD vs ENTRYPOINT, optimisation
 6. **Gestion des données** - Volumes nommés/anonymes, bind mounts, persistance
 7. **Réseaux Docker** - Bridge, host, overlay, communication inter-conteneurs
-8. **Docker Compose** - Orchestration multi-services, docker-compose.yml
+8. **Docker Compose** - Orchestration multi-services, fichier compose.yaml
 9. **Gestion des registres** - Docker Hub, tags, registres privés
 10. **Bonnes pratiques** - Sécurité, optimisation, secrets, logging
 11. **Sujets intermédiaires** - Multi-stage builds, resources, health checks, VS Code Dev Containers
@@ -88,8 +88,8 @@ Formation sur Docker couvrant les aspects essentiels pour passer de débutant à
 # https://www.docker.com/products/docker-desktop
 
 # Vérifier l'installation
-docker --version
-docker compose version
+docker --version  
+docker compose version  
 ```
 
 #### 🐧 Ubuntu
@@ -101,8 +101,8 @@ sudo apt update
 sudo apt install docker.io -y
 
 # Démarrer Docker
-sudo systemctl start docker
-sudo systemctl enable docker
+sudo systemctl start docker  
+sudo systemctl enable docker  
 
 # Vérifier l'installation
 docker --version
@@ -122,8 +122,8 @@ docker run hello-world
 ### Cloner cette formation
 
 ```bash
-git clone https://github.com/NDXDeveloper/formation-docker.git
-cd formation-docker
+git clone https://github.com/NDXDeveloper/formation-docker.git  
+cd formation-docker  
 ```
 
 ---
@@ -219,9 +219,9 @@ Ce projet est sous licence **CC BY 4.0** (Creative Commons Attribution 4.0 Inter
 
 **Attribution requise :**
 ```
-Formation Docker par Nicolas DEOUX
-https://github.com/NDXDeveloper/formation-docker
-Licence CC BY 4.0
+Formation Docker par Nicolas DEOUX  
+https://github.com/NDXDeveloper/formation-docker  
+Licence CC BY 4.0  
 ```
 
 📄 Voir le fichier [LICENSE](LICENSE) pour les détails complets.
@@ -255,6 +255,6 @@ Merci à la communauté Docker, aux contributeurs open source, et à tous ceux q
 
 **[⬆ Retour en haut](#-formation-docker---débutant-à-intermédiaire)**
 
-*Dernière mise à jour : Octobre 2025*
+*Dernière mise à jour : Mars 2026*
 
 </div>
