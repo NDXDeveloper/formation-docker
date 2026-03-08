@@ -108,12 +108,12 @@ FROM node:18 AS builder
 WORKDIR /app
 
 # Installation des dépendances
-COPY package*.json ./
-RUN npm install
+COPY package*.json ./  
+RUN npm install  
 
 # Copie du code source et build
-COPY . .
-RUN npm run build
+COPY . .  
+RUN npm run build  
 
 # ========================================
 # ÉTAPE 2 : PRODUCTION
@@ -126,7 +126,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Installation uniquement des dépendances de production
-RUN npm install --production
+RUN npm ci --omit=dev
 
 # Copie des fichiers buildés (pas les sources)
 COPY --from=builder /app/dist ./dist
@@ -156,13 +156,13 @@ Go est un excellent candidat pour les multi-stage builds car il compile en un bi
 # ========================================
 # ÉTAPE 1 : BUILD
 # ========================================
-FROM golang:1.21 AS builder
+FROM golang:1.23 AS builder
 
 WORKDIR /app
 
 # Copie des fichiers de dépendances Go
-COPY go.mod go.sum ./
-RUN go mod download
+COPY go.mod go.sum ./  
+RUN go mod download  
 
 # Copie du code source
 COPY . .
@@ -210,8 +210,8 @@ WORKDIR /app
 RUN pip install --upgrade pip setuptools wheel
 
 # Copie et installation des dépendances Python
-COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+COPY requirements.txt .  
+RUN pip install --user --no-cache-dir -r requirements.txt  
 
 # ========================================
 # ÉTAPE 2 : PRODUCTION
@@ -230,8 +230,8 @@ COPY . .
 ENV PATH=/root/.local/bin:$PATH
 
 # Variables d'environnement
-ENV PYTHONUNBUFFERED=1
-ENV FLASK_APP=app.py
+ENV PYTHONUNBUFFERED=1  
+ENV FLASK_APP=app.py  
 
 # Exposition du port
 EXPOSE 5000
@@ -250,30 +250,30 @@ Vous pouvez avoir autant d'étapes que nécessaire. Voici un exemple avec trois 
 # ========================================
 FROM node:18 AS dependencies
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
 
 # ========================================
 # ÉTAPE 2 : Build de l'application
 # ========================================
 FROM node:18 AS builder
 
-WORKDIR /app
-COPY --from=dependencies /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
-RUN npm run test
+WORKDIR /app  
+COPY --from=dependencies /app/node_modules ./node_modules  
+COPY . .  
+RUN npm run build  
+RUN npm run test  
 
 # ========================================
 # ÉTAPE 3 : Image de production
 # ========================================
 FROM node:18-alpine
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm install --production
-COPY --from=builder /app/dist ./dist
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm ci --omit=dev  
+COPY --from=builder /app/dist ./dist  
 
 CMD ["node", "dist/index.js"]
 ```
@@ -283,26 +283,26 @@ CMD ["node", "dist/index.js"]
 Vous pouvez copier depuis n'importe quelle étape nommée :
 
 ```dockerfile
-FROM node:18 AS dependencies
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
+FROM node:18 AS dependencies  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
 
-FROM node:18 AS development-dependencies
-WORKDIR /app
-COPY package*.json ./
-RUN npm install --include=dev
+FROM node:18 AS development-dependencies  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install --include=dev  
 
-FROM node:18 AS builder
-WORKDIR /app
-COPY --from=development-dependencies /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
+FROM node:18 AS builder  
+WORKDIR /app  
+COPY --from=development-dependencies /app/node_modules ./node_modules  
+COPY . .  
+RUN npm run build  
 
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM nginx:alpine  
+COPY --from=builder /app/dist /usr/share/nginx/html  
+EXPOSE 80  
+CMD ["nginx", "-g", "daemon off;"]  
 ```
 
 ## Cibler une étape spécifique lors du build
@@ -325,34 +325,34 @@ docker build -t mon-app:latest .
 # ========================================
 # ÉTAPE 1 : Base commune
 # ========================================
-FROM node:18 AS base
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
+FROM node:18 AS base  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm install  
 
 # ========================================
 # ÉTAPE 2 : Développement
 # ========================================
-FROM base AS development
-COPY . .
-CMD ["npm", "run", "dev"]
+FROM base AS development  
+COPY . .  
+CMD ["npm", "run", "dev"]  
 
 # ========================================
 # ÉTAPE 3 : Build
 # ========================================
-FROM base AS builder
-COPY . .
-RUN npm run build
+FROM base AS builder  
+COPY . .  
+RUN npm run build  
 
 # ========================================
 # ÉTAPE 4 : Production
 # ========================================
-FROM node:18-alpine AS production
-WORKDIR /app
-COPY package*.json ./
-RUN npm install --production
-COPY --from=builder /app/dist ./dist
-CMD ["node", "dist/index.js"]
+FROM node:18-alpine AS production  
+WORKDIR /app  
+COPY package*.json ./  
+RUN npm ci --omit=dev  
+COPY --from=builder /app/dist ./dist  
+CMD ["node", "dist/index.js"]  
 ```
 
 **Utilisation** :
@@ -370,14 +370,14 @@ docker build --target production -t mon-app:prod .
 
 ```dockerfile
 # ✅ Bon
-FROM node:18 AS dependencies
-FROM node:18 AS builder
-FROM node:18-alpine AS production
+FROM node:18 AS dependencies  
+FROM node:18 AS builder  
+FROM node:18-alpine AS production  
 
 # ❌ Éviter
-FROM node:18
-FROM node:18
-FROM node:18-alpine
+FROM node:18  
+FROM node:18  
+FROM node:18-alpine  
 ```
 
 ### 2. Utilisez des images de base appropriées
@@ -394,15 +394,15 @@ FROM node:18-alpine AS production
 
 ```dockerfile
 # Dans l'étape de build, vous pouvez avoir beaucoup de layers
-FROM node:18 AS builder
-RUN apt-get update
-RUN apt-get install -y python
-RUN npm install
-RUN npm run build
+FROM node:18 AS builder  
+RUN apt-get update  
+RUN apt-get install -y python  
+RUN npm install  
+RUN npm run build  
 
 # Dans l'étape finale, combinez les commandes
-FROM node:18-alpine
-RUN apk add --no-cache ca-certificates && \
+FROM node:18-alpine  
+RUN apk add --no-cache ca-certificates && \  
     addgroup -g 1000 node && \
     adduser -u 1000 -G node -s /bin/sh -D node
 ```
@@ -430,12 +430,12 @@ COPY --from=builder /app .
 
 ```dockerfile
 # Copiez d'abord les fichiers de dépendances
-COPY package*.json ./
-RUN npm install
+COPY package*.json ./  
+RUN npm install  
 
 # Puis copiez le code source (qui change plus souvent)
-COPY . .
-RUN npm run build
+COPY . .  
+RUN npm run build  
 ```
 
 ## Comprendre les bénéfices
@@ -489,11 +489,11 @@ FROM node:18 AS frontend-builder
 
 WORKDIR /app/frontend
 
-COPY frontend/package*.json ./
-RUN npm install
+COPY frontend/package*.json ./  
+RUN npm install  
 
-COPY frontend/ .
-RUN npm run build
+COPY frontend/ .  
+RUN npm run build  
 
 # ========================================
 # ÉTAPE 2 : Build du backend Node.js
@@ -502,11 +502,11 @@ FROM node:18 AS backend-builder
 
 WORKDIR /app/backend
 
-COPY backend/package*.json ./
-RUN npm install
+COPY backend/package*.json ./  
+RUN npm install  
 
-COPY backend/ .
-RUN npm run build
+COPY backend/ .  
+RUN npm run build  
 
 # ========================================
 # ÉTAPE 3 : Image de production
@@ -516,8 +516,8 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Copie des dépendances de production du backend
-COPY backend/package*.json ./
-RUN npm install --production
+COPY backend/package*.json ./  
+RUN npm ci --omit=dev  
 
 # Copie du backend compilé
 COPY --from=backend-builder /app/backend/dist ./dist
@@ -526,8 +526,8 @@ COPY --from=backend-builder /app/backend/dist ./dist
 COPY --from=frontend-builder /app/frontend/build ./public
 
 # Variables d'environnement
-ENV NODE_ENV=production
-ENV PORT=3000
+ENV NODE_ENV=production  
+ENV PORT=3000  
 
 # Exposition du port
 EXPOSE 3000
