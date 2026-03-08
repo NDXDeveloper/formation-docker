@@ -170,9 +170,9 @@ Créez des environnements de test où vous pouvez essayer différentes configura
 
 Avant de commencer cette section, assurez-vous de maîtriser :
 
-✅ Création et gestion de conteneurs (`docker run`, `docker ps`, `docker stop`)
-✅ Construction d'images (`docker build`, Dockerfile)
-✅ Gestion des volumes et réseaux
+✅ Création et gestion de conteneurs (`docker run`, `docker ps`, `docker stop`)  
+✅ Construction d'images (`docker build`, Dockerfile)  
+✅ Gestion des volumes et réseaux  
 ✅ Utilisation de Docker Compose
 
 Si vous n'êtes pas à l'aise avec ces concepts, prenez le temps de réviser les chapitres précédents.
@@ -197,27 +197,27 @@ Chaque sujet de cette section suit une structure similaire :
 **Niveau débutant** :
 ```dockerfile
 # Ça marche !
-FROM python:3.11
-COPY . .
-RUN pip install -r requirements.txt
-CMD ["python", "app.py"]
+FROM python:3.11  
+COPY . .  
+RUN pip install -r requirements.txt  
+CMD ["python", "app.py"]  
 ```
 
 **Niveau intermédiaire** :
 ```dockerfile
 # Ça marche BIEN !
-FROM python:3.11 AS builder
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --user -r requirements.txt
+FROM python:3.11 AS builder  
+WORKDIR /app  
+COPY requirements.txt .  
+RUN pip install --user -r requirements.txt  
 
-FROM python:3.11-slim
-WORKDIR /app
-COPY --from=builder /root/.local /root/.local
-COPY . .
-ENV PATH=/root/.local/bin:$PATH
-HEALTHCHECK --interval=30s CMD curl -f http://localhost:5000/health || exit 1
-CMD ["python", "app.py"]
+FROM python:3.11-slim  
+WORKDIR /app  
+COPY --from=builder /root/.local /root/.local  
+COPY . .  
+ENV PATH=/root/.local/bin:$PATH  
+HEALTHCHECK --interval=30s CMD curl -f http://localhost:5000/health || exit 1  
+CMD ["python", "app.py"]  
 ```
 
 **Différences** :
@@ -303,11 +303,11 @@ Dans cette section, vous allez apprendre **comment BIEN** utiliser Docker :
 
 **Avant (débutant)** :
 ```dockerfile
-FROM ubuntu:latest
-RUN apt-get update && apt-get install -y python3 python3-pip
-COPY . .
-RUN pip3 install flask
-CMD python3 app.py
+FROM ubuntu:latest  
+RUN apt-get update && apt-get install -y python3 python3-pip  
+COPY . .  
+RUN pip3 install flask  
+CMD python3 app.py  
 ```
 - Taille : 1.2 GB
 - Durée de build : 5 min
@@ -317,17 +317,17 @@ CMD python3 app.py
 **Après (intermédiaire)** :
 ```dockerfile
 # Build stage
-FROM python:3.11-slim AS builder
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+FROM python:3.11-slim AS builder  
+WORKDIR /app  
+COPY requirements.txt .  
+RUN pip install --user --no-cache-dir -r requirements.txt  
 
 # Production stage
-FROM python:3.11-slim
-WORKDIR /app
-COPY --from=builder /root/.local /root/.local
-COPY . .
-ENV PATH=/root/.local/bin:$PATH
+FROM python:3.11-slim  
+WORKDIR /app  
+COPY --from=builder /root/.local /root/.local  
+COPY . .  
+ENV PATH=/root/.local/bin:$PATH  
 
 HEALTHCHECK --interval=30s --timeout=3s \
   CMD curl -f http://localhost:5000/health || exit 1
