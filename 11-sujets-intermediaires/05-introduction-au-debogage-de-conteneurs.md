@@ -25,8 +25,8 @@ python app.py
 # Erreur affichée immédiatement dans le terminal
 
 # Inspecter les fichiers
-ls -la
-cat config.json
+ls -la  
+cat config.json  
 
 # Installer des outils
 apt install vim
@@ -125,8 +125,8 @@ ModuleNotFoundError: No module named 'flask'
 
 **Erreur de connexion à la base de données** :
 ```
-Error: could not connect to database
-Connection refused at localhost:5432
+Error: could not connect to database  
+Connection refused at localhost:5432  
 ```
 → La base de données n'est pas accessible (mauvais host, port, ou DB non démarrée)
 
@@ -146,16 +146,16 @@ Error: bind: address already in use
 
 ```bash
 # Logs de tous les services
-docker-compose logs
+docker compose logs
 
 # Logs d'un service spécifique
-docker-compose logs web
+docker compose logs web
 
 # Suivre les logs en temps réel
-docker-compose logs -f
+docker compose logs -f
 
 # Logs des 3 derniers conteneurs
-docker-compose logs --tail 100 web api database
+docker compose logs --tail 100 web api database
 ```
 
 ## Technique 2 : Entrer dans un conteneur
@@ -182,21 +182,21 @@ docker exec -u root -it mon-conteneur bash
 
 **Vérifier les fichiers** :
 ```bash
-docker exec -it mon-conteneur bash
-ls -la /app
-cat /app/config.json
+docker exec -it mon-conteneur bash  
+ls -la /app  
+cat /app/config.json  
 ```
 
 **Tester la connectivité** :
 ```bash
-docker exec mon-conteneur ping database
-docker exec mon-conteneur curl http://api:5000/health
+docker exec mon-conteneur ping database  
+docker exec mon-conteneur curl http://api:5000/health  
 ```
 
 **Vérifier les variables d'environnement** :
 ```bash
-docker exec mon-conteneur env
-docker exec mon-conteneur printenv DATABASE_URL
+docker exec mon-conteneur env  
+docker exec mon-conteneur printenv DATABASE_URL  
 ```
 
 **Inspecter les processus** :
@@ -236,8 +236,8 @@ docker run -it --entrypoint /bin/bash mon-image
 docker run -it mon-image bash
 
 # Méthode 3 : sleep infini pour garder le conteneur actif
-docker run -d --name debug-container mon-image sleep infinity
-docker exec -it debug-container bash
+docker run -d --name debug-container mon-image sleep infinity  
+docker exec -it debug-container bash  
 ```
 
 ## Technique 3 : Inspecter la configuration
@@ -251,9 +251,9 @@ La commande `docker inspect` affiche **toutes les informations** sur un conteneu
 docker inspect mon-conteneur
 
 # Afficher uniquement certaines informations
-docker inspect --format='{{.State.Status}}' mon-conteneur
-docker inspect --format='{{.NetworkSettings.IPAddress}}' mon-conteneur
-docker inspect --format='{{json .Config.Env}}' mon-conteneur
+docker inspect --format='{{.State.Status}}' mon-conteneur  
+docker inspect --format='{{.NetworkSettings.IPAddress}}' mon-conteneur  
+docker inspect --format='{{json .Config.Env}}' mon-conteneur  
 ```
 
 ### Informations utiles pour le débogage
@@ -295,23 +295,23 @@ docker inspect --format='{{json .NetworkSettings.Ports}}' mon-conteneur | jq
 
 CONTAINER=$1
 
-echo "=== État du conteneur ==="
-docker inspect --format='Status: {{.State.Status}}' $CONTAINER
-docker inspect --format='Exit Code: {{.State.ExitCode}}' $CONTAINER
-docker inspect --format='Started At: {{.State.StartedAt}}' $CONTAINER
+echo "=== État du conteneur ==="  
+docker inspect --format='Status: {{.State.Status}}' $CONTAINER  
+docker inspect --format='Exit Code: {{.State.ExitCode}}' $CONTAINER  
+docker inspect --format='Started At: {{.State.StartedAt}}' $CONTAINER  
 
-echo -e "\n=== Configuration réseau ==="
-docker inspect --format='IP Address: {{.NetworkSettings.IPAddress}}' $CONTAINER
-docker inspect --format='Ports: {{json .NetworkSettings.Ports}}' $CONTAINER | jq
+echo -e "\n=== Configuration réseau ==="  
+docker inspect --format='IP Address: {{.NetworkSettings.IPAddress}}' $CONTAINER  
+docker inspect --format='Ports: {{json .NetworkSettings.Ports}}' $CONTAINER | jq  
 
-echo -e "\n=== Volumes ==="
-docker inspect --format='{{json .Mounts}}' $CONTAINER | jq
+echo -e "\n=== Volumes ==="  
+docker inspect --format='{{json .Mounts}}' $CONTAINER | jq  
 
-echo -e "\n=== Variables d'environnement ==="
-docker inspect --format='{{json .Config.Env}}' $CONTAINER | jq
+echo -e "\n=== Variables d'environnement ==="  
+docker inspect --format='{{json .Config.Env}}' $CONTAINER | jq  
 
-echo -e "\n=== Commande de démarrage ==="
-docker inspect --format='{{.Config.Cmd}}' $CONTAINER
+echo -e "\n=== Commande de démarrage ==="  
+docker inspect --format='{{.Config.Cmd}}' $CONTAINER  
 ```
 
 **Utilisation** :
@@ -336,9 +336,9 @@ docker stats --no-stream
 
 **Output** :
 ```
-CONTAINER ID   NAME         CPU %    MEM USAGE / LIMIT    MEM %    NET I/O
-abc123         my-app       0.5%     50MiB / 512MiB      9.77%    1.2kB / 0B
-def456         database     2.1%     200MiB / 2GiB       9.77%    5kB / 2kB
+CONTAINER ID   NAME         CPU %    MEM USAGE / LIMIT    MEM %    NET I/O  
+abc123         my-app       0.5%     50MiB / 512MiB      9.77%    1.2kB / 0B  
+def456         database     2.1%     200MiB / 2GiB       9.77%    5kB / 2kB  
 ```
 
 ### Interpréter les statistiques
@@ -353,9 +353,9 @@ def456         database     2.1%     200MiB / 2GiB       9.77%    5kB / 2kB
 docker top mon-conteneur
 
 # Entrer pour investiguer
-docker exec -it mon-conteneur bash
-ps aux
-top
+docker exec -it mon-conteneur bash  
+ps aux  
+top  
 ```
 
 **Mémoire proche de la limite** :
@@ -409,8 +409,8 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Étape 3 : Jamais atteinte
-COPY . .
-CMD ["python", "app.py"]
+COPY . .  
+CMD ["python", "app.py"]  
 ```
 
 **Technique** : Builder jusqu'à l'étape problématique
@@ -445,8 +445,8 @@ docker build -f Dockerfile.debug -t debug-image .
 docker run -d --name debug debug-image
 
 # Entrer et tester manuellement
-docker exec -it debug bash
-pip install -r requirements.txt
+docker exec -it debug bash  
+pip install -r requirements.txt  
 # Voir exactement quelle dépendance pose problème
 ```
 
@@ -454,8 +454,8 @@ pip install -r requirements.txt
 
 **Erreur : fichier non trouvé** :
 ```
-COPY app.py /app/
-ERROR: failed to compute cache key: "/app.py" not found
+COPY app.py /app/  
+ERROR: failed to compute cache key: "/app.py" not found  
 ```
 → Le fichier n'existe pas ou le chemin est incorrect
 
@@ -468,8 +468,8 @@ RUN ./install.sh
 
 **Solution** :
 ```dockerfile
-COPY install.sh /tmp/
-RUN chmod +x /tmp/install.sh && /tmp/install.sh
+COPY install.sh /tmp/  
+RUN chmod +x /tmp/install.sh && /tmp/install.sh  
 ```
 
 **Erreur : contexte de build trop large** :
@@ -484,8 +484,8 @@ Sending build context to Docker daemon  5.2GB
 
 **Symptômes** :
 ```bash
-docker run -d --name test nginx
-docker ps
+docker run -d --name test nginx  
+docker ps  
 # Le conteneur n'apparaît pas
 
 docker ps -a
@@ -526,8 +526,8 @@ docker run -d --name test mon-image tail -f /dev/null
 
 **Symptômes** :
 ```bash
-docker run -d -p 8080:80 --name web nginx
-curl http://localhost:8080
+docker run -d -p 8080:80 --name web nginx  
+curl http://localhost:8080  
 # curl: (7) Failed to connect to localhost port 8080
 ```
 
@@ -586,8 +586,8 @@ docker exec web curl http://database:5432
 **1. Les conteneurs sont-ils sur le même réseau ?**
 ```bash
 # Voir les réseaux de chaque conteneur
-docker inspect --format='{{json .NetworkSettings.Networks}}' web | jq
-docker inspect --format='{{json .NetworkSettings.Networks}}' database | jq
+docker inspect --format='{{json .NetworkSettings.Networks}}' web | jq  
+docker inspect --format='{{json .NetworkSettings.Networks}}' database | jq  
 ```
 
 **2. Le nom du service est-il correct ?**
@@ -612,8 +612,8 @@ docker exec web nc -zv database 5432
 docker network create my-network
 
 # Lancer les conteneurs sur ce réseau
-docker run -d --name database --network my-network postgres
-docker run -d --name web --network my-network nginx
+docker run -d --name database --network my-network postgres  
+docker run -d --name web --network my-network nginx  
 
 # Tester
 docker exec web ping database
@@ -630,8 +630,8 @@ docker logs app
 **Diagnostic** :
 ```bash
 # Vérifier les variables d'environnement
-docker exec app env
-docker exec app printenv DATABASE_URL
+docker exec app env  
+docker exec app printenv DATABASE_URL  
 ```
 
 **Solutions** :
@@ -654,8 +654,8 @@ services:
 
 **.env** :
 ```
-DATABASE_URL=postgres://user:pass@db:5432/mydb
-API_KEY=secret123
+DATABASE_URL=postgres://user:pass@db:5432/mydb  
+API_KEY=secret123  
 ```
 
 ### Problème 5 : Volumes vides ou données manquantes
@@ -685,13 +685,13 @@ docker volume inspect my-volume
 **Ordre correct dans Dockerfile** :
 ```dockerfile
 # ❌ Mauvais ordre
-VOLUME /data
-COPY data/ /data/
+VOLUME /data  
+COPY data/ /data/  
 # Le VOLUME efface ce qui a été copié !
 
 # ✅ Bon ordre
-COPY data/ /data/
-VOLUME /data
+COPY data/ /data/  
+VOLUME /data  
 ```
 
 **Vérifier le montage** :
@@ -713,8 +713,8 @@ docker logs app
 docker exec app ls -la /data
 
 # Voir l'utilisateur actuel
-docker exec app whoami
-docker exec app id
+docker exec app whoami  
+docker exec app id  
 ```
 
 **Solutions** :
@@ -731,8 +731,8 @@ docker run --user root app
 
 **Méthode 3 : Créer l'utilisateur avec le bon UID** :
 ```dockerfile
-ARG USER_ID=1000
-ARG GROUP_ID=1000
+ARG USER_ID=1000  
+ARG GROUP_ID=1000  
 
 RUN groupadd -g ${GROUP_ID} appuser && \
     useradd -u ${USER_ID} -g appuser -m appuser
@@ -784,8 +784,8 @@ docker events
 docker events --filter type=container
 
 # Filtrer par événement spécifique
-docker events --filter event=start
-docker events --filter event=die
+docker events --filter event=start  
+docker events --filter event=die  
 
 # Filtrer par conteneur
 docker events --filter container=mon-conteneur
@@ -802,9 +802,9 @@ docker diff mon-conteneur
 
 **Output** :
 ```
-A /app/logs/app.log      # Ajouté
-C /app/config.json       # Modifié
-D /tmp/cache.tmp         # Supprimé
+A /app/logs/app.log      # Ajouté  
+C /app/config.json       # Modifié  
+D /tmp/cache.tmp         # Supprimé  
 ```
 
 **Utilité** : Identifier quels fichiers ont changé depuis le démarrage.
@@ -851,8 +851,8 @@ docker exec mon-conteneur tcpdump -i any -n
 docker exec mon-conteneur tcpdump -i any -n port 80
 
 # Sauvegarder dans un fichier pour analyse avec Wireshark
-docker exec mon-conteneur tcpdump -i any -w /tmp/capture.pcap
-docker cp mon-conteneur:/tmp/capture.pcap ./
+docker exec mon-conteneur tcpdump -i any -w /tmp/capture.pcap  
+docker cp mon-conteneur:/tmp/capture.pcap ./  
 ```
 
 ## Stratégies de débogage
@@ -867,9 +867,9 @@ docker cp mon-conteneur:/tmp/capture.pcap ./
 
 **2. Collecter les informations**
 ```bash
-docker ps -a              # État
-docker logs mon-conteneur # Logs
-docker inspect mon-conteneur # Configuration
+docker ps -a              # État  
+docker logs mon-conteneur # Logs  
+docker inspect mon-conteneur # Configuration  
 ```
 
 **3. Former des hypothèses**
@@ -917,8 +917,6 @@ docker inspect mon-conteneur
 
 ```yaml
 # docker-compose.dev.yml
-version: '3.8'
-
 services:
   app:
     build:
@@ -944,8 +942,6 @@ services:
 
 ```yaml
 # docker-compose.prod.yml
-version: '3.8'
-
 services:
   app:
     image: mon-app:latest
@@ -975,12 +971,12 @@ services:
 print("Error happened")
 
 # ✅ Bon
-import logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+import logging  
+logging.basicConfig(level=logging.INFO)  
+logger = logging.getLogger(__name__)  
 
-logger.info("Application started", extra={"version": "1.0.0"})
-logger.error("Database connection failed", extra={"host": "db", "port": 5432})
+logger.info("Application started", extra={"version": "1.0.0"})  
+logger.error("Database connection failed", extra={"host": "db", "port": 5432})  
 ```
 
 ### 2. Health checks
@@ -995,10 +991,10 @@ Permet de savoir si l'application est vraiment fonctionnelle.
 ### 3. Labels pour documentation
 
 ```dockerfile
-LABEL maintainer="dev@example.com"
-LABEL version="1.0.0"
-LABEL description="API Backend"
-LABEL debug.instructions="Use 'docker exec -it <container> bash' to debug"
+LABEL maintainer="dev@example.com"  
+LABEL version="1.0.0"  
+LABEL description="API Backend"  
+LABEL debug.instructions="Use 'docker exec -it <container> bash' to debug"  
 ```
 
 ```bash
@@ -1009,14 +1005,14 @@ docker inspect --format='{{json .Config.Labels}}' mon-conteneur | jq
 
 ```dockerfile
 # Multi-stage build
-FROM python:3.11 AS base
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+FROM python:3.11 AS base  
+WORKDIR /app  
+COPY requirements.txt .  
+RUN pip install -r requirements.txt  
 
 # Stage de développement avec outils
-FROM base AS development
-RUN apt-get update && apt-get install -y \
+FROM base AS development  
+RUN apt-get update && apt-get install -y \  
     vim \
     curl \
     telnet \
@@ -1025,9 +1021,9 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Stage de production sans outils
-FROM base AS production
-COPY . .
-CMD ["python", "app.py"]
+FROM base AS production  
+COPY . .  
+CMD ["python", "app.py"]  
 ```
 
 ```bash
@@ -1041,8 +1037,8 @@ docker build --target production -t app:prod .
 ### 5. Variables d'environnement pour le debug
 
 ```dockerfile
-ENV DEBUG=false
-ENV LOG_LEVEL=info
+ENV DEBUG=false  
+ENV LOG_LEVEL=info  
 ```
 
 ```bash
@@ -1060,8 +1056,8 @@ docker run --rm app
 docker run --name app-test app
 
 # Si échec, on peut toujours voir les logs
-docker logs app-test
-docker inspect app-test
+docker logs app-test  
+docker inspect app-test  
 ```
 
 ### 7. Nommer les conteneurs explicitement
@@ -1172,19 +1168,19 @@ docker cp mon-conteneur:/app/log.txt ./
 
 ### Points clés
 
-✅ **Logs d'abord** : 90% des problèmes sont visibles dans les logs
-✅ **Inspection** : `docker inspect` donne toute la configuration
-✅ **Shell interactif** : `docker exec` pour explorer l'environnement
-✅ **Approche systématique** : Ne pas deviner, vérifier méthodiquement
-✅ **Documentation** : Documenter les solutions trouvées
+✅ **Logs d'abord** : 90% des problèmes sont visibles dans les logs  
+✅ **Inspection** : `docker inspect` donne toute la configuration  
+✅ **Shell interactif** : `docker exec` pour explorer l'environnement  
+✅ **Approche systématique** : Ne pas deviner, vérifier méthodiquement  
+✅ **Documentation** : Documenter les solutions trouvées  
 ✅ **Prevention** : Health checks, logs structurés, nommage clair
 
 ### Erreurs courantes à éviter
 
-❌ Supprimer les conteneurs avant d'avoir investigué
-❌ Ne pas lire les logs complets
-❌ Deviner au lieu de vérifier
-❌ Ne pas documenter les solutions
+❌ Supprimer les conteneurs avant d'avoir investigué  
+❌ Ne pas lire les logs complets  
+❌ Deviner au lieu de vérifier  
+❌ Ne pas documenter les solutions  
 ❌ Oublier de vérifier les variables d'environnement
 
 Le débogage devient plus facile avec l'expérience. Plus vous pratiquez, plus vous reconnaîtrez rapidement les symptômes et saurez où chercher. N'hésitez pas à utiliser les outils et techniques présentés ici pour résoudre efficacement vos problèmes Docker !
