@@ -67,9 +67,9 @@ Cette section vous guidera vers les **meilleures ressources** pour :
 
 **Description** : Tutoriel interactif officiel qui vous guide pas à pas dans Docker.
 
-**Niveau** : Débutant
-**Durée** : 45 minutes
-**Gratuit** : ✅
+**Niveau** : Débutant  
+**Durée** : 45 minutes  
+**Gratuit** : ✅  
 
 ### Play with Docker (PWD)
 
@@ -195,8 +195,8 @@ Bien que Katacoda ait fermé, de nombreux scénarios ont été archivés et rest
 
 #### "Docker Deep Dive" - Nigel Poulton
 
-**Niveau** : Débutant à intermédiaire
-**Points forts** :
+**Niveau** : Débutant à intermédiaire  
+**Points forts** :  
 - Explication claire des concepts
 - Régulièrement mis à jour
 - Balance théorie et pratique
@@ -204,8 +204,8 @@ Bien que Katacoda ait fermé, de nombreux scénarios ont été archivés et rest
 
 #### "Learn Docker in a Month of Lunches" - Elton Stoneman
 
-**Niveau** : Débutant
-**Approche** :
+**Niveau** : Débutant  
+**Approche** :  
 - Leçons courtes quotidiennes
 - Progression pédagogique
 - Exercices pratiques
@@ -215,8 +215,8 @@ Bien que Katacoda ait fermé, de nombreux scénarios ont été archivés et rest
 
 #### "Docker in Action" - Jeff Nickoloff, Stephen Kuenzli
 
-**Niveau** : Intermédiaire
-**Points forts** :
+**Niveau** : Intermédiaire  
+**Points forts** :  
 - Approche pratique et orientée problèmes
 - Cas d'usage réels
 - Architecture et design patterns
@@ -224,8 +224,8 @@ Bien que Katacoda ait fermé, de nombreux scénarios ont été archivés et rest
 
 #### "Docker in Practice" - Ian Miell, Aidan Hobson Sayers
 
-**Niveau** : Intermédiaire à avancé
-**Format** :
+**Niveau** : Intermédiaire à avancé  
+**Format** :  
 - 100+ techniques pratiques
 - Solutions à des problèmes concrets
 - Organisation par thèmes
@@ -1145,19 +1145,19 @@ docker run -it --net host --pid host --userns host --cap-add audit_control \
 
 ### Erreurs courantes
 
-❌ **Se disperser** sur trop de ressources
+❌ **Se disperser** sur trop de ressources  
 ✅ Choisir 2-3 sources principales et s'y tenir
 
-❌ **Tutoriel hell** : faire des tutoriels sans fin sans appliquer
+❌ **Tutoriel hell** : faire des tutoriels sans fin sans appliquer  
 ✅ Alterner tutoriels et projets personnels
 
-❌ **Syndrome de l'imposteur**
+❌ **Syndrome de l'imposteur**  
 ✅ Tout le monde a commencé débutant, progressez à votre rythme
 
-❌ **Ne jamais "terminer"** Docker avant de passer à autre chose
+❌ **Ne jamais "terminer"** Docker avant de passer à autre chose  
 ✅ Apprenez les bases, puis progressez en parallèle avec d'autres technologies
 
-❌ **Rester seul**
+❌ **Rester seul**  
 ✅ Rejoignez des communautés pour motivation et entraide
 
 ## Conclusion
