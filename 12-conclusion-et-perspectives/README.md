@@ -263,14 +263,14 @@ Compétences techniques :
 
 ### Vous n'avez pas besoin de tout savoir
 
-**Mythe** : "Je dois maîtriser Docker parfaitement avant de passer à Kubernetes"
-**Réalité** : Vous en savez assez. La meilleure façon d'apprendre la suite est de pratiquer.
+**Mythe** : "Je dois maîtriser Docker parfaitement avant de passer à Kubernetes"  
+**Réalité** : Vous en savez assez. La meilleure façon d'apprendre la suite est de pratiquer.  
 
-**Mythe** : "Les experts Docker connaissent toutes les commandes par cœur"
-**Réalité** : Les experts savent où trouver l'information et comprennent les concepts.
+**Mythe** : "Les experts Docker connaissent toutes les commandes par cœur"  
+**Réalité** : Les experts savent où trouver l'information et comprennent les concepts.  
 
-**Mythe** : "Si je ne comprends pas tout immédiatement, c'est que je ne suis pas fait pour ça"
-**Réalité** : L'apprentissage est progressif. Même les experts ont commencé comme vous.
+**Mythe** : "Si je ne comprends pas tout immédiatement, c'est que je ne suis pas fait pour ça"  
+**Réalité** : L'apprentissage est progressif. Même les experts ont commencé comme vous.  
 
 ### Continuez à pratiquer
 
